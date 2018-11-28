@@ -18,6 +18,7 @@
   "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme",
   "dependencies": {
     "apollo-server": "^2.2.2",
+    "apollo-server-cache-redis": "^0.2.1",
     "dotenv": "^6.1.0",
     "graphql": "^14.0.2",
     "pg": "^7.6.1"

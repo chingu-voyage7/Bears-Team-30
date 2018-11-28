@@ -23,8 +23,11 @@ const JOURNEY_VALUES = [
   ['Oil painting', [{ dayNumber: '1', content: 'Guernica' }]],
 ];
 
+const CREATE_AUTH_TABLE =
+  'CREATE TABLE auth(id UUID PRIMARY KEY, name VARCHAR(100) not null, email CITEXT not null unique, salt TEXT not null, password TEXT not null)';
+
 // Populate USERS table
-(async () => {
+const populateUsers = async () => {
   try {
     console.log('initializing users table');
     const result = await db.query(CREATE_USERS_TABLE);
@@ -35,10 +38,10 @@ const JOURNEY_VALUES = [
   } catch (err) {
     console.error(err);
   }
-})();
+};
 
 // Populate journeys table
-(async () => {
+const populateJourneys = async () => {
   try {
     console.log('initializing journeys table');
     const result = await db.query(CREATE_JOURNEYS_TABLE);
@@ -50,4 +53,17 @@ const JOURNEY_VALUES = [
   } catch (err) {
     console.error(err);
   }
-})();
+};
+
+console.log('test');
+// Create auth table
+const createAuthTable = () => {
+  console.log('creating auth table');
+  db.query(CREATE_AUTH_TABLE)
+    .then(success => {
+      console.log('auth table created');
+    })
+    .catch(err => err);
+};
+
+createAuthTable();
