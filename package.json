@@ -1,0 +1,20 @@
+{
+  "name": "Bears-Team-30",
+  "version": "1.0.0",
+  "description": "Add-project-description-here | Voyage-7 | https://chingu.io/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chingu-voyage7/Bears-Team-30.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chingu-voyage7/Bears-Team-30/issues"
+  },
+  "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme"
+}
