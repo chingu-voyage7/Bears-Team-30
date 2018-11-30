@@ -24,7 +24,7 @@ const JOURNEY_VALUES = [
 ];
 
 const CREATE_AUTH_TABLE =
-  'CREATE TABLE auth(id UUID PRIMARY KEY, name VARCHAR(100) not null, email CITEXT not null unique, salt TEXT not null, password TEXT not null)';
+  'CREATE TABLE auth(id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), name VARCHAR(100) not null, email CITEXT not null unique, salt TEXT not null, password TEXT not null)';
 
 // Populate USERS table
 const populateUsers = async () => {

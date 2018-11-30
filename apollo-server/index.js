@@ -1,15 +1,22 @@
 const { ApolloServer } = require('apollo-server');
 const { RedisCache } = require('apollo-server-cache-redis');
 
-const typeDefs = require('./typeDefs');
-const resolvers = require('./resolvers');
+const { typeDefs, resolvers } = require('./definitions/userAuth');
+// const cache = new RedisCache({});
 
-const server = new ApolloServer({ 
-  typeDefs, 
+
+// test data:
+// const typeDefs = require('./typeDefs');
+// const { users } = require('./testData');
+// const resolvers = {
+//   Query: {
+//     users: () => users,
+//   },
+// };
+
+const server = new ApolloServer({
+  typeDefs,
   resolvers,
-  cache: new RedisCache({
-    
-  }) 
 });
 
 server.listen().then(({ url }) => {
