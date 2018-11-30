@@ -1,12 +1,22 @@
 const webpack = require('webpack');
 const path = require('path');
+<<<<<<< HEAD:client/webpack.config.js
+=======
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+>>>>>>> Separate webpack config for dev and production:client/webpack.common.js
 
 const BUILD_DIR = path.resolve(__dirname, 'public');
 const APP_DIR = path.resolve(__dirname, 'src');
 
 module.exports = {
+<<<<<<< HEAD:client/webpack.config.js
   context: APP_DIR,
   entry: './index.js',
+=======
+  context: APP_DIR, 
+  entry: './index.jsx',
+>>>>>>> Separate webpack config for dev and production:client/webpack.common.js
   output: {
     filename: 'bundle.js',
     path: BUILD_DIR,
@@ -47,7 +57,15 @@ module.exports = {
       },
     ],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  devtool: 'inline-source-map',
+  plugins: [
+    new CleanWebpackPlugin(['public']),
+    new HtmlWebpackPlugin({
+      title: 'Bears-team-30',
+      template: path.resolve(APP_DIR, 'template/index.html') 
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   devServer: {
     contentBase: BUILD_DIR,
     historyApiFallback: true,
@@ -56,4 +74,4 @@ module.exports = {
       '/auth': 'http://localhost:3000',
     },
   },
-};
+}
