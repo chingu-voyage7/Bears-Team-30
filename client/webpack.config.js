@@ -1,15 +1,16 @@
-const webpack = require('webpack');
-const path = require('path');
+const webpack = require("webpack");
+const path = require("path");
 
-const BUILD_DIR = path.resolve(__dirname, 'public');
-const APP_DIR = path.resolve(__dirname, 'src');
+const BUILD_DIR = path.resolve(__dirname, "public");
+const APP_DIR = path.resolve(__dirname, "src");
 
 module.exports = {
   context: APP_DIR,
-  entry: './index.jsx',
+  entry: "./index.js",
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js",
     path: BUILD_DIR,
+    publicPath: "/"
   },
   module: {
     rules: [
@@ -18,33 +19,38 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-            },
-          },
-        ],
+              presets: ["@babel/preset-env", "@babel/preset-react"]
+            }
+          }
+        ]
       },
       {
         test: /\.scss$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }],
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          { loader: "sass-loader" }
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: "url-loader",
             options: {
-              limit: 10000,
-            },
-          },
-        ],
-      },
-    ],
+              limit: 10000
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: BUILD_DIR,
-    hot: true,
-  },
+    historyApiFallback: true,
+    hot: true
+  }
 };
