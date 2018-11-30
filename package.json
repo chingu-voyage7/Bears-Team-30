@@ -1,11 +1,12 @@
 {
-  "name": "bears-team-30",
+  "name": "Bears-Team-30",
   "version": "1.0.0",
   "description": "Add-project-description-here | Voyage-7 | https://chingu.io/",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "webpack-dev-server --config ./client/webpack.config.js --mode development"
+    "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,20 @@
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
     "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pug": "2.0.0-beta11",
+    "apollo-server": "^2.2.2",
+    "apollo-server-cache-redis": "^0.2.1",
+    "dotenv": "^6.1.0",
+    "graphql": "^14.0.2",
+    "pg": "^7.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
