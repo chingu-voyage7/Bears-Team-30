@@ -1,32 +1,21 @@
 {
-<<<<<<< HEAD
-  "name": "Bears-Team-30",
-=======
   "name": "bears-team-30",
->>>>>>> Init frontend
   "version": "1.0.0",
   "description": "Add-project-description-here | Voyage-7 | https://chingu.io/",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:client": "webpack-dev-server --config ./client/webpack.config.js --mode development"
+    "client": "webpack-dev-server --config ./client/webpack.config.js --mode development"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chingu-voyage7/Bears-Team-30.git"
   },
-<<<<<<< HEAD
-  "keywords": [],
-=======
->>>>>>> Init frontend
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/chingu-voyage7/Bears-Team-30/issues"
   },
-<<<<<<< HEAD
-  "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme"
-=======
   "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme",
   "dependencies": {
     "react": "^16.6.3",
@@ -47,5 +36,4 @@
     "style-loader": "^0.23.1",
     "webpack-dev-server": "^3.1.10"
   }
->>>>>>> Init frontend
 }
