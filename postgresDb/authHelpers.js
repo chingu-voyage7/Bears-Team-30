@@ -1,67 +1,48 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const db = require('./index');
 
-
 process.on('unhandledRejection', (reason, promise) => {
-    console.log(reason, promise);
-  });
+  console.log(reason, promise);
+});
 
-const selectUser = ({ id, email }) => {
+const makeQuerySelectUser = ({ id, email }) => {
   const condition = id ? 'id' : 'email';
   return {
     text: `SELECT * FROM auth WHERE ${condition} = $1`,
-    value: [id || email],
+    values: [id || email],
   };
 };
 
-function getUserHandler(args) {
-  return db.query(selectUser(args)).then(res => {
-    console.log(res);
+function getUser(args) {
+  return db.query(makeQuerySelectUser(args)).then(res => {
+    console.log(res.rows[0]);
     return res.rows[0];
   });
 }
 
-const insertUser = async ({ username, email, password }) => {
-  console.log('inserting user', username, email, password);
-  const salt = await bcrypt.genSalt(saltRounds);
-  console.log(salt);
-  const hash = await bcrypt.hash(password, salt);
-  console.log('password hashed');
+const makeQueryInsertUser = async ({ username, email, password }) => {
+  // console.log('inserting user', username, email, password);
+  const hash = await bcrypt.hash(password, saltRounds);
   return {
     text:
       'INSERT INTO auth(name, email, password) VALUES($1, $2, $3) RETURNING *',
-    value: [username, email, hash],
+    values: [username, email, hash],
   };
 };
 
-async function createUserHandler(args) {
-  const query = await insertUser(args);
-  console.log(query);
+async function createUser(args) {
+  console.log('creating user');
+  const query = await makeQueryInsertUser(args);
   return db.query(query).then(res => {
-    console.log(res);
+    // console.log(res);
     return res.rows[0];
   });
 }
 
+async function authenticateUser({ id, email, password }) {
+  const { password: hash } = await getUser({ id, email });
+  return await bcrypt.compare(password, hash);
+}
 
-async function test(){
-
-  try {
-    console.log('testing add user');
-    const testUser = {
-      username: 'Paul',
-      email: 'wiarda@gmail.com',
-      password: 'test',
-    };
-    await createUserHandler(testUser);
-    await insertUser(testUser).then(res => {
-      console.log(res);
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-test()
-
-module.exports = { getUserHandler, createUserHandler };
+module.exports = { getUser, createUser, authenticateUser };
