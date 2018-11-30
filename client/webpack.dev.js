@@ -9,6 +9,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: BUILD_DIR,
+    historyApiFallback: true,
     hot: true,
   },
 }); 
