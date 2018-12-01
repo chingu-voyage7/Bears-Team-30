@@ -1,11 +1,18 @@
 const { gql } = require('apollo-server');
 const db = require('../../postgresDb/index');
-const { selectUser } = require('../../postgresDb/authHelpers');
+const {
+  createUser,
+  authenticateUser,
+  getUser,
+} = require('../../postgresDb/authHelpers');
 
-const typeDef = gql`
+const typeDefs = gql`
   type Query {
     # returns user info
-    getUser(id: ID, email: String): User,
+    getUser(id: ID, username: String): User
+    
+    # Uses either id or email; returns isAuthenticated: Boolean
+    authenticateUser(id: ID, email: String, password: String!): AuthenticationResult
   }
 
   type Mutation {
@@ -14,15 +21,20 @@ const typeDef = gql`
     # check which fields updated, if password updated remember
     # to hash new password
     deleteUser(userId: ID!): User!
-  } 
+  }
 
   type User {
     id: ID!
-    username: String!
-    email: String!
-    # password: String!
-    updatedAt: DateTime!
-    createdAt: DateTime!
+    username: String
+    updatedAt: DateTime
+    createdAt: DateTime
+  }
+
+  type AuthenticationResult {
+    isAuthenticated: Boolean!
+    id: ID
+    username: String
+    email: String
   }
 
   input CreateUserInput {
@@ -36,21 +48,20 @@ const typeDef = gql`
     email: String
     password: String
   }
+
+  scalar DateTime
 `;
 
 const resolvers = {
-    Query: {
-        getUser(parent,args,context,info){
+  Query: {
+    getUser,
+    authenticateUser,
+  },
+  Mutation: {
+    createUser,
+    // updateUser() {},
+    // deleteUser() {},
+  },
+};
 
-            return db.query(selectUser(args));
-        },
-        users: {},
-    },
-    Mutations: {
-        createUser: {},
-        updateUser: {},
-        deleteUser: {},
-    },
-}
-
-module.exports = { typeDef, resolvers };
+module.exports = { typeDefs, resolvers };

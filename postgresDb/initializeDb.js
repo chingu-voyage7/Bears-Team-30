@@ -1,7 +1,7 @@
 const db = require('./index');
 
 const CREATE_USERS_TABLE =
-  'CREATE TABLE users(id SERIAL PRIMARY KEY, name VARCHAR(100) not null, journeys TEXT [])';
+  'CREATE TABLE users(id UUID PRIMARY KEY, username TEXT not null unique, journeys TEXT [])';
 const POPULATE_USERS_TABLE =
   'INSERT INTO users(name, journeys) VALUES($1, $2) RETURNING *';
 const USER_VALUES = [['Paul', [1, 2]], ['Gertrude', [3]], ['Pablo', [4]]];
@@ -24,7 +24,7 @@ const JOURNEY_VALUES = [
 ];
 
 const CREATE_AUTH_TABLE =
-  'CREATE TABLE auth(id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), name VARCHAR(100) not null, email CITEXT not null unique, salt TEXT not null, password TEXT not null)';
+  'CREATE TABLE auth(id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), username text not null, email CITEXT not null unique, password TEXT not null, created_at timestamptz NOT NULL default now(), updated_at timestamptz NOT NULL default now())';
 
 // Populate USERS table
 const populateUsers = async () => {

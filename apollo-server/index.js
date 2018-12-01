@@ -4,15 +4,9 @@ const { RedisCache } = require('apollo-server-cache-redis');
 const { typeDefs, resolvers } = require('./definitions/userAuth');
 // const cache = new RedisCache({});
 
-
-// test data:
-// const typeDefs = require('./typeDefs');
-// const { users } = require('./testData');
-// const resolvers = {
-//   Query: {
-//     users: () => users,
-//   },
-// };
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(reason, promise);
+});
 
 const server = new ApolloServer({
   typeDefs,
