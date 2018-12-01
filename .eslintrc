@@ -18,15 +18,9 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "prettier"
-  ],
+  "plugins": ["react", "prettier"],
   "rules": {
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "linebreak-style": ["error", "unix"],
     "no-console": 1,
     "no-unexpected-multiline": "warn",
     "no-unused-vars": "warn",
@@ -40,9 +34,6 @@
     ],
     "react/display-name": 1,
     "react/jsx-uses-vars": 1,
-    "semi": [
-      "error",
-      "always"
-    ]
+    "semi": ["error", "always"]
   }
 }
