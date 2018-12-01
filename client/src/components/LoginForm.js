@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import * as routes from "../../constants/routes";
-import AuthForm from "./AuthForm";
+import * as routes from '../../constants/routes';
+import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
-  email: "",
-  password: "",
-  error: null
+  email: '',
+  password: '',
+  error: null,
 };
 
 class LoginForm extends React.Component {
@@ -22,18 +22,18 @@ class LoginForm extends React.Component {
   onEmailChange = event => {
     const email = event.target.value;
     this.setState(() => ({
-      email
+      email,
     }));
   };
   onPasswordChange = event => {
     const password = event.target.value;
     this.setState(() => ({
-      password
+      password,
     }));
   };
   render() {
     const { email, password, error } = this.state;
-    const isInvalid = password === "" || email === "";
+    const isInvalid = password === '' || email === '';
     return (
       <AuthForm
         email={email}

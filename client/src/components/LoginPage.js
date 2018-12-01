@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import LoginForm from "./LoginForm";
-import AuthLink from "./AuthLink";
+import LoginForm from './LoginForm';
+import AuthLink from './AuthLink';
 
 export class LoginPage extends React.Component {
   componentDidUpdate() {}

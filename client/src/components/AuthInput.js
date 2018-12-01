@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const AuthInput = ({ id, label, onChange, placeholder, type, value }) => (
   <div>
@@ -7,7 +7,7 @@ const AuthInput = ({ id, label, onChange, placeholder, type, value }) => (
       id={id}
       onChange={onChange}
       placeholder={label}
-      type={type ? type : "text"}
+      type={type ? type : 'text'}
       value={value}
     />
   </div>
