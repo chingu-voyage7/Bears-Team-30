@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import * as routes from '../../constants/routes';
 import AuthForm from './AuthForm';
@@ -17,6 +18,7 @@ class LoginForm extends React.Component {
   onSubmit = event => {
     const { email, password } = this.state;
     console.log(email, password);
+    axios.post('/auth/login', { email, password });
     event.preventDefault();
   };
   onEmailChange = event => {

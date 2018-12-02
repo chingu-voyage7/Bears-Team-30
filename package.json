@@ -20,11 +20,7 @@
   },
   "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme",
   "dependencies": {
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-router-dom": "^4.3.1",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2",
+    "axios": "^0.18.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "^4.16.4",
