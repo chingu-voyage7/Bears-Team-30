@@ -4,7 +4,7 @@ const {
   createUser,
   authenticateUser,
   getUser,
-} = require('../../postgresDb/authHelpers');
+} = require('../../postgresDb/authHandlers');
 
 const typeDefs = gql`
   type Query {

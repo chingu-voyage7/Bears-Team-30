@@ -1,31 +1,13 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const db = require('./index');
-
-const makeQuerySelectAuthInfo = ({ id, email }) => {
-  const condition = id ? 'id' : 'email';
-  return {
-    text: `SELECT * FROM auth WHERE ${condition} = $1`,
-    values: [id || email],
-  };
-};
-
-const makeQueryInsertAuthInfo = async ({ username, email, password }) => {
-  const hash = await bcrypt.hash(password, saltRounds);
-  return {
-    text:
-      'INSERT INTO auth(username, email, password) VALUES($1, $2, $3) RETURNING *',
-    values: [username, email, hash],
-  };
-};
-
-const makeQuerySelectUser = ({ id, username }) => {
-  const condition = id ? 'id' : 'username';
-  return {
-    text: `SELECT * FROM users WHERE ${condition} = $1`,
-    values: [id || username],
-  };
-};
+const {
+  makeQuery,
+  makeQueryInsertAuthInfo,
+  makeQueryInsertUser,
+  makeQuerySelectAuthInfo,
+  makeQuerySelectUser,
+} = require('./helpers');
 
 function getAuthInfo(parent, args) {
   return db.query(makeQuerySelectAuthInfo(args)).then(res => {
@@ -40,11 +22,6 @@ function getUser(parent, args) {
     return res.rows[0];
   });
 }
-
-const makeQueryInsertUser = ({ id, username }) => ({
-  text: 'INSERT INTO users(id, username) VALUES($1, $2) RETURNING *',
-  values: [id, username],
-});
 
 async function createUser(parent, { data }) {
   const authQuery = await makeQueryInsertAuthInfo(data);
