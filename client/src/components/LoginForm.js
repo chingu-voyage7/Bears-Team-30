@@ -18,8 +18,10 @@ class LoginForm extends React.Component {
   onSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
+    const { history } = this.props;
     console.log(email, password);
     axios.post('/auth/login', { email, password });
+    history.push(routes.DASHBOARD);
   };
   onEmailChange = event => {
     const email = event.target.value;
