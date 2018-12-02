@@ -1,3 +1,5 @@
+// OUTDATED - DO NOT USE AS IS
+
 const db = require('./index');
 
 const CREATE_USERS_TABLE =
@@ -66,4 +68,4 @@ const createAuthTable = () => {
     .catch(err => err);
 };
 
-createAuthTable();
+// createAuthTable();

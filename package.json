@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "apollo": "node ./apollo-server/index.js"
   },
   "repository": {
     "type": "git",

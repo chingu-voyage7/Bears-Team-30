@@ -4,20 +4,25 @@ const {
   createUser,
   authenticateUser,
   getUser,
+  updateUser,
 } = require('../../postgresDb/authHandlers');
 
 const typeDefs = gql`
   type Query {
     # returns user info
     getUser(id: ID, username: String): User
-    
+
     # Uses either id or email; returns isAuthenticated: Boolean
-    authenticateUser(id: ID, email: String, password: String!): AuthenticationResult
+    authenticateUser(
+      id: ID
+      email: String
+      password: String!
+    ): AuthenticationResult
   }
 
   type Mutation {
     createUser(data: CreateUserInput!): User!
-    updateUser(userId: ID!, data: UpdateUserInput!): User!
+    updateUser(userId: ID!, data: UpdateUserInput!): UserAuth!
     # check which fields updated, if password updated remember
     # to hash new password
     deleteUser(userId: ID!): User!
@@ -26,9 +31,18 @@ const typeDefs = gql`
   type User {
     id: ID!
     username: String
+    email: String
     updatedAt: DateTime
     createdAt: DateTime
   }
+
+ type UserAuth {
+   id: ID
+   username: String
+   email: String
+   updatedAt: DateTime
+   createdAt: DateTime
+ }
 
   type AuthenticationResult {
     isAuthenticated: Boolean!
@@ -59,7 +73,7 @@ const resolvers = {
   },
   Mutation: {
     createUser,
-    // updateUser() {},
+    updateUser,
     // deleteUser() {},
   },
 };
