@@ -16,10 +16,10 @@ class LoginForm extends React.Component {
     this.state = { ...INITIAL_STATE };
   }
   onSubmit = event => {
+    event.preventDefault();
     const { email, password } = this.state;
     console.log(email, password);
     axios.post('/auth/login', { email, password });
-    event.preventDefault();
   };
   onEmailChange = event => {
     const email = event.target.value;

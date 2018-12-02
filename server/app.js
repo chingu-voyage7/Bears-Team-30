@@ -19,6 +19,7 @@ app.use('/', indexRouter);
 app.use('/', auth);
 app.use('/users', usersRouter);
 app.post('/auth/login', (req, res) => res.send(req.body));
+app.post('/auth/signup', (req, res) => res.send(req.body));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/public'));
