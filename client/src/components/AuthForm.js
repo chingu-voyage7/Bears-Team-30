@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import AuthInput from "./AuthInput";
+import AuthInput from './AuthInput';
 
 const AuthForm = ({
   username,
@@ -14,7 +14,7 @@ const AuthForm = ({
   onSubmit,
   isInvalid,
   error,
-  buttonText
+  buttonText,
 }) => (
   <form onSubmit={onSubmit}>
     {onUsernameChange && (

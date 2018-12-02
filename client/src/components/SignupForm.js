@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import AuthForm from "./AuthForm";
+import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
-  username: "",
-  email: "",
-  password: "",
-  passwordConfirm: "",
-  error: null
+  username: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  error: null,
 };
 
 class SignUpForm extends React.Component {
@@ -24,34 +24,34 @@ class SignUpForm extends React.Component {
   onUsernameChange = event => {
     const username = event.target.value;
     this.setState(() => ({
-      username
+      username,
     }));
   };
   onEmailChange = event => {
     const email = event.target.value;
     this.setState(() => ({
-      email
+      email,
     }));
   };
   onPasswordChange = event => {
     const password = event.target.value;
     this.setState(() => ({
-      password
+      password,
     }));
   };
   onPasswordConfirmChange = event => {
     const passwordConfirm = event.target.value;
     this.setState(() => ({
-      passwordConfirm
+      passwordConfirm,
     }));
   };
   render() {
     const { username, email, password, passwordConfirm, error } = this.state;
     const isInvalid =
       password !== passwordConfirm ||
-      password === "" ||
-      email === "" ||
-      username === "";
+      password === '' ||
+      email === '' ||
+      username === '';
     return (
       <AuthForm
         username={username}

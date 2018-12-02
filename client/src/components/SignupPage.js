@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import SignupForm from "./SignupForm";
-import AuthLink from "./AuthLink";
+import SignupForm from './SignupForm';
+import AuthLink from './AuthLink';
 
 const SignUpPage = ({ history }) => (
   <div>
