@@ -52,5 +52,8 @@ module.exports = {
     contentBase: BUILD_DIR,
     historyApiFallback: true,
     hot: true,
+    proxy: {
+      '/auth': 'http://localhost:3000',
+    },
   },
 };
