@@ -143,25 +143,28 @@ async function deleteUser(parent, { id }) {
   try {
     await client.query('BEGIN');
     await client.query('DELETE FROM users where id = $1', [id]);
-    user = await client.query('DELETE FROM auth where id = $1 RETURNING *', [
-      id,
-    ]);
+    user = await client
+      .query('DELETE FROM auth where id = $1 RETURNING *', [id])
+      .then(res => res.rows[0]);
     await client.query('COMMIT');
   } catch (e) {
-    await client.query('ROLLBACK');
     console.error(e);
+    await client.query('ROLLBACK');
     throw e;
   } finally {
     client.release();
   }
-  const { updated_at: updatedAt, created_at: createdAt } = await user;
-  console.log(user, updatedAt)
-  return { ...user, updatedAt, createdAt };
+  if (user) {
+    const { updated_at: updatedAt, created_at: createdAt } = await user;
+    console.log(user, updatedAt);
+    return { ...user, updatedAt, createdAt };
+  }
+  return { id: 'No user with this ID.' };
 }
 
 function Users() {
   return db.query('SELECT * FROM auth').then(res => {
-    console.log(res.rows);
+    // console.log(res.rows[0]);
     return res.rows;
   });
 }
