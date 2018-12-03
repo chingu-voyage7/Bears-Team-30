@@ -6,10 +6,11 @@ const APP_DIR = path.resolve(__dirname, 'src');
 
 module.exports = {
   context: APP_DIR,
-  entry: './index.jsx',
+  entry: './index.js',
   output: {
     filename: 'bundle.js',
     path: BUILD_DIR,
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -27,7 +28,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }],
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+        ],
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
@@ -45,6 +50,7 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: BUILD_DIR,
+    historyApiFallback: true,
     hot: true,
   },
 };

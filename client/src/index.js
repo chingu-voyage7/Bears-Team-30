@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.jsx';
-import './normalize.scss';
+import App from './components/App.js';
+import './styles/normalize.scss';
 
 ReactDOM.render(<App />, document.getElementById('app'));
