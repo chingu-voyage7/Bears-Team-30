@@ -18,6 +18,7 @@ function getAuthInfo(parent, args) {
 
 function getUser(parent, args) {
   return db.query(makeQuerySelectUser(args)).then(res => {
+    if (!res.rows[0]) return { id: 'Invalid id' };
     const { created_at: createdAt, updated_at: updatedAt } = res.rows[0];
     return { ...res.rows[0], createdAt, updatedAt };
   });
@@ -78,7 +79,7 @@ async function checkIfDuplicate(id, rows) {
   return false;
 }
 
-async function updateUser(parent, { userId: id, data }) {
+async function updateUser(parent, { id, data }) {
   const { username, password, email } = data;
   // make sure email and username are unique
   // console.log('checking for pre-existing record');
@@ -135,10 +136,42 @@ async function updateUser(parent, { userId: id, data }) {
   });
 }
 
+async function deleteUser(parent, { id }) {
+  console.log('deleting user', id);
+  const client = await db.getClient();
+  let user;
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM users where id = $1', [id]);
+    user = await client.query('DELETE FROM auth where id = $1 RETURNING *', [
+      id,
+    ]);
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    console.error(e);
+    throw e;
+  } finally {
+    client.release();
+  }
+  const { updated_at: updatedAt, created_at: createdAt } = await user;
+  console.log(user, updatedAt)
+  return { ...user, updatedAt, createdAt };
+}
+
+function Users() {
+  return db.query('SELECT * FROM auth').then(res => {
+    console.log(res.rows);
+    return res.rows;
+  });
+}
+
 module.exports = {
   getAuthInfo,
   createUser,
   authenticateUser,
   getUser,
   updateUser,
+  deleteUser,
+  Users,
 };
