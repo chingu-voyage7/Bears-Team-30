@@ -1,14 +1,13 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'pug');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
