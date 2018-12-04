@@ -1,5 +1,4 @@
 const { gql } = require('apollo-server');
-const db = require('../../postgresDb/index');
 const {
   createUser,
   authenticateUser,
@@ -7,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   Users,
+  test,
 } = require('../../postgresDb/authHandlers');
 
 const typeDefs = gql`
@@ -22,38 +22,30 @@ const typeDefs = gql`
     ): AuthenticationResult
 
     # for testing purposes
-    Users: [UserAuth!]
+    Users: [User!]
+
+    test(value: String!): User
   }
 
   type Mutation {
-    createUser(data: CreateUserInput!): User!
-    updateUser(id: ID!, data: UpdateUserInput!): UserAuth!
+    createUser(data: CreateUserInput!): UserMutationResponse!
     # check which fields updated, if password updated remember
     # to hash new password
-    deleteUser(id: ID!): UserAuth!
+    updateUser(id: ID!, data: UpdateUserInput!): UserMutationResponse!
+    deleteUser(id: ID!): UserMutationResponse!
   }
 
   type User {
     id: ID!
-    username: String
-    email: String
-    updatedAt: DateTime
-    createdAt: DateTime
-  }
-
-  type UserAuth {
-    id: ID
-    username: String
-    email: String
-    updatedAt: DateTime
-    createdAt: DateTime
+    username: String!
+    email: String!
+    updatedAt: DateTime!
+    createdAt: DateTime!
   }
 
   type AuthenticationResult {
     isAuthenticated: Boolean!
-    id: ID
-    username: String
-    email: String
+    user: User
   }
 
   input CreateUserInput {
@@ -68,6 +60,19 @@ const typeDefs = gql`
     password: String
   }
 
+  interface MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
+  type UserMutationResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
+  }
+
   scalar DateTime
 `;
 
@@ -76,11 +81,17 @@ const resolvers = {
     getUser,
     authenticateUser,
     Users,
+    test,
   },
   Mutation: {
     createUser,
     updateUser,
     deleteUser,
+  },
+  MutationResponse: {
+    __resolveType() {
+      return null;
+    },
   },
 };
 
