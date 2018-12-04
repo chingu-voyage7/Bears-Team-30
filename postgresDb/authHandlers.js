@@ -6,22 +6,27 @@ const {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
-  makeQuerySelectAuthInfo,
-  makeQuerySelectUser,
-} = require('./helpers');
+} = require('./pgHelpers');
 
-function getAuthInfo(parent, args) {
-  return db.query(makeQuerySelectAuthInfo(args)).then(res => {
-    return res.rows[0];
-  });
-}
+const {
+  checkIfDuplicate,
+  getAuthInfo,
+  getUser,
+  checkUsername,
+  checkEmail,
+  checkId,
+} = require('./authHelpers');
 
-function getUser(parent, args) {
-  return db.query(makeQuerySelectUser(args)).then(res => {
-    if (!res.rows[0]) return { id: 'Invalid id' };
-    const { created_at: createdAt, updated_at: updatedAt } = res.rows[0];
-    return { ...res.rows[0], createdAt, updatedAt };
-  });
+const SUCCESS = {
+  code: 200,
+  success: true,
+  message: 'Success',
+};
+
+async function test(parent, { value }) {
+  console.log('test:', value);
+  const res = await checkId(value);
+  console.log('result:', res);
 }
 
 async function createUser(parent, { data }) {
@@ -38,13 +43,21 @@ async function createUser(parent, { data }) {
     });
 
   if (!newUser)
-    return { id: 'A user with this email or username already exists.' };
+    return {
+      code: 410,
+      success: false,
+      message: 'A user with this email or username already exists.',
+    };
   const addUserQuery = makeQueryInsertUser(newUser);
   return db.query(addUserQuery).then(res => {
     return {
-      ...newUser,
-      createdAt: newUser.created_at,
-      updatedAt: newUser.updated_at,
+      ...SUCCESS,
+      message: 'New user created.',
+      user: {
+        ...newUser,
+        createdAt: newUser.created_at,
+        updatedAt: newUser.updated_at,
+      },
     };
     // const { created_at: createdAt, updated_at: updatedAt } = newUser;
     // return { ...res.rows[0], createdAt, updatedAt };
@@ -52,31 +65,19 @@ async function createUser(parent, { data }) {
 }
 
 async function authenticateUser(parent, { id, email, password }) {
-  const { password: hash, username, email: dbEmail } =
-    (await getAuthInfo(null, { id, email })) || {};
+  const {
+    password: hash,
+    username,
+    email: dbEmail,
+    created_at: createdAt,
+    updated_at: updatedAt,
+  } = (await getAuthInfo(null, { id, email })) || {};
   if (!hash) return { isAuthenticated: false, id, email, username };
   const isAuthenticated = await bcrypt.compare(password, hash);
-  return { isAuthenticated, id, email: dbEmail, username };
-}
-
-function getAuthRecords(propName, propValue, table) {
-  const query = makeQuery({
-    query: `SELECT id, ${propName} FROM ${table}`,
-    clause: `WHERE`,
-    clauseProps: { [propName]: propValue },
-  });
-  return db.query(query).then(res => {
-    return res.rows;
-  });
-}
-
-async function checkIfDuplicate(id, rows) {
-  const [row] = rows && (await rows);
-  if (row) {
-    // console.log('checking if duplicate', id, row);
-    return id !== row.id;
-  }
-  return false;
+  return {
+    isAuthenticated,
+    user: { id, email: dbEmail, username, createdAt, updatedAt },
+  };
 }
 
 async function updateUser(parent, { id, data }) {
@@ -84,25 +85,47 @@ async function updateUser(parent, { id, data }) {
   // make sure email and username are unique
   // console.log('checking for pre-existing record');
   // console.log(id, username, email, password);
-  const usernameRows = username && getAuthRecords('username', username, 'auth');
-  const emailRows = email && getAuthRecords('email', email, 'auth');
-  const idRows = id && getAuthRecords('id', id, 'auth');
+  const usernameRows = username && checkUsername(username);
+  const emailRows = email && checkEmail(email);
+  const idRows = id && checkId(id);
+
   const hash = password
     ? bcrypt.hash(password, saltRounds)
     : Promise.resolve(null);
-
-  const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
+console.log('email dup')
+const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
+console.log('username dup')
   const usernameIsDuplicate = await checkIfDuplicate(id, usernameRows);
-  const idNotFound = (await idRows.length) === 0;
-  if (emailIsDuplicate || usernameIsDuplicate || idNotFound) {
+  const currentUserData = await idRows;
+
+  if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
     let usernameFeedback = usernameIsDuplicate
       ? `The username ${username} is already taken.`
       : username;
     let emailFeedback = emailIsDuplicate
-      ? `The email address ${email} is already being used by another account.`
+      ? `The email address ${email} is already used by another account.`
       : email;
-    let idFeedback = idNotFound ? `${id} does not exist.` : id;
-    return { id: idFeedback, username: usernameFeedback, email: emailFeedback };
+    let idFeedback = !currentUserData ? `${id} does not exist.` : id;
+
+    const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
+      currentUserData && currentUserData[0];
+
+    return {
+      code: 410,
+      success: false,
+      message: `Invalid request:${
+        !currentUserData ? ' User ID does not exist.' : ''
+      }${usernameIsDuplicate ? ' Username already taken.' : ''}${
+        emailIsDuplicate ? ' Email already in use.' : ''
+      }`,
+      user: {
+        id: idFeedback,
+        username: usernameFeedback,
+        email: emailFeedback,
+        createdAt,
+        updatedAt,
+      },
+    };
   }
 
   // update the user
@@ -124,9 +147,13 @@ async function updateUser(parent, { id, data }) {
       .then(res => {
         const user = res.rows[0];
         return {
-          ...user,
-          createdAt: user.created_at,
-          updatedAt: user.updated_at,
+          ...SUCCESS,
+          message: 'Update successful',
+          user: {
+            ...user,
+            createdAt: user.created_at,
+            updatedAt: user.updated_at,
+          },
         };
       })
       .catch(err => {
@@ -157,9 +184,13 @@ async function deleteUser(parent, { id }) {
   if (user) {
     const { updated_at: updatedAt, created_at: createdAt } = await user;
     console.log(user, updatedAt);
-    return { ...user, updatedAt, createdAt };
+    return {
+      ...SUCCESS,
+      message: 'User deleted.',
+      user: { ...user, updatedAt, createdAt },
+    };
   }
-  return { id: 'No user with this ID.' };
+  return { code: 410, success: false, message: 'No user with this ID exists.' };
 }
 
 function Users() {
@@ -177,4 +208,5 @@ module.exports = {
   updateUser,
   deleteUser,
   Users,
+  test,
 };
