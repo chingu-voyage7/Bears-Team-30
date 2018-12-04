@@ -15,6 +15,6 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server.applyMiddleware({app});
+server.applyMiddleware({ app });
 
-module.exports = server; 
+module.exports = app;
