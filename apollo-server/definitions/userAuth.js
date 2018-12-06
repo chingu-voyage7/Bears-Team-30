@@ -6,25 +6,18 @@ const {
   updateUser,
   deleteUser,
   Users,
-  test,
 } = require('../../postgresDb/authHandlers');
 
-const typeDefs = gql`
+const authDefs = gql`
   type Query {
     # returns user info
-    getUser(id: ID, username: String): User
+    user(id: ID, username: String): User
 
     # Uses either id or email; returns isAuthenticated: Boolean
-    authenticateUser(
-      id: ID
-      email: String
-      password: String!
-    ): AuthenticationResult
+    authUser(id: ID, email: String, password: String!): AuthenticationResult
 
-    # for testing purposes
-    Users: [User!]
-
-    test(value: String!): User
+    # for dev only -- returns all users in db
+    users: [User!]
   }
 
   type Mutation {
@@ -61,13 +54,13 @@ const typeDefs = gql`
   }
 
   interface MutationResponse {
-    code: String!
+    code: ResponseCodes!
     success: Boolean!
     message: String!
   }
 
   type UserMutationResponse implements MutationResponse {
-    code: String!
+    code: ResponseCodes!
     success: Boolean!
     message: String!
     user: User
@@ -78,10 +71,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    getUser,
-    authenticateUser,
-    Users,
-    test,
+    user: getUser,
+    authUser: authenticateUser,
+    users: Users,
   },
   Mutation: {
     createUser,
@@ -95,4 +87,4 @@ const resolvers = {
   },
 };
 
-module.exports = { typeDefs, resolvers };
+module.exports = { authDefs, resolvers };
