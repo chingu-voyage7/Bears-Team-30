@@ -1,18 +1,13 @@
 const db = require('./index');
 const {
   makeQuery,
-  makeQueryInsertAuthInfo,
-  makeQueryInsertUser,
   makeQuerySelectAuthInfo,
   makeQuerySelectUser,
 } = require('./pgHelpers');
 
 async function checkIfDuplicate(id, rows) {
   const duplicate = await rows;
-  //   const [row] = rows && (await rows);
   if (duplicate && duplicate[0]) {
-    // console.log('checking if duplicate', id, row);
-    console.log('inside check if duplicate',duplicate)
     return id !== duplicate[0].id;
   }
   return false;
@@ -37,21 +32,21 @@ function checkRecord(propName, propValue, table) {
 
 async function checkUsername(username) {
   const rows = await checkRecord('username', username, 'auth');
-//   console.log('checking username', rows);
+  //   console.log('checking username', rows);
   if (rows[0]) return rows;
   return false;
 }
 
 async function checkEmail(email) {
   const rows = await checkRecord('email', email, 'auth');
-//   console.log('checking email', rows);
-  if (rows) return rows;
+  //   console.log('checking email', rows);
+  if (rows[0]) return rows;
   return false;
 }
 
 async function checkId(id) {
   const row = await getAuthInfo(null, { id });
-//   console.log('checking id', row);
+  //   console.log('checking id', row);
   if (row) return [row];
   return false;
 }

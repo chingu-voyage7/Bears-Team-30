@@ -18,18 +18,16 @@ const {
 } = require('./authHelpers');
 
 const SUCCESS = {
-  code: 200,
+  code: 's200',
   success: true,
   message: 'Success',
 };
 
-async function test(parent, { value }) {
-  console.log('test:', value);
-  const res = await checkId(value);
-  console.log('result:', res);
-}
-
 async function createUser(parent, { data }) {
+  const { email, username } = data;
+  const usernameRows = checkUsername(username);
+  const emailRows = checkEmail(email);
+
   const authQuery = await makeQueryInsertAuthInfo(data);
   const newUser = await db
     .query(authQuery)
@@ -38,16 +36,38 @@ async function createUser(parent, { data }) {
     })
     .catch(err => {
       console.error(err);
-      if (err.code === '23505') isDuplicate = true;
+      // if (err.code === '23505') isDuplicate = true;
       return null;
     });
 
-  if (!newUser)
+  if (!newUser) {
+    const isUsernameTaken = await usernameRows;
+    const isEmailTaken = await emailRows;
+
+    console.log(isUsernameTaken, isEmailTaken);
+
+    let message, code;
+    if (isUsernameTaken && isEmailTaken) {
+      message = 'Username and email are already taken.';
+      code = 'e411';
+    } else if (isUsernameTaken) {
+      message = 'Username is already used by another account.';
+      code = 'e412';
+    } else if (isEmailTaken) {
+      message = 'Email is already used by another account.';
+      code = 'e413';
+    } else {
+      message = 'Error creating user';
+      code = 'e410';
+    }
+
     return {
-      code: 410,
+      code,
       success: false,
-      message: 'A user with this email or username already exists.',
+      message,
     };
+  }
+
   const addUserQuery = makeQueryInsertUser(newUser);
   return db.query(addUserQuery).then(res => {
     return {
@@ -59,8 +79,6 @@ async function createUser(parent, { data }) {
         updatedAt: newUser.updated_at,
       },
     };
-    // const { created_at: createdAt, updated_at: updatedAt } = newUser;
-    // return { ...res.rows[0], createdAt, updatedAt };
   });
 }
 
@@ -83,8 +101,7 @@ async function authenticateUser(parent, { id, email, password }) {
 async function updateUser(parent, { id, data }) {
   const { username, password, email } = data;
   // make sure email and username are unique
-  // console.log('checking for pre-existing record');
-  // console.log(id, username, email, password);
+
   const usernameRows = username && checkUsername(username);
   const emailRows = email && checkEmail(email);
   const idRows = id && checkId(id);
@@ -92,9 +109,8 @@ async function updateUser(parent, { id, data }) {
   const hash = password
     ? bcrypt.hash(password, saltRounds)
     : Promise.resolve(null);
-console.log('email dup')
-const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
-console.log('username dup')
+
+  const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
   const usernameIsDuplicate = await checkIfDuplicate(id, usernameRows);
   const currentUserData = await idRows;
 
@@ -110,8 +126,19 @@ console.log('username dup')
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
+    let code;
+    if (!currentUserData) {
+      code = 'e414';
+    } else if (emailIsDuplicate && usernameIsDuplicate) {
+      code = 'e411';
+    } else if (usernameIsDuplicate) {
+      code = 'e412';
+    } else if (emailIsDuplicate) {
+      code = 'e413';
+    } else code = 'e410';
+
     return {
-      code: 410,
+      code,
       success: false,
       message: `Invalid request:${
         !currentUserData ? ' User ID does not exist.' : ''
@@ -119,9 +146,7 @@ console.log('username dup')
         emailIsDuplicate ? ' Email already in use.' : ''
       }`,
       user: {
-        id: idFeedback,
-        username: usernameFeedback,
-        email: emailFeedback,
+        ...currentUserData[0],
         createdAt,
         updatedAt,
       },
@@ -141,7 +166,7 @@ console.log('username dup')
       condition: `WHERE id = '${id}'`,
       returning: 'RETURNING id, username, email, created_at, updated_at',
     });
-    // console.log(updateQuery);
+
     return db
       .query(updateQuery)
       .then(res => {
@@ -190,12 +215,15 @@ async function deleteUser(parent, { id }) {
       user: { ...user, updatedAt, createdAt },
     };
   }
-  return { code: 410, success: false, message: 'No user with this ID exists.' };
+  return {
+    code: 'e414',
+    success: false,
+    message: 'No user with this ID exists.',
+  };
 }
 
 function Users() {
   return db.query('SELECT * FROM auth').then(res => {
-    // console.log(res.rows[0]);
     return res.rows;
   });
 }
@@ -208,5 +236,4 @@ module.exports = {
   updateUser,
   deleteUser,
   Users,
-  test,
 };
