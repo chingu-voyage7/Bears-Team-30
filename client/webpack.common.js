@@ -10,7 +10,7 @@ module.exports = {
   context: APP_DIR, 
   entry: './index.jsx',
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[hash].js',
     path: BUILD_DIR,
     publicPath: '/',
   },
