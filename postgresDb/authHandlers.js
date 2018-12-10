@@ -123,14 +123,7 @@ async function updateUser(parent, { id, data }) {
   const currentUserData = await idRows;
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
-    let usernameFeedback = usernameIsDuplicate
-      ? `The username ${username} is already taken.`
-      : username;
-    let emailFeedback = emailIsDuplicate
-      ? `The email address ${email} is already used by another account.`
-      : email;
-    let idFeedback = !currentUserData ? `${id} does not exist.` : id;
-
+    
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
