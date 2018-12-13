@@ -10,7 +10,6 @@ const {
 
 const {
   checkIfDuplicate,
-  getAuthInfo,
   getUser,
   checkUsername,
   checkEmail,
@@ -82,15 +81,24 @@ async function createUser(parent, { data }) {
   });
 }
 
-async function authenticateUser(parent, { id, email, password }) {
-  const {
-    password: hash,
-    username,
-    email: dbEmail,
-    created_at: createdAt,
-    updated_at: updatedAt,
-  } = (await getAuthInfo(null, { id, email })) || {};
-  if (!hash) return { isAuthenticated: false, id, email, username };
+/**
+ * Checks if authentication info is correct, returning an object:
+ * { isAuthenticated: Boolean, User: {Userdata} }
+ * Pass in one of id, username or email as well as plain-text password to args,
+ * following the shape below:
+ * @param {*} parent
+ * @param {Object} args {id:{id, username, email}, password}
+ */
+async function authenticateUser(parent, args) {
+  const { id, username, email: dbEmail, password: hash, createdAt, updatedAt } =
+    (await getUser(null, args)) || {};
+  const { password } = args;
+
+  if (!hash || !password)
+    return {
+      isAuthenticated: false,
+      user: null,
+    };
   const isAuthenticated = await bcrypt.compare(password, hash);
   return {
     isAuthenticated,
@@ -115,14 +123,7 @@ async function updateUser(parent, { id, data }) {
   const currentUserData = await idRows;
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
-    let usernameFeedback = usernameIsDuplicate
-      ? `The username ${username} is already taken.`
-      : username;
-    let emailFeedback = emailIsDuplicate
-      ? `The email address ${email} is already used by another account.`
-      : email;
-    let idFeedback = !currentUserData ? `${id} does not exist.` : id;
-
+    
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
@@ -229,7 +230,6 @@ function Users() {
 }
 
 module.exports = {
-  getAuthInfo,
   createUser,
   authenticateUser,
   getUser,
