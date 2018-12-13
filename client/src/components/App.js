@@ -5,7 +5,8 @@ import * as routes from '../constants/routes';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 const LandingPage = () => <div>Landing Page</div>;
-const DashboardPage = () => <div>Dashboard Page</div>;
+import DashboardPage from './DashboardPage';
+import ChallengeGroupsPage from './ChallengeGroupsPage';
 
 const App = () => (
   <div>
@@ -15,6 +16,7 @@ const App = () => (
         <Route path={routes.LOGIN} component={LoginPage} />
         <Route path={routes.SIGNUP} component={SignupPage} />
         <Route path={routes.DASHBOARD} component={DashboardPage} />
+        <Route path={routes.CHALLENGE_GROUPS} component={ChallengeGroupsPage} />
       </div>
     </BrowserRouter>
   </div>
