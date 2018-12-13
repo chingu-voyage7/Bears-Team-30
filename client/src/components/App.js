@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import * as routes from '../../constants/routes';
+import * as routes from '../constants/routes';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 const LandingPage = () => <div>Landing Page</div>;

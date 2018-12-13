@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import * as routes from '../../constants/routes';
+import * as routes from '../constants/routes';
 import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
