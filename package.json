@@ -8,7 +8,7 @@
     "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
     "apollo": "node ./apollo-server/index.js",
     "start": "nodemon ./server/bin/www",
-    "dev": "concurrently \"npm run start\" \"npm run client\""
+    "dev": "concurrently \"npm run start\" \"npm run apollo\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
     "bcrypt": "^3.0.2",
     "apollo-server-express": "^2.2.5",
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
