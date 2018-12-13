@@ -1,14 +1,4 @@
 const { gql } = require('apollo-server');
-const UUID = require('graphql-type-uuid');
-
-const {
-  createUser,
-  authenticateUser,
-  getUser,
-  updateUser,
-  deleteUser,
-  Users,
-} = require('../../postgresDb/authHandlers');
 
 const authDefs = gql`
   type Query {
@@ -79,23 +69,4 @@ const authDefs = gql`
   scalar UUID
 `;
 
-const resolvers = {
-  UUID,
-  Query: {
-    user: getUser,
-    authUser: authenticateUser,
-    users: Users,
-  },
-  Mutation: {
-    createUser,
-    updateUser,
-    deleteUser,
-  },
-  MutationResponse: {
-    __resolveType() {
-      return null;
-    },
-  },
-};
-
-module.exports = { authDefs, resolvers };
+module.exports = authDefs;
