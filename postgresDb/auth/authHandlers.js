@@ -1,12 +1,12 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
-const db = require('./index');
+const db = require('../index');
 const {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
-} = require('./pgHelpers');
+} = require('../pgHelpers');
 
 const {
   checkIfDuplicate,

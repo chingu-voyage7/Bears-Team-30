@@ -1,5 +1,5 @@
 // Needs updating
-const db = require('./index');
+const db = require('../index');
 
 const USERS_TABLE =
   'CREATE TABLE users(id UUID PRIMARY KEY, username TEXT not null unique, journeys TEXT [])';

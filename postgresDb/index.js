@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+console.log(process.env.PGUSER);
+
 const pool = new Pool();
 
 pool.on('error', (err, client) => {

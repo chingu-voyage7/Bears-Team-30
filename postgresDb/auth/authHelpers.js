@@ -1,5 +1,5 @@
-const db = require('./index');
-const { makeQuery, makeQuerySelectUser } = require('./pgHelpers');
+const db = require('../index');
+const { makeQuery, makeQuerySelectUser } = require('../pgHelpers');
 
 async function checkIfDuplicate(id, rows) {
   const duplicate = await rows;
