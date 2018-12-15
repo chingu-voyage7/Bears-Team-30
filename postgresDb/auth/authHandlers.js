@@ -229,6 +229,10 @@ function Users() {
   });
 }
 
+function me(parent, args, {userid: id}){
+  return getUser(parent,{id:{id}})
+}
+
 module.exports = {
   createUser,
   authenticateUser,
@@ -236,4 +240,5 @@ module.exports = {
   updateUser,
   deleteUser,
   Users,
+  me,
 };

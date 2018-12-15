@@ -7,7 +7,14 @@ const {
   updateUser,
   deleteUser,
   Users,
+  me,
 } = require('../postgresDb/auth/authHandlers');
+
+const {
+  startUserChallenge,
+  myChallenges,
+  userChallenges,
+} = require('../postgresDb/challenges/challengeHandlers');
 
 const resolvers = {
   UUID,
@@ -15,6 +22,7 @@ const resolvers = {
     user: getUser,
     authUser: authenticateUser,
     users: Users,
+    me,
   },
   Mutation: {
     createUser,

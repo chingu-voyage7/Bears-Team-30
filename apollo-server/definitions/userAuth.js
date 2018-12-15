@@ -10,6 +10,9 @@ const authDefs = gql`
 
     # for dev only -- returns all users in db
     users: [User!]
+
+    # returns username of logged-in account
+    me: User!
   }
 
   type Mutation {
