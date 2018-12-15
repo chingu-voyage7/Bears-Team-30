@@ -11,6 +11,8 @@ const {
 } = require('../postgresDb/auth/authHandlers');
 
 const {
+  challengeGroups,
+  ChallengeGroup,
   startUserChallenge,
   myChallenges,
   userChallenges,
@@ -23,6 +25,7 @@ const resolvers = {
     authUser: authenticateUser,
     users: Users,
     me,
+    challengeGroups,
   },
   Mutation: {
     createUser,
@@ -34,6 +37,7 @@ const resolvers = {
       return null;
     },
   },
+  ChallengeGroup,
 };
 
 module.exports = resolvers;

@@ -59,7 +59,7 @@ const challengeDefs = gql`
     goalNumber: Int!
     goalType: String!
     users: [User!]
-    submissions: [Submission!]
+    # submissions: [Submission!]
     updatedAt: DateTime!
     createdAt: DateTime!
   }

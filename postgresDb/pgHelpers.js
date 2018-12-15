@@ -61,9 +61,33 @@ const makeQuery = ({
   }
 };
 
+function setTimeProps(obj) {
+  renameProp(obj, 'created_at', 'createdAt');
+  renameProp(obj, 'updated_at', 'updatedAt');
+}
+
+function cleanProps(obj) {
+  const props = Object.keys(obj);
+  let re = /_/;
+  props.forEach(prop => {
+    if (re.test(prop)) {
+      const newName = prop.replace(/_./g, match => match[1].toUpperCase());
+      renameProp(obj, prop, newName);
+    }
+  });
+}
+
+function renameProp(obj, oldName, newName) {
+  if (obj[oldName]) {
+    obj[newName] = obj[oldName];
+    delete obj[oldName];
+  }
+}
+
 module.exports = {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
   makeQuerySelectUser,
+  cleanProps,
 };
