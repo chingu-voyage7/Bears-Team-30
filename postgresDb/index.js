@@ -14,7 +14,6 @@ module.exports = {
   query: (text, values) =>
     pool
       .query(text, values)
-      // .then(res => res)
       .catch(e => {
         console.error('DB error:', e);
         throw Error('Db error');

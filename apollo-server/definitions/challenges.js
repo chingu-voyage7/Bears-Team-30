@@ -1,3 +1,8 @@
+// priorities:
+// createuserchallenge mutation
+// muChallenges query: return userChallenges
+// usechallenges query
+
 const { gql } = require('apollo-server');
 
 const challengeDefs = gql`
@@ -9,10 +14,10 @@ const challengeDefs = gql`
     challengeGroup(id: ID!): ChallengeGroup
 
     # view list of challenges belonging to a user
-    challenges(user: UserIdInput!): [Challenge!]
+    userChallenges(user: UserIdInput!): [Challenge!]
 
     # view a user's challenge
-    challenge(id: ID!): Challenge
+    userChallenge(id: ID!): Challenge
 
     # optional filter by status
     submission(submissionId: ID!): Submission!
@@ -27,7 +32,7 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    startChallenge(data: StartChallengeInput!): Challenge!
+    startUserChallenge(data: StartChallengeInput!): Challenge!
 
     # skipping for now:
     # deleteChallenge(challengeId: ID!): Challenge!
