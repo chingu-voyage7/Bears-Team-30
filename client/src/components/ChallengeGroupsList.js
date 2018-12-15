@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import CHALLENGE_GROUPS from '../constants/challengeGroups';
 
@@ -18,7 +18,7 @@ class ChallengeGroupsList extends Component {
       .join('/');
 
     return (
-      <>
+      <Fragment key={group.id}>
         {isQueryMatch && isCategoryMatch && (
           <div>
             <h3>{group.name}</h3>
@@ -29,7 +29,7 @@ class ChallengeGroupsList extends Component {
             </button>
           </div>
         )}
-      </>
+      </Fragment>
     );
   };
 
