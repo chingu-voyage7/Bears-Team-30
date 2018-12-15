@@ -12,7 +12,7 @@ const authDefs = gql`
     users: [User!]
 
     # returns username of logged-in account
-    me: User!
+    me: User
   }
 
   type Mutation {
