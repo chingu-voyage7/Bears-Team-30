@@ -230,6 +230,7 @@ function Users() {
 }
 
 function me(parent, args, {userid: id}){
+  if(!id) throw new Error('User not logged in.')
   return getUser(parent,{id:{id}})
 }
 
