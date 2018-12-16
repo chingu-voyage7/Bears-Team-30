@@ -16,7 +16,7 @@ module.exports = {
       .query(text, values)
       .catch(e => {
         console.error('DB error:', e);
-        throw Error('Db error');
+        throw e;
       }),
   getClient: () => pool.connect(),
   drain: () => pool.end(),
