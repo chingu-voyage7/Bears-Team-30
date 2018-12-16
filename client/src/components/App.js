@@ -7,6 +7,7 @@ import SignupPage from './SignupPage';
 const LandingPage = () => <div>Landing Page</div>;
 import DashboardPage from './DashboardPage';
 import ChallengeGroupsPage from './ChallengeGroupsPage';
+import AddSubmissionPage from './AddSubmissionPage';
 
 const App = () => (
   <div>
@@ -17,6 +18,7 @@ const App = () => (
         <Route path={routes.SIGNUP} component={SignupPage} />
         <Route path={routes.DASHBOARD} component={DashboardPage} />
         <Route path={routes.CHALLENGE_GROUPS} component={ChallengeGroupsPage} />
+        <Route path={routes.ADD_SUBMISSION} component={AddSubmissionPage} />
       </div>
     </BrowserRouter>
   </div>
