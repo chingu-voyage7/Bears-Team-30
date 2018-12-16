@@ -123,7 +123,6 @@ async function updateUser(parent, { id, data }) {
   const currentUserData = await idRows;
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
-    
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
@@ -229,15 +228,13 @@ function Users() {
   });
 }
 
-function me(parent, args, {userid: id}){
-  if(!id) throw new Error('User not logged in.')
-  return getUser(parent,{id:{id}})
+function me(parent, args, { userid: id }) {
+  if (!id) throw new Error('User not logged in.');
+  return getUserHelper(id);
 }
 
-function getUser(parent, {id}) {
-  console.log(getUserHelper)
-  return getUserHelper(id) 
-  
+function getUser(parent, { id: { id } }) {
+  return getUserHelper(id);
 }
 
 module.exports = {

@@ -42,7 +42,7 @@ async function checkId(id) {
 }
 
 function getUser(id) {
-  return db.query(makeQuerySelectUser(id)).then(res => {
+  return db.query(makeQuerySelectUser({ id })).then(res => {
     const user = res.rows[0];
     if (!user) return null;
     cleanProps(user);
