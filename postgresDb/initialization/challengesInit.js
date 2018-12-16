@@ -7,6 +7,7 @@ console.log('intialize challenges');
 const CHALLENGES_TABLE =
   'CREATE TABLE IF NOT EXISTS challenge_groups(id SERIAL PRIMARY KEY, name CITEXT UNIQUE NOT NULL, description TEXT NOT NULL, category TEXT NOT NULL, goal_action TEXT NOT NULL, goal_number TEXT NOT NULL, goal_type TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now())';
 
+// id (d), userid(R), challengeid(R), created_at (d), updated_at(d), progress(d), goal (R), status(d)
 const USER_CHALLENGES_TABLE = `CREATE TABLE IF NOT EXISTS user_challenges(id SERIAL NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, challengeid INTEGER REFERENCES challenge_groups(id) NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), progress INTEGER NOT NULL DEFAULT 0, goal INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'IN_PROGRESS', PRIMARY KEY (userid, challengeid))`;
 
 const SUBMISSIONS_TABLE =

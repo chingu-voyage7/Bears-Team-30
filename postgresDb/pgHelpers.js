@@ -61,6 +61,19 @@ const makeQuery = ({
   }
 };
 
+function makeInsert(table, valuesObj) {
+  const cols = Object.keys(valuesObj);
+  const vals = [];
+  cols.forEach(col => {
+    vals.push(valuesObj[col]);
+  });
+  console.log('make insert values:', vals);
+
+  return `INSERT INTO ${table}(${cols.join(', ')}) VALUES(${vals.join(
+    ', '
+  )}) RETURNING *`;
+}
+
 function setTimeProps(obj) {
   renameProp(obj, 'created_at', 'createdAt');
   renameProp(obj, 'updated_at', 'updatedAt');
@@ -90,4 +103,5 @@ module.exports = {
   makeQueryInsertUser,
   makeQuerySelectUser,
   cleanProps,
+  makeInsert,
 };

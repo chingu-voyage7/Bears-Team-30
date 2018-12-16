@@ -3,6 +3,7 @@ const { gql } = require('apollo-server');
 const ResponseCodes = gql`
   enum ResponseCodes {
     s200 # Success
+    e405 # Invalid authorization header / not logged in
     e410 # Generic failure
     e411 # Invalid input: email and username are duplicates
     e412 # Invalid input: username is duplicate

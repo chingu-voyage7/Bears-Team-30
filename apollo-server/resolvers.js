@@ -31,6 +31,7 @@ const resolvers = {
     createUser,
     updateUser,
     deleteUser,
+    startUserChallenge,
   },
   MutationResponse: {
     __resolveType() {

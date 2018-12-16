@@ -1,6 +1,7 @@
 const {
   getChallengeGroups,
   getChallengeGroupUsers,
+  insertUserChallenge,
 } = require('./challengeHelpers');
 const { cleanProps } = require('../pgHelpers');
 
@@ -68,7 +69,14 @@ function submission() {}
 /**
  * Creates a user_challenges row and returns a challenge
  */
-function startUserChallenge() {}
+function startUserChallenge(
+  parent,
+  { data: { challengeId: challengeid, goal, status } },
+  { userid }
+) {
+  console.log(challengeid, goal, status);
+  return insertUserChallenge({ challengeid, goal, status }, userid);
+}
 
 /**
  * creates a new submission
