@@ -1,5 +1,5 @@
 const db = require('../index');
-const { makeQuery, makeQuerySelectUser } = require('../pgHelpers');
+const { makeQuery, makeQuerySelectUser, cleanProps } = require('../pgHelpers');
 
 async function checkIfDuplicate(id, rows) {
   const duplicate = await rows;
@@ -35,17 +35,18 @@ async function checkEmail(email) {
 }
 
 async function checkId(id) {
-  const row = await getUser(null, { id: { id } });
+  const row = await getUser(id);
   //   console.log('checking id', row);
   if (row) return [row];
   return false;
 }
 
-function getUser(parent, args) {
-  return db.query(makeQuerySelectUser(args.id)).then(res => {
-    if (!res.rows[0]) return null;
-    const { created_at: createdAt, updated_at: updatedAt } = res.rows[0];
-    return { ...res.rows[0], createdAt, updatedAt };
+function getUser(id) {
+  return db.query(makeQuerySelectUser(id)).then(res => {
+    const user = res.rows[0];
+    if (!user) return null;
+    cleanProps(user);
+    return user;
   });
 }
 

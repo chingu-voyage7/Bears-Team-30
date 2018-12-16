@@ -10,10 +10,10 @@ const {
 
 const {
   checkIfDuplicate,
-  getUser,
   checkUsername,
   checkEmail,
   checkId,
+  getUser: getUserHelper,
 } = require('./authHelpers');
 
 const SUCCESS = {
@@ -232,6 +232,12 @@ function Users() {
 function me(parent, args, {userid: id}){
   if(!id) throw new Error('User not logged in.')
   return getUser(parent,{id:{id}})
+}
+
+function getUser(parent, {id}) {
+  console.log(getUserHelper)
+  return getUserHelper(id) 
+  
 }
 
 module.exports = {
