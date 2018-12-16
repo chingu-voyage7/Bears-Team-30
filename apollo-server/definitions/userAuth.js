@@ -1,4 +1,6 @@
 const { gql } = require('apollo-server');
+const UUID = require('graphql-type-uuid');
+
 const {
   createUser,
   authenticateUser,
@@ -12,11 +14,11 @@ const {
 const authDefs = gql`
   type Query {
     # returns user info
-    user(id: ID, username: String): User
+    user(id: UserIdInput!): User
 
     # Uses either id or email; returns isAuthenticated: Boolean
-    authUser(id: ID, email: String, password: String!): AuthenticationResult
-    
+    authUser(id: UserIdInput!, password: String!): AuthenticationResult
+
     # Login user
     loginUser(username: String!, password: String!): LoginResult
 
@@ -28,12 +30,12 @@ const authDefs = gql`
     createUser(data: CreateUserInput!): UserMutationResponse!
     # check which fields updated, if password updated remember
     # to hash new password
-    updateUser(id: ID!, data: UpdateUserInput!): UserMutationResponse!
-    deleteUser(id: ID!): UserMutationResponse!
+    updateUser(id: UUID!, data: UpdateUserInput!): UserMutationResponse!
+    deleteUser(id: UUID!): UserMutationResponse!
   }
 
   type User {
-    id: ID!
+    id: UUID!
     username: String!
     email: String!
     updatedAt: DateTime!
@@ -47,6 +49,12 @@ const authDefs = gql`
   
   type LoginResult {
     token: String
+  }
+
+  input UserIdInput {
+    id: UUID
+    username: String
+    email: String
   }
 
   input CreateUserInput {
@@ -76,9 +84,12 @@ const authDefs = gql`
   }
 
   scalar DateTime
+
+  scalar UUID
 `;
 
 const resolvers = {
+  UUID,
   Query: {
     user: getUser,
     authUser: authenticateUser,
