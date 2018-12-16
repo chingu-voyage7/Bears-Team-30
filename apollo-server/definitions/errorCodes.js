@@ -9,6 +9,7 @@ const ResponseCodes = gql`
     e412 # Invalid input: username is duplicate
     e413 # Invalid input: email is duplicate
     e414 # Invalid input: userid doesn't exist
+    e415 # Invalid input: Attempting to input a duplicate row
     e500 # Database error
   }
 `;
