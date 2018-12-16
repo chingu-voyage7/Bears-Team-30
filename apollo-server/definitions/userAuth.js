@@ -6,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   Users,
+  loginUser,
 } = require('../../postgresDb/authHandlers');
 
 const authDefs = gql`
@@ -15,6 +16,9 @@ const authDefs = gql`
 
     # Uses either id or email; returns isAuthenticated: Boolean
     authUser(id: ID, email: String, password: String!): AuthenticationResult
+    
+    # Login user
+    loginUser(username: String!, password: String!): LoginResult
 
     # for dev only -- returns all users in db
     users: [User!]
@@ -40,6 +44,10 @@ const authDefs = gql`
     isAuthenticated: Boolean!
     user: User
   }
+  
+  type LoginResult {
+    token: String
+  }
 
   input CreateUserInput {
     username: String!
@@ -63,6 +71,7 @@ const authDefs = gql`
     code: ResponseCodes!
     success: Boolean!
     message: String!
+    token: String
     user: User
   }
 
@@ -73,6 +82,7 @@ const resolvers = {
   Query: {
     user: getUser,
     authUser: authenticateUser,
+    loginUser: loginUser,
     users: Users,
   },
   Mutation: {
