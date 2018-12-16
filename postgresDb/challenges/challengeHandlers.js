@@ -8,25 +8,21 @@ const { cleanProps } = require('../pgHelpers');
  * Returns all challenge groups
  */
 async function challengeGroups() {
-  const { challengeGroupsData, usersData } = await getChallengeGroups();
+  const challengeGroupsData = await getChallengeGroups();
 
   const challengeGroups = challengeGroupsData.rows;
   const results = [];
 
-  challengeGroups.forEach(async challenge => {
+  challengeGroups.forEach(challenge => {
     cleanProps(challenge);
-    const id = challenge.id;
-    const users = await usersData[id];
-    challenge.userIds = users.rows;
     results.push(challenge);
   });
 
-  return await results;
+  return results;
 }
 
 const ChallengeGroup = {
   users({ id }) {
-    console.log(id);
     const users = getChallengeGroupUsers(id);
     return users.then(res => {
       const usersArr = [];
