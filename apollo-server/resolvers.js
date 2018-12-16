@@ -13,9 +13,12 @@ const {
 const {
   challengeGroups,
   ChallengeGroup,
-  startUserChallenge,
+  createUserChallenge,
+  userChallenge,
+  challengeGroup,
   myChallenges,
   userChallenges,
+  Challenge,
 } = require('../postgresDb/challenges/challengeHandlers');
 
 const resolvers = {
@@ -26,12 +29,14 @@ const resolvers = {
     users: Users,
     me,
     challengeGroups,
+    challengeGroup,
+    userChallenge,
   },
   Mutation: {
     createUser,
     updateUser,
     deleteUser,
-    startUserChallenge,
+    createUserChallenge,
   },
   MutationResponse: {
     __resolveType() {
@@ -39,6 +44,7 @@ const resolvers = {
     },
   },
   ChallengeGroup,
+  Challenge,
 };
 
 module.exports = resolvers;

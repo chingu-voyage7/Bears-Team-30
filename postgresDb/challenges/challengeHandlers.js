@@ -2,7 +2,10 @@ const {
   getChallengeGroups,
   getChallengeGroupUsers,
   insertUserChallenge,
+  getUserChallenge,
+  getChallengeGroup,
 } = require('./challengeHelpers');
+const { getUser } = require('../auth/authHelpers');
 const { cleanProps } = require('../pgHelpers');
 
 /**
@@ -39,7 +42,9 @@ const ChallengeGroup = {
 /**
  * Returns a specific challenge group
  */
-function challengeGroup({ id }) {}
+function challengeGroup({ id }) {
+  return getChallengeGroup(id);
+}
 
 /**
  * Returns a user's challenges
@@ -49,7 +54,9 @@ function userChallenges() {}
 /**
  * Returns a specific challenge from a specific user
  */
-function userChallenge() {}
+function userChallenge(parent, { id }) {
+  return getUserChallenge(id);
+}
 
 /**
  * returns all of user's submissions for a specific challenge
@@ -69,15 +76,23 @@ function submission() {}
 /**
  * Creates a user_challenges row and returns a challenge
  */
-function startUserChallenge(
+function createUserChallenge(
   parent,
   { data: { challengeId: challengeid, goal, status } },
   { userid }
 ) {
-  console.log(challengeid, goal, status);
   return insertUserChallenge({ challengeid, goal, status }, userid);
 }
 
+const Challenge = {
+  user({ userid }) {
+    return getUser(userid);
+  },
+  challengeGroup({ challengeid }) {
+    return getChallengeGroup(challengeid);
+  },
+  // submissions,
+};
 /**
  * creates a new submission
  */
@@ -95,7 +110,8 @@ module.exports = {
   userChallenge,
   submissions,
   submission,
-  startUserChallenge,
+  createUserChallenge,
+  Challenge,
   createSubmission,
   updateSubmission,
   ChallengeGroup,

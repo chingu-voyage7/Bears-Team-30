@@ -32,7 +32,7 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    startUserChallenge(data: StartChallengeInput!): startUserChallengeResponse!
+    createUserChallenge(data: CreateChallengeInput!): CreateUserChallengeResponse!
 
     # skipping for now:
     # deleteChallenge(challengeId: ID!): Challenge!
@@ -67,12 +67,12 @@ const challengeDefs = gql`
   type Challenge {
     id: ID!
     challengeGroup: ChallengeGroup!
-    startDate: DateTime!
     goal: Int!
     status: String!
     progress: Int!
     submissions: [Submission]
     user: User!
+    createdAt: DateTime!
     updatedAt: DateTime!
   }
 
@@ -98,7 +98,7 @@ const challengeDefs = gql`
     CANCELLED
   }
 
-  input StartChallengeInput {
+  input CreateChallengeInput {
     challengeId: ID!
     # startDate: DateTime!
     goal: Int!
@@ -128,7 +128,7 @@ const challengeDefs = gql`
     progress: Int
   }
 
-  type startUserChallengeResponse implements MutationResponse{
+  type CreateUserChallengeResponse implements MutationResponse{
     code: ResponseCodes!
     success: Boolean!
     message: String!

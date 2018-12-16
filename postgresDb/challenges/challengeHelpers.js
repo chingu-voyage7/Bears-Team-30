@@ -1,16 +1,37 @@
 const db = require('../index');
-const { makeQuery, makeInsert } = require('../pgHelpers');
+const {
+  makeQuery,
+  makeInsert,
+  cleanProps,
+  renameProp,
+} = require('../pgHelpers');
 
 module.exports = {
   getChallengeGroups,
   getChallengeGroupUsers,
   insertUserChallenge,
+  getUserChallenge,
+  getChallengeGroup,
 };
 
 function getChallengeGroups() {
   return db.query('SELECT * FROM challenge_groups').catch(err => {
-    console.error('Error retrieving challenge groups', err);
+    console.error('Error retrieving challenge groups');
+    throw new Error('Error retrieving challenge groups');
   });
+}
+
+function getChallengeGroup(id) {
+  return db
+    .query(`SELECT * FROM challenge_groups WHERE id = ${id}`)
+    .then(res => {
+      const challengeGroup = res.rows[0];
+      if (challengeGroup) {
+        cleanProps(challengeGroup);
+        return challengeGroup;
+      }
+      return null;
+    });
 }
 
 function getChallengeGroupUsers(challengeId) {
@@ -33,28 +54,59 @@ function insertUserChallenge(values, userid) {
     };
   }
 
-  values.userid = userid;
-  console.log(values);
+  values.userid = `'${userid}'`;
+  values.status = `'${values.status}'`;
   const QUERY = makeInsert('user_challenges', values);
   return db
     .query(QUERY)
     .then(res => {
-      const userChallenge = res.rows[0];
-      console.log('userChallenge', userChallenge);
+      const challenge = res.rows[0];
+      formatUserChallenge(challenge);
 
       return {
         code: 's200',
         success: true,
         message: 'SUCCESS',
-        challenge: res.rows,
+        challenge,
       };
     })
     .catch(err => {
-      console.error('caught db err', err);
+      if (err.code === '23505') {
+        return {
+          code: 'e415',
+          success: false,
+          message: 'User has already started this challenge',
+        };
+      }
+      if (err.code === '23503') {
+        return {
+          code: 'e405',
+          success: false,
+          message: "Invalid authorization header / user doesn't exist",
+        };
+      }
       return {
         code: 'e500',
         success: false,
         message: `Internal db error: ${err.message}`,
       };
     });
+}
+
+function getUserChallenge(id) {
+  return db
+    .query(`SELECT * FROM user_challenges WHERE id = ${id}`)
+    .then(res => {
+      const userChallenge = res.rows[0];
+      if (userChallenge) {
+        cleanProps(userChallenge);
+        return userChallenge;
+      }
+      return null;
+    });
+}
+
+function formatUserChallenge(userChallenge) {
+  cleanProps(userChallenge);
+  // renameProp(userChallenge, 'challengeid', 'id' );
 }
