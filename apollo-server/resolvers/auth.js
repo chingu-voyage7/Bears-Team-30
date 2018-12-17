@@ -9,14 +9,14 @@ const {
 } = require('../../postgresDb/pgHelpers');
 
 const {
-  checkEmail,
-  checkId,
   checkIfDuplicate,
   checkUsername,
+  checkEmail,
+  checkId,
+  getUser: getUserHelper,
   generateJWTToken,
-  getUser,
   getUserId,
-} = require('../../postgresDb/authHelpers');
+} = require('../../postgresDb/auth/authHelpers');
 
 const SUCCESS = {
   code: 's200',
@@ -24,26 +24,19 @@ const SUCCESS = {
   message: 'Success',
 };
 
-/**
- * Creating user/ Signup method
- *
- * @param   parent
- * @param   data
- * @returns {Promise<*>}
- */
 async function createUser(parent, { data }) {
   const { email, username } = data;
-  const usernameRows = await checkUsername(username);
-  const emailRows = await checkEmail(email);
+  const usernameRows = checkUsername(username);
+  const emailRows = checkEmail(email);
 
   const authQuery = await makeQueryInsertAuthInfo(data);
-
   const newUser = await db
     .query(authQuery)
-    .then(res => res.rows[0])
+    .then(res => {
+      return res.rows[0];
+    })
     .catch(err => {
       console.error(err);
-      // if (err.code === '23505') isDuplicate = true;
       return null;
     });
 
@@ -74,47 +67,30 @@ async function createUser(parent, { data }) {
   }
 
   const addUserQuery = makeQueryInsertUser(newUser);
-
   const token = generateJWTToken(newUser.id);
-  // console.log(token);
-
-  return db.query(addUserQuery).then(res => ({
-    ...SUCCESS,
-    message: 'New user created.',
-    token,
-    user: {
-      ...newUser,
-      createdAt: newUser.created_at,
-      updatedAt: newUser.updated_at,
-    },
-  }));
+  return db.query(addUserQuery).then(res => {
+    return {
+      ...SUCCESS,
+      message: 'New user created.',
+      token,
+      user: {
+        ...newUser,
+        createdAt: newUser.created_at,
+        updatedAt: newUser.updated_at,
+      },
+    };
+  });
 }
 
 /**
- * Checks if authentication info is correct, returning an object:
- * { isAuthenticated: Boolean, User: {Userdata} }
- * Pass in one of id, username or email as well as plain-text password to args,
- * following the shape below:
- * @param {*} parent
- * @param {Object} args {id:{id, username, email}, password}
+ * Checks if a valid token generated a userid
  */
-
-async function auth(parent, args, { token }) {
-  const userId = getUserId(token, false);
-  return { isAuthenticated: !!userId };
+async function auth(parent, args, { id }) {
+  return { isAuthenticated: !!id };
 }
 
-/**
- * Login method that authenticates the user and
- * generates token if the user is valid
- *
- * @param   parent
- * @param   username
- * @param   password
- * @returns {Promise<{token: *}>}
- */
 async function loginUser(parent, { username, password }) {
-  const row = await getUser(null, { id: { username } });
+  const row = await getUserHelper({ username });
 
   const isAuthenticated = await bcrypt.compare(password, row.password);
 
@@ -129,14 +105,6 @@ async function loginUser(parent, { username, password }) {
   };
 }
 
-/**
- * Updating user
- *
- * @param   parent
- * @param   id
- * @param   data
- * @returns {Promise<*>}
- */
 async function updateUser(parent, { id, data }) {
   const { username, password, email } = data;
   // make sure email and username are unique
@@ -219,15 +187,7 @@ async function updateUser(parent, { id, data }) {
   });
 }
 
-/**
- * Deleting user
- *
- * @param   parent
- * @param   id
- * @returns {Promise<*>}
- */
 async function deleteUser(parent, { id }) {
-  // console.log('deleting user', id);
   const client = await db.getClient();
   let user;
   try {
@@ -246,7 +206,6 @@ async function deleteUser(parent, { id }) {
   }
   if (user) {
     const { updated_at: updatedAt, created_at: createdAt } = await user;
-    // console.log(user, updatedAt);
     return {
       ...SUCCESS,
       message: 'User deleted.',
@@ -260,28 +219,28 @@ async function deleteUser(parent, { id }) {
   };
 }
 
-/**
- * Returing all the users
- *
- * @returns     {*}
- * @constructor
- */
 function users() {
   return db.query('SELECT * FROM auth').then(res => {
     return res.rows;
   });
 }
 
-function user() {
-  return {};
+function me(parent, args, { id }) {
+  if (!id) throw new Error('User not logged in.');
+  return getUserHelper({ id });
+}
+
+function getUser(parent, { id: { id, username, email } }) {
+  return getUserHelper({ id, username, email });
 }
 
 module.exports = {
   createUser,
   auth,
-  user,
+  getUser,
   loginUser,
   updateUser,
   deleteUser,
   users,
+  me,
 };
