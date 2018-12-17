@@ -1,7 +1,6 @@
 // priorities:
-// createuserchallenge mutation
-// muChallenges query: return userChallenges
-// usechallenges query
+// myChallenges query: return userChallenges
+// userchallenges query
 
 const { gql } = require('apollo-server');
 
@@ -11,16 +10,18 @@ const challengeDefs = gql`
     challengeGroups: [ChallengeGroup!]
 
     # view a specific challenge group
-    challengeGroup(id: ID!): ChallengeGroup
+    challengeGroup(challengeGroupId: ID!): ChallengeGroup
 
     # view list of challenges belonging to a user
     userChallenges(user: UserIdInput!): [Challenge!]
 
-    # view a user's challenge
-    userChallenge(id: ID!): Challenge
+    # view a user challenge
+    userChallenge(userChallengeId: ID!): Challenge
 
     # optional filter by status
     submission(submissionId: ID!): Submission!
+
+    myChallenges: [Challenge!]
 
     # skipping for now -- how will this be used?
     # submissions(day: String): [Submission!]!

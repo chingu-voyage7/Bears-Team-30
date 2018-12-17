@@ -2,35 +2,39 @@ const UUID = require('graphql-type-uuid');
 
 const {
   createUser,
-  authenticateUser,
+  auth,
+  loginUser,
   getUser,
   updateUser,
   deleteUser,
-  Users,
+  users,
   me,
-} = require('../postgresDb/auth/authHandlers');
+} = require('./resolvers/auth');
 
 const {
   challengeGroups,
-  ChallengeGroup,
   createUserChallenge,
   userChallenge,
   challengeGroup,
   myChallenges,
   userChallenges,
   Challenge,
-} = require('../postgresDb/challenges/challengeHandlers');
+  ChallengeGroup,
+} = require('./resolvers/challenge');
 
 const resolvers = {
   UUID,
   Query: {
     user: getUser,
-    authUser: authenticateUser,
-    users: Users,
+    auth,
+    loginUser,
+    users,
     me,
     challengeGroups,
     challengeGroup,
     userChallenge,
+    userChallenges,
+    myChallenges,
   },
   Mutation: {
     createUser,

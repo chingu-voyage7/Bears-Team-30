@@ -5,8 +5,10 @@ const authDefs = gql`
     # returns user info
     user(id: UserIdInput!): User
 
-    # Uses either id or email; returns isAuthenticated: Boolean
+    # Checks token and returns isAuthenticated Bool
     auth: AuthResult!
+
+    loginUser(username: String!, password: String!): LoginResult!
 
     # for dev only -- returns all users in db
     users: [User!]
@@ -17,11 +19,11 @@ const authDefs = gql`
 
   type Mutation {
     createUser(data: CreateUserInput!): CreateUserMutationResponse!
-    loginUser(username: String!, password: String!): LoginResult!
 
     # check which fields updated, if password updated remember
     # to hash new password
     updateUser(id: UUID!, data: UpdateUserInput!): UpdateUserMutationResponse!
+
     deleteUser(id: UUID!): UpdateUserMutationResponse!
   }
 
