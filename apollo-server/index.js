@@ -13,9 +13,12 @@ process.on('unhandledRejection', (reason, promise) => {
 const server = new ApolloServer({
   typeDefs: [authDefs, ErrorCodes, challengeDefs],
   resolvers,
-  context: ({req})=>{
-    const userid = req.headers.authorization;
-    return {userid};
+  context: ({ req }) => {
+    // get the user token from the headers
+    const authorization = req.headers.authorization || '';
+    const token = authorization.replace('Bearer ', '');
+
+    return { token };
   },
 });
 
