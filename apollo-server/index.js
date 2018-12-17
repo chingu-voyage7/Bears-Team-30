@@ -4,6 +4,7 @@ const authDefs = require('./definitions/userAuth');
 const resolvers = require('./resolvers');
 const challengeDefs = require('./definitions/challenges');
 const ErrorCodes = require('./definitions/errorCodes');
+const { getUserId } = require('../postgresDb/auth/authHelpers');
 // const cache = new RedisCache({});
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -14,11 +15,10 @@ const server = new ApolloServer({
   typeDefs: [authDefs, ErrorCodes, challengeDefs],
   resolvers,
   context: ({ req }) => {
-    // get the user token from the headers
     const authorization = req.headers.authorization || '';
     const token = authorization.replace('Bearer ', '');
-
-    return { token };
+    const id = getUserId(token);
+    return { id };
   },
 });
 
