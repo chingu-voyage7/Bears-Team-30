@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
+const jwt = require('jsonwebtoken');
+
 const db = require('./index');
 const {
   makeQuery,
@@ -22,12 +24,24 @@ const SUCCESS = {
   message: 'Success',
 };
 
-async function createUser(parent, { data }) {
-  const { email, username } = data;
-  const usernameRows = checkUsername(username);
-  const emailRows = checkEmail(email);
+const { SECRET_ENCRYPT } = process.env;
+
+
+/**
+ * Creating user/ Signup method
+ *
+ * @param   parent
+ * @param   data
+ * @returns {Promise<*>}
+ */
+async function createUser(parent, {data}) {
+
+  const {email, username} = data;
+  const usernameRows = await checkUsername(username);
+  const emailRows = await checkEmail(email);
 
   const authQuery = await makeQueryInsertAuthInfo(data);
+
   const newUser = await db
     .query(authQuery)
     .then(res => {
@@ -68,10 +82,19 @@ async function createUser(parent, { data }) {
   }
 
   const addUserQuery = makeQueryInsertUser(newUser);
+
+
+  let payload = {
+    username: username
+  };
+
+  const token = jwt.sign(JSON.stringify(payload), SECRET_ENCRYPT);
+
   return db.query(addUserQuery).then(res => {
     return {
       ...SUCCESS,
       message: 'New user created.',
+      token: token,
       user: {
         ...newUser,
         createdAt: newUser.created_at,
@@ -80,6 +103,7 @@ async function createUser(parent, { data }) {
     };
   });
 }
+
 
 /**
  * Checks if authentication info is correct, returning an object:
@@ -102,12 +126,52 @@ async function authenticateUser(parent, args) {
   const isAuthenticated = await bcrypt.compare(password, hash);
   return {
     isAuthenticated,
-    user: { id, email: dbEmail, username, createdAt, updatedAt },
+    user: {id, email: dbEmail, username, createdAt, updatedAt},
   };
 }
 
-async function updateUser(parent, { id, data }) {
-  const { username, password, email } = data;
+
+/**
+ * Login method which authenticate the user and
+ * generate token if the user is valid
+ *
+ * @param   parent
+ * @param   username
+ * @param   password
+ * @returns {Promise<{token: *}>}
+ */
+async function loginUser(parent, {username, password}) {
+
+  const row = await getUser(null, { username });
+
+  const isAuthenticated = await bcrypt.compare(password, row.password);
+
+  let token = null;
+
+  if(isAuthenticated){
+    let payload = {
+      username:row.username
+    };
+
+    token = jwt.sign(JSON.stringify(payload), SECRET_ENCRYPT);
+  }
+
+  return {
+    token:token
+  }
+}
+
+
+/**
+ * Updaing user
+ *
+ * @param   parent
+ * @param   id
+ * @param   data
+ * @returns {Promise<*>}
+ */
+async function updateUser(parent, {id, data}) {
+  const {username, password, email} = data;
   // make sure email and username are unique
 
   const usernameRows = username && checkUsername(username);
@@ -143,9 +207,9 @@ async function updateUser(parent, { id, data }) {
       success: false,
       message: `Invalid request:${
         !currentUserData ? ' User ID does not exist.' : ''
-      }${usernameIsDuplicate ? ' Username already taken.' : ''}${
+        }${usernameIsDuplicate ? ' Username already taken.' : ''}${
         emailIsDuplicate ? ' Email already in use.' : ''
-      }`,
+        }`,
       user: {
         ...currentUserData[0],
         createdAt,
@@ -189,7 +253,15 @@ async function updateUser(parent, { id, data }) {
   });
 }
 
-async function deleteUser(parent, { id }) {
+
+/**
+ * Deleting user
+ *
+ * @param   parent
+ * @param   id
+ * @returns {Promise<*>}
+ */
+async function deleteUser(parent, {id}) {
   console.log('deleting user', id);
   const client = await db.getClient();
   let user;
@@ -208,12 +280,12 @@ async function deleteUser(parent, { id }) {
     client.release();
   }
   if (user) {
-    const { updated_at: updatedAt, created_at: createdAt } = await user;
+    const {updated_at: updatedAt, created_at: createdAt} = await user;
     console.log(user, updatedAt);
     return {
       ...SUCCESS,
       message: 'User deleted.',
-      user: { ...user, updatedAt, createdAt },
+      user: {...user, updatedAt, createdAt},
     };
   }
   return {
@@ -223,6 +295,13 @@ async function deleteUser(parent, { id }) {
   };
 }
 
+
+/**
+ * Returing all the users
+ *
+ * @returns     {*}
+ * @constructor
+ */
 function Users() {
   return db.query('SELECT * FROM auth').then(res => {
     return res.rows;
@@ -233,6 +312,7 @@ module.exports = {
   createUser,
   authenticateUser,
   getUser,
+  loginUser,
   updateUser,
   deleteUser,
   Users,
