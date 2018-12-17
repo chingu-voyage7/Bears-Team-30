@@ -39,8 +39,8 @@ async function checkId(id) {
   return false;
 }
 
-function getUser(id) {
-  return db.query(makeQuerySelectUser({ id })).then(res => {
+function getUser({ id, username, email }) {
+  return db.query(makeQuerySelectUser({ id, username, email })).then(res => {
     const user = res.rows[0];
     if (!user) return null;
     cleanProps(user);
@@ -52,15 +52,16 @@ function generateJWTToken(id) {
   return jwt.sign(JSON.stringify(id), process.env.JWT_SECRET);
 }
 
-function getUserId(token, requireAuth = true) {
-  if (token.length > 0) {
-    return jwt.verify(token, process.env.JWT_SECRET);
-  }
-
+function getUserId(token, { requireAuth } = {}) {
   if (requireAuth) {
     throw new Error('Please log in to complete this action.');
   }
 
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET).replace(/"/g, '');
+  } catch (err) {
+    console.error(err);
+  }
   return null;
 }
 

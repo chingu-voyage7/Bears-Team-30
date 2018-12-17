@@ -11,6 +11,8 @@ module.exports = {
   getChallengeGroupUsers,
   insertUserChallenge,
   getUserChallenge,
+  getUserChallenges,
+  getMyChallenges,
   getChallengeGroup,
 };
 
@@ -93,9 +95,9 @@ function insertUserChallenge(values, userid) {
     });
 }
 
-function getUserChallenge(id) {
+function getUserChallenge(userChallengeId) {
   return db
-    .query(`SELECT * FROM user_challenges WHERE id = ${id}`)
+    .query(`SELECT * FROM user_challenges WHERE id = ${userChallengeId}`)
     .then(res => {
       const userChallenge = res.rows[0];
       if (userChallenge) {
@@ -103,6 +105,37 @@ function getUserChallenge(id) {
         return userChallenge;
       }
       return null;
+    });
+}
+
+function getUserChallenges(userInfo) {
+  if (userInfo.id) {
+    renameProp(userInfo, 'id', 'a.id');
+  }
+  const QUERY = makeQuery({
+    query: 'SELECT a.id, u.* FROM auth a',
+    clause: 'INNER JOIN user_challenges u ON a.id = u.userid',
+    condition: `WHERE`,
+    conditionProps: userInfo,
+  });
+
+  console.log(QUERY);
+  return db.query(QUERY).then(res => {
+    return res.rows.map(row => {
+      cleanProps(row);
+      return row;
+    });
+  });
+}
+
+function getMyChallenges(id) {
+  return db
+    .query(`SELECT * FROM user_challenges WHERE userid = '${id}'`)
+    .then(res => {
+      return res.rows.map(row => {
+        cleanProps(row);
+        return row;
+      });
     });
 }
 
