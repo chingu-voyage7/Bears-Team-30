@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chingu-voyage7/Bears-Team-30#readme",
   "dependencies": {
+    "apollo-boost": "^0.1.22",
     "apollo-server": "^2.3.1",
     "apollo-server-cache-redis": "^0.2.1",
     "apollo-server-express": "^2.3.1",
