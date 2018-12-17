@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
-    "apollo": "node ./apollo-server/server.js",
+    "apollo": "nodemon ./apollo-server/index.js",
     "start": "nodemon ./server/bin/www",
-    "dev": "concurrently \"npm run start\" \"npm run apollo\" \"npm run client\""
+    "dev": "concurrently \"npm run client\" \"npm run apollo\""
   },
   "repository": {
     "type": "git",
