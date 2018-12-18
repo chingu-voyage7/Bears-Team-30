@@ -30,15 +30,12 @@ class DashboardPage extends React.Component {
   render() {
     return (
       <div>
-        <Sidebar onClick={this.onChallengeSelect} />
-        <div>
-          <h2>My Dashboard</h2>
-          {this.state.showChallenge ? (
-            <UserChallengePage challenge={this.state.selectedChallenge} />
-          ) : (
-            <Link to={routes.CHALLENGE_GROUPS}>Join a Challenge</Link>
-          )}
-        </div>
+        <h2>My Dashboard</h2>
+        {this.state.showChallenge ? (
+          <UserChallengePage challenge={this.state.selectedChallenge} />
+        ) : (
+          <Link to={routes.CHALLENGE_GROUPS}>Join a Challenge</Link>
+        )}
       </div>
     );
   }
