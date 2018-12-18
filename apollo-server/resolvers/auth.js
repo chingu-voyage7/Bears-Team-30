@@ -1,21 +1,22 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
-const db = require('./index');
+const db = require('../../postgresDb/index');
 const {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
-} = require('./pgHelpers');
+} = require('../../postgresDb/pgHelpers');
 
 const {
   checkIfDuplicate,
-  getAuthInfo,
-  getUser,
   checkUsername,
   checkEmail,
   checkId,
-} = require('./authHelpers');
+  getUser: getUserHelper,
+  generateJWTToken,
+  getUserId,
+} = require('../../postgresDb/auth/authHelpers');
 
 const SUCCESS = {
   code: 's200',
@@ -36,15 +37,12 @@ async function createUser(parent, { data }) {
     })
     .catch(err => {
       console.error(err);
-      // if (err.code === '23505') isDuplicate = true;
       return null;
     });
 
   if (!newUser) {
     const isUsernameTaken = await usernameRows;
     const isEmailTaken = await emailRows;
-
-    console.log(isUsernameTaken, isEmailTaken);
 
     let message, code;
     if (isUsernameTaken && isEmailTaken) {
@@ -57,7 +55,7 @@ async function createUser(parent, { data }) {
       message = 'Email is already used by another account.';
       code = 'e413';
     } else {
-      message = 'Error creating user';
+      message = 'Error creating user.';
       code = 'e410';
     }
 
@@ -69,10 +67,12 @@ async function createUser(parent, { data }) {
   }
 
   const addUserQuery = makeQueryInsertUser(newUser);
+  const token = generateJWTToken(newUser.id);
   return db.query(addUserQuery).then(res => {
     return {
       ...SUCCESS,
       message: 'New user created.',
+      token,
       user: {
         ...newUser,
         createdAt: newUser.created_at,
@@ -82,19 +82,26 @@ async function createUser(parent, { data }) {
   });
 }
 
-async function authenticateUser(parent, { id, email, password }) {
-  const {
-    password: hash,
-    username,
-    email: dbEmail,
-    created_at: createdAt,
-    updated_at: updatedAt,
-  } = (await getAuthInfo(null, { id, email })) || {};
-  if (!hash) return { isAuthenticated: false, id, email, username };
-  const isAuthenticated = await bcrypt.compare(password, hash);
+/**
+ * Checks if a valid token generated a userid
+ */
+async function auth(parent, args, { id }) {
+  return { isAuthenticated: !!id };
+}
+
+async function loginUser(parent, { username, password }) {
+  const row = await getUserHelper({ username });
+
+  const isAuthenticated = await bcrypt.compare(password, row.password);
+
+  let token = null;
+
+  if (isAuthenticated) {
+    token = generateJWTToken(row.id);
+  }
+
   return {
-    isAuthenticated,
-    user: { id, email: dbEmail, username, createdAt, updatedAt },
+    token,
   };
 }
 
@@ -115,14 +122,6 @@ async function updateUser(parent, { id, data }) {
   const currentUserData = await idRows;
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
-    let usernameFeedback = usernameIsDuplicate
-      ? `The username ${username} is already taken.`
-      : username;
-    let emailFeedback = emailIsDuplicate
-      ? `The email address ${email} is already used by another account.`
-      : email;
-    let idFeedback = !currentUserData ? `${id} does not exist.` : id;
-
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
@@ -189,7 +188,6 @@ async function updateUser(parent, { id, data }) {
 }
 
 async function deleteUser(parent, { id }) {
-  console.log('deleting user', id);
   const client = await db.getClient();
   let user;
   try {
@@ -208,7 +206,6 @@ async function deleteUser(parent, { id }) {
   }
   if (user) {
     const { updated_at: updatedAt, created_at: createdAt } = await user;
-    console.log(user, updatedAt);
     return {
       ...SUCCESS,
       message: 'User deleted.',
@@ -222,18 +219,28 @@ async function deleteUser(parent, { id }) {
   };
 }
 
-function Users() {
+function users() {
   return db.query('SELECT * FROM auth').then(res => {
     return res.rows;
   });
 }
 
+function me(parent, args, { id }) {
+  if (!id) throw new Error('User not logged in.');
+  return getUserHelper({ id });
+}
+
+function getUser(parent, { id: { id, username, email } }) {
+  return getUserHelper({ id, username, email });
+}
+
 module.exports = {
-  getAuthInfo,
   createUser,
-  authenticateUser,
+  auth,
   getUser,
+  loginUser,
   updateUser,
   deleteUser,
-  Users,
+  users,
+  me,
 };

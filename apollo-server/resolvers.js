@@ -1,5 +1,54 @@
-const db = require('../postgresDb/index');
+const UUID = require('graphql-type-uuid');
 
-const resolvers = {};
+const {
+  createUser,
+  auth,
+  loginUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  users,
+  me,
+} = require('./resolvers/auth');
 
+const {
+  challengeGroups,
+  createUserChallenge,
+  userChallenge,
+  challengeGroup,
+  myChallenges,
+  userChallenges,
+  Challenge,
+  ChallengeGroup,
+} = require('./resolvers/challenge');
 
+const resolvers = {
+  UUID,
+  Query: {
+    user: getUser,
+    auth,
+    loginUser,
+    users,
+    me,
+    challengeGroups,
+    challengeGroup,
+    userChallenge,
+    userChallenges,
+    myChallenges,
+  },
+  Mutation: {
+    createUser,
+    updateUser,
+    deleteUser,
+    createUserChallenge,
+  },
+  MutationResponse: {
+    __resolveType() {
+      return null;
+    },
+  },
+  ChallengeGroup,
+  Challenge,
+};
+
+module.exports = resolvers;

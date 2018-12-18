@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+console.log(process.env.PGUSER);
+
 const pool = new Pool();
 
 pool.on('error', (err, client) => {
@@ -12,10 +14,9 @@ module.exports = {
   query: (text, values) =>
     pool
       .query(text, values)
-      // .then(res => res)
       .catch(e => {
         console.error('DB error:', e);
-        throw Error('Db error');
+        throw e;
       }),
   getClient: () => pool.connect(),
   drain: () => pool.end(),

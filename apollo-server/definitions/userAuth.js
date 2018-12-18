@@ -1,44 +1,52 @@
 const { gql } = require('apollo-server');
-const {
-  createUser,
-  authenticateUser,
-  getUser,
-  updateUser,
-  deleteUser,
-  Users,
-} = require('../../postgresDb/authHandlers');
 
 const authDefs = gql`
   type Query {
     # returns user info
-    user(id: ID, username: String): User
+    user(id: UserIdInput!): User
 
-    # Uses either id or email; returns isAuthenticated: Boolean
-    authUser(id: ID, email: String, password: String!): AuthenticationResult
+    # Checks token and returns isAuthenticated Bool
+    auth: AuthResult!
+
+    loginUser(username: String!, password: String!): LoginResult!
 
     # for dev only -- returns all users in db
     users: [User!]
+
+    # returns username of logged-in account
+    me: User
   }
 
   type Mutation {
-    createUser(data: CreateUserInput!): UserMutationResponse!
+    createUser(data: CreateUserInput!): CreateUserMutationResponse!
+
     # check which fields updated, if password updated remember
     # to hash new password
-    updateUser(id: ID!, data: UpdateUserInput!): UserMutationResponse!
-    deleteUser(id: ID!): UserMutationResponse!
+    updateUser(id: UUID!, data: UpdateUserInput!): UpdateUserMutationResponse!
+
+    deleteUser(id: UUID!): UpdateUserMutationResponse!
   }
 
   type User {
-    id: ID!
+    id: UUID!
     username: String!
     email: String!
     updatedAt: DateTime!
     createdAt: DateTime!
   }
 
-  type AuthenticationResult {
+  type AuthResult {
     isAuthenticated: Boolean!
-    user: User
+  }
+
+  type LoginResult {
+    token: String
+  }
+
+  input UserIdInput {
+    id: UUID
+    username: String
+    email: String
   }
 
   input CreateUserInput {
@@ -59,7 +67,15 @@ const authDefs = gql`
     message: String!
   }
 
-  type UserMutationResponse implements MutationResponse {
+  type CreateUserMutationResponse implements MutationResponse {
+    code: ResponseCodes!
+    success: Boolean!
+    message: String!
+    token: String
+    user: User
+  }
+
+  type UpdateUserMutationResponse implements MutationResponse {
     code: ResponseCodes!
     success: Boolean!
     message: String!
@@ -67,24 +83,8 @@ const authDefs = gql`
   }
 
   scalar DateTime
+
+  scalar UUID
 `;
 
-const resolvers = {
-  Query: {
-    user: getUser,
-    authUser: authenticateUser,
-    users: Users,
-  },
-  Mutation: {
-    createUser,
-    updateUser,
-    deleteUser,
-  },
-  MutationResponse: {
-    __resolveType() {
-      return null;
-    },
-  },
-};
-
-module.exports = { authDefs, resolvers };
+module.exports = authDefs;
