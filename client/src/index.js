@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
+import { ApolloProvider } from 'react-apollo';
 
-import App from './components/App.js';
+import AppRouter from './routers/AppRouter.js';
 import './styles/normalize.scss';
 
 const token = localStorage.getItem('token');
@@ -14,16 +14,10 @@ const client = new ApolloClient({
   },
 });
 
-client
-  .query({
-    query: gql`
-      {
-        auth {
-          isAuthenticated
-        }
-      }
-    `,
-  })
-  .then(result => console.log('result: ', result));
+const App = (
+  <ApolloProvider client={client}>
+    <AppRouter />
+  </ApolloProvider>
+);
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(App, document.getElementById('app'));
