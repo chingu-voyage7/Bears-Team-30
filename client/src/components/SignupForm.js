@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 import AuthForm from './AuthForm';
@@ -75,4 +76,4 @@ class SignUpForm extends React.Component {
   }
 }
 
-export default SignUpForm;
+export default withRouter(SignUpForm);

@@ -3,11 +3,11 @@ import React from 'react';
 import SignupForm from './SignupForm';
 import AuthLink from './AuthLink';
 
-const SignUpPage = ({ history }) => (
+const SignUpPage = () => (
   <div>
     <h1>100 Days</h1>
     <div>
-      <SignupForm history={history} />
+      <SignupForm />
     </div>
     <AuthLink
       linkText="Log In"

@@ -20,7 +20,7 @@ const AuthForm = ({
     {onUsernameChange && (
       <AuthInput
         id="username"
-        label="First Name"
+        label="Username"
         onChange={onUsernameChange}
         value={username}
       />
