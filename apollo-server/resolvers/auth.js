@@ -1,20 +1,22 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
-const db = require('./index');
+const db = require('../../postgresDb/index');
 const {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
-} = require('./pgHelpers');
+} = require('../../postgresDb/pgHelpers');
 
 const {
-  checkIfDuplicate,
-  getUser,
-  checkUsername,
   checkEmail,
   checkId,
-} = require('./authHelpers');
+  checkIfDuplicate,
+  checkUsername,
+  generateJWTToken,
+  getUser,
+  getUserId,
+} = require('../../postgresDb/authHelpers');
 
 const SUCCESS = {
   code: 's200',
@@ -22,17 +24,23 @@ const SUCCESS = {
   message: 'Success',
 };
 
+/**
+ * Creating user/ Signup method
+ *
+ * @param   parent
+ * @param   data
+ * @returns {Promise<*>}
+ */
 async function createUser(parent, { data }) {
   const { email, username } = data;
-  const usernameRows = checkUsername(username);
-  const emailRows = checkEmail(email);
+  const usernameRows = await checkUsername(username);
+  const emailRows = await checkEmail(email);
 
   const authQuery = await makeQueryInsertAuthInfo(data);
+
   const newUser = await db
     .query(authQuery)
-    .then(res => {
-      return res.rows[0];
-    })
+    .then(res => res.rows[0])
     .catch(err => {
       console.error(err);
       // if (err.code === '23505') isDuplicate = true;
@@ -42,8 +50,6 @@ async function createUser(parent, { data }) {
   if (!newUser) {
     const isUsernameTaken = await usernameRows;
     const isEmailTaken = await emailRows;
-
-    console.log(isUsernameTaken, isEmailTaken);
 
     let message, code;
     if (isUsernameTaken && isEmailTaken) {
@@ -56,7 +62,7 @@ async function createUser(parent, { data }) {
       message = 'Email is already used by another account.';
       code = 'e413';
     } else {
-      message = 'Error creating user';
+      message = 'Error creating user.';
       code = 'e410';
     }
 
@@ -68,17 +74,20 @@ async function createUser(parent, { data }) {
   }
 
   const addUserQuery = makeQueryInsertUser(newUser);
-  return db.query(addUserQuery).then(res => {
-    return {
-      ...SUCCESS,
-      message: 'New user created.',
-      user: {
-        ...newUser,
-        createdAt: newUser.created_at,
-        updatedAt: newUser.updated_at,
-      },
-    };
-  });
+
+  const token = generateJWTToken(newUser.id);
+  // console.log(token);
+
+  return db.query(addUserQuery).then(res => ({
+    ...SUCCESS,
+    message: 'New user created.',
+    token,
+    user: {
+      ...newUser,
+      createdAt: newUser.created_at,
+      updatedAt: newUser.updated_at,
+    },
+  }));
 }
 
 /**
@@ -89,23 +98,45 @@ async function createUser(parent, { data }) {
  * @param {*} parent
  * @param {Object} args {id:{id, username, email}, password}
  */
-async function authenticateUser(parent, args) {
-  const { id, username, email: dbEmail, password: hash, createdAt, updatedAt } =
-    (await getUser(null, args)) || {};
-  const { password } = args;
 
-  if (!hash || !password)
-    return {
-      isAuthenticated: false,
-      user: null,
-    };
-  const isAuthenticated = await bcrypt.compare(password, hash);
+async function auth(parent, args, { token }) {
+  const userId = getUserId(token, false);
+  return { isAuthenticated: !!userId };
+}
+
+/**
+ * Login method that authenticates the user and
+ * generates token if the user is valid
+ *
+ * @param   parent
+ * @param   username
+ * @param   password
+ * @returns {Promise<{token: *}>}
+ */
+async function loginUser(parent, { username, password }) {
+  const row = await getUser(null, { id: { username } });
+
+  const isAuthenticated = await bcrypt.compare(password, row.password);
+
+  let token = null;
+
+  if (isAuthenticated) {
+    token = generateJWTToken(row.id);
+  }
+
   return {
-    isAuthenticated,
-    user: { id, email: dbEmail, username, createdAt, updatedAt },
+    token,
   };
 }
 
+/**
+ * Updating user
+ *
+ * @param   parent
+ * @param   id
+ * @param   data
+ * @returns {Promise<*>}
+ */
 async function updateUser(parent, { id, data }) {
   const { username, password, email } = data;
   // make sure email and username are unique
@@ -123,7 +154,6 @@ async function updateUser(parent, { id, data }) {
   const currentUserData = await idRows;
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
-    
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
       currentUserData && currentUserData[0];
 
@@ -189,8 +219,15 @@ async function updateUser(parent, { id, data }) {
   });
 }
 
+/**
+ * Deleting user
+ *
+ * @param   parent
+ * @param   id
+ * @returns {Promise<*>}
+ */
 async function deleteUser(parent, { id }) {
-  console.log('deleting user', id);
+  // console.log('deleting user', id);
   const client = await db.getClient();
   let user;
   try {
@@ -209,7 +246,7 @@ async function deleteUser(parent, { id }) {
   }
   if (user) {
     const { updated_at: updatedAt, created_at: createdAt } = await user;
-    console.log(user, updatedAt);
+    // console.log(user, updatedAt);
     return {
       ...SUCCESS,
       message: 'User deleted.',
@@ -223,17 +260,28 @@ async function deleteUser(parent, { id }) {
   };
 }
 
-function Users() {
+/**
+ * Returing all the users
+ *
+ * @returns     {*}
+ * @constructor
+ */
+function users() {
   return db.query('SELECT * FROM auth').then(res => {
     return res.rows;
   });
 }
 
+function user() {
+  return {};
+}
+
 module.exports = {
   createUser,
-  authenticateUser,
-  getUser,
+  auth,
+  user,
+  loginUser,
   updateUser,
   deleteUser,
-  Users,
+  users,
 };

@@ -1,4 +1,5 @@
 const db = require('./index');
+const jwt = require('jsonwebtoken');
 const { makeQuery, makeQuerySelectUser } = require('./pgHelpers');
 
 async function checkIfDuplicate(id, rows) {
@@ -49,11 +50,29 @@ function getUser(parent, args) {
   });
 }
 
+function generateJWTToken(id) {
+  return jwt.sign(JSON.stringify(id), process.env.JWT_SECRET);
+}
+
+function getUserId(token, requireAuth = true) {
+  if (token.length > 0) {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  }
+
+  if (requireAuth) {
+    throw new Error('Please log in to complete this action.');
+  }
+
+  return null;
+}
+
 module.exports = {
-  checkUsername,
   checkEmail,
   checkId,
   checkIfDuplicate,
-  getUser,
   checkRecord,
+  checkUsername,
+  generateJWTToken,
+  getUser,
+  getUserId,
 };
