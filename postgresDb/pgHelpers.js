@@ -61,9 +61,42 @@ const makeQuery = ({
   }
 };
 
+function makeInsert(table, valuesObj) {
+  const cols = Object.keys(valuesObj);
+  const vals = [];
+  cols.forEach(col => {
+    vals.push(valuesObj[col]);
+  });
+
+  return `INSERT INTO ${table}(${cols.join(', ')}) VALUES(${vals.join(
+    ', '
+  )}) RETURNING *`;
+}
+
+function cleanProps(obj) {
+  const props = Object.keys(obj);
+  let re = /_/;
+  props.forEach(prop => {
+    if (re.test(prop)) {
+      const newName = prop.replace(/_./g, match => match[1].toUpperCase());
+      renameProp(obj, prop, newName);
+    }
+  });
+}
+
+function renameProp(obj, oldName, newName) {
+  if (obj[oldName]) {
+    obj[newName] = obj[oldName];
+    delete obj[oldName];
+  }
+}
+
 module.exports = {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
   makeQuerySelectUser,
+  cleanProps,
+  renameProp,
+  makeInsert,
 };

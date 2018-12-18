@@ -1,35 +1,29 @@
 const { gql } = require('apollo-server');
-const UUID = require('graphql-type-uuid');
-
-const {
-  createUser,
-  auth,
-  user,
-  updateUser,
-  deleteUser,
-  users,
-  loginUser,
-} = require('../resolvers/auth');
 
 const authDefs = gql`
   type Query {
     # returns user info
     user(id: UserIdInput!): User
 
-    # Uses either id or email; returns isAuthenticated: Boolean
+    # Checks token and returns isAuthenticated Bool
     auth: AuthResult!
 
     # for dev only -- returns all users in db
     users: [User!]
+
+    # returns username of logged-in account
+    me: User
   }
 
   type Mutation {
-    createUser(data: CreateUserInput!): CreateUserMutationResponse!
     loginUser(username: String!, password: String!): LoginResult!
+
+    createUser(data: CreateUserInput!): CreateUserMutationResponse!
 
     # check which fields updated, if password updated remember
     # to hash new password
     updateUser(id: UUID!, data: UpdateUserInput!): UpdateUserMutationResponse!
+
     deleteUser(id: UUID!): UpdateUserMutationResponse!
   }
 
@@ -93,24 +87,4 @@ const authDefs = gql`
   scalar UUID
 `;
 
-const resolvers = {
-  UUID,
-  Query: {
-    user,
-    auth,
-    users,
-  },
-  Mutation: {
-    createUser,
-    loginUser,
-    updateUser,
-    deleteUser,
-  },
-  MutationResponse: {
-    __resolveType() {
-      return null;
-    },
-  },
-};
-
-module.exports = { authDefs, resolvers };
+module.exports = authDefs;
