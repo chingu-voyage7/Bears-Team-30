@@ -1,7 +1,3 @@
-// priorities:
-// myChallenges query: return userChallenges
-// userchallenges query
-
 const { gql } = require('apollo-server');
 
 const challengeDefs = gql`
@@ -18,13 +14,7 @@ const challengeDefs = gql`
     # view a user challenge
     userChallenge(userChallengeId: ID!): Challenge
 
-    # optional filter by status
-    submission(submissionId: ID!): Submission!
-
     myChallenges: [Challenge!]
-
-    # skipping for now -- how will this be used?
-    # submissions(day: String): [Submission!]!
   }
 
   extend type Mutation {
@@ -33,22 +23,12 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    createUserChallenge(data: CreateChallengeInput!): CreateUserChallengeResponse!
+    createUserChallenge(
+      data: CreateChallengeInput!
+    ): CreateUserChallengeResponse!
 
     # skipping for now:
     # deleteChallenge(challengeId: ID!): Challenge!
-
-    # creates a submission for the user with optional image
-    createSubmission(
-      user: UserIdInput!
-      challengeGroup: ID!
-      data: CreateSubmissionInput!
-    ): Submission!
-
-    updateSubmission(
-      submissionId: ID!
-      data: UpdateSubmissionInput!
-    ): Submission!
   }
 
   type ChallengeGroup {
@@ -77,21 +57,6 @@ const challengeDefs = gql`
     updatedAt: DateTime!
   }
 
-  type Submission {
-    id: ID!
-    date: DateTime!
-    day: Int!
-    image: String
-    description: String
-    # progress: Int!  how is this different from day?
-    user: User!
-    # comments: [Comment!]
-    # likes: [Like!]
-    # favorites: [Favorite!]
-    updatedAt: DateTime!
-    createdAt: DateTime!
-  }
-
   enum Status {
     PENDING
     IN_PROGRESS
@@ -114,22 +79,7 @@ const challengeDefs = gql`
     progress: Int
   }
 
-  input CreateSubmissionInput {
-    # date: DateTime!
-    image: String
-    description: String
-    # progress: Int!
-    # user: UserIdInput!
-  }
-
-  input UpdateSubmissionInput {
-    # date: DateTime
-    image: String
-    description: String
-    progress: Int
-  }
-
-  type CreateUserChallengeResponse implements MutationResponse{
+  type CreateUserChallengeResponse implements MutationResponse {
     code: ResponseCodes!
     success: Boolean!
     message: String!
