@@ -24,9 +24,9 @@ const submissionDefs = gql`
 
     deleteSubmission(submissionId: ID!): Submission!
 
-    createComment(data: CreateCommentInput!): Comment!
+    createComment(data: CommentInput!): Comment!
 
-    updateComment(commentId: ID!, data: UpdateCommentInput!): Comment!
+    updateComment(commentId: ID!, data: CommentInput!): Comment!
 
     deleteComment(commentId: ID!): Comment!
 
@@ -92,6 +92,11 @@ const submissionDefs = gql`
     image: String
     description: String
     progress: Int
+  }
+
+  input CommentInput {
+    text: String!
+    submissionId: ID!
   }
 `;
 
