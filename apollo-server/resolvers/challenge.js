@@ -75,9 +75,9 @@ function myChallenges(parent, args, { id }) {
 function createUserChallenge(
   parent,
   { data: { challengeId: challengeid, goal, status } },
-  { userid }
+  { id }
 ) {
-  return insertUserChallenge({ challengeid, goal, status }, userid);
+  return insertUserChallenge({ challengeid, goal, status }, id);
 }
 
 const Challenge = {
@@ -96,11 +96,8 @@ module.exports = {
   userChallenges,
   userChallenge,
   myChallenges,
-  submissions,
-  submission,
   createUserChallenge,
   Challenge,
-  createSubmission,
-  updateSubmission,
+
   ChallengeGroup,
 };
