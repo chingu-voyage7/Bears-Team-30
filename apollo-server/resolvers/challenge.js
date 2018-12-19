@@ -88,9 +88,9 @@ function submission() {}
 function createUserChallenge(
   parent,
   { data: { challengeId: challengeid, goal, status } },
-  { userid }
+  { id }
 ) {
-  return insertUserChallenge({ challengeid, goal, status }, userid);
+  return insertUserChallenge({ challengeid, goal, status }, id);
 }
 
 const Challenge = {
