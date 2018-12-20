@@ -2,6 +2,10 @@ import React from 'react';
 
 import AuthInput from './AuthInput';
 
+import { Button } from 'react-bootstrap';
+
+import '../styles/login-signup.scss';
+
 const AuthForm = ({
   username,
   email,
@@ -16,7 +20,7 @@ const AuthForm = ({
   error,
   buttonText,
 }) => (
-  <form onSubmit={onSubmit}>
+  <form onSubmit={onSubmit} autocomplete="off">
     {onUsernameChange && (
       <AuthInput
         id="username"
@@ -49,9 +53,9 @@ const AuthForm = ({
         value={passwordConfirm}
       />
     )}
-    <button disabled={isInvalid} type="submit">
+    <Button disabled={isInvalid} type="submit" bsClass="btn-auth">
       {buttonText}
-    </button>
+    </Button>
     {error && <p>{error.message}</p>}
   </form>
 );

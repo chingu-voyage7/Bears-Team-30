@@ -1,22 +1,32 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 
 import SignupForm from './SignupForm';
 import AuthLink from './AuthLink';
 
-const SignupPage = () => (
-  <div>
-    <h1>100 Days</h1>
-    <div>
-      <SignupForm />
+import '../styles/login-signup.scss';
+
+const SignUpPage = ({ history }) => (
+  <div className="login-signup">
+    <div className="fadeInDown">
+      <h1 className="fadeInDown">
+        <span>100</span> DAYS
+      </h1>
+      <div className="header-underline" />
     </div>
-    <AuthLink
-      linkText="Log In"
-      route="LOGIN"
-      text="Already have an account? "
-    />
+
+    <div className="fadeInUp">
+      <div>
+        <SignupForm history={history} />
+      </div>
+      <div className="login-link">
+        <AuthLink
+          linkText="Log In"
+          route="LOGIN"
+          text="Already have an account? "
+        />
+      </div>
+    </div>
   </div>
 );
 
-export default SignupPage;
+export default SignUpPage;
