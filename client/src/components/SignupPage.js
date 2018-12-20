@@ -1,9 +1,11 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import SignupForm from './SignupForm';
 import AuthLink from './AuthLink';
 
-const SignUpPage = () => (
+const SignupPage = () => (
   <div>
     <h1>100 Days</h1>
     <div>
@@ -17,4 +19,4 @@ const SignUpPage = () => (
   </div>
 );
 
-export default SignUpPage;
+export default SignupPage;
