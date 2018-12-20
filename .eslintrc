@@ -20,7 +20,7 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": 0,
     "no-console": 1,
     "no-unexpected-multiline": "warn",
     "no-unused-vars": "warn",

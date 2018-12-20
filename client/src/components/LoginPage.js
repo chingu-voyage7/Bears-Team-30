@@ -9,8 +9,10 @@ export class LoginPage extends React.Component {
     return (
       <div className="login-signup">
         <div className="fadeInDown">
-          <h1 className="fadeInDown"><span>100</span> DAYS</h1>
-          <div className="header-underline"></div>
+          <h1 className="fadeInDown">
+            <span>100</span> DAYS
+          </h1>
+          <div className="header-underline" />
         </div>
 
         <div className="fadeInUp">
@@ -25,7 +27,6 @@ export class LoginPage extends React.Component {
             />
           </div>
         </div>
-
       </div>
     );
   }

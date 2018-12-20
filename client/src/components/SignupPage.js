@@ -5,12 +5,13 @@ import AuthLink from './AuthLink';
 
 import '../styles/login-signup.scss';
 
-
 const SignUpPage = ({ history }) => (
   <div className="login-signup">
     <div className="fadeInDown">
-      <h1 className="fadeInDown"><span>100</span> DAYS</h1>
-      <div className="header-underline"></div>
+      <h1 className="fadeInDown">
+        <span>100</span> DAYS
+      </h1>
+      <div className="header-underline" />
     </div>
 
     <div className="fadeInUp">
@@ -25,7 +26,6 @@ const SignUpPage = ({ history }) => (
         />
       </div>
     </div>
-
   </div>
 );
 

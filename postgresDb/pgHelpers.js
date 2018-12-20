@@ -1,14 +1,6 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
-const makeQuerySelectAuthInfo = ({ id, email }) => {
-  const condition = id ? 'id' : 'email';
-  return {
-    text: `SELECT * FROM auth WHERE ${condition} = $1`,
-    values: [id || email],
-  };
-};
-
 const makeQueryInsertAuthInfo = async ({ username, email, password }) => {
   const hash = await bcrypt.hash(password, saltRounds);
   return {
@@ -18,11 +10,17 @@ const makeQueryInsertAuthInfo = async ({ username, email, password }) => {
   };
 };
 
-const makeQuerySelectUser = ({ id, username }) => {
-  const condition = id ? 'id' : 'username';
+const makeQuerySelectUser = ({ id, username, email }) => {
+  let condition;
+  if (id) {
+    condition = 'id';
+  } else if (username) {
+    condition = 'username';
+  } else condition = 'email';
+
   return {
     text: `SELECT * FROM auth WHERE ${condition} = $1`,
-    values: [id || username],
+    values: [id || username || email],
   };
 };
 
@@ -30,15 +28,6 @@ const makeQueryInsertUser = ({ id }) => ({
   text: 'INSERT INTO users(id) VALUES($1) RETURNING *',
   values: [id],
 });
-
-function makeUpdateRecordQuery(propName, propValue, table, id){
-  return makeQuery({
-    query: `UPDATE ${table}`,
-    clause: `SET`,
-    clauseProps: {}
-
-  })
-}
 
 const makeQuery = ({
   query,
@@ -68,14 +57,46 @@ const makeQuery = ({
         return `${prop} = $${valueIndex++}`;
       })
       .join(',');
-    return `${clauseText} ${clauseValues}`
+    return `${clauseText} ${clauseValues}`;
   }
 };
+
+function makeInsert(table, valuesObj) {
+  const cols = Object.keys(valuesObj);
+  const vals = [];
+  cols.forEach(col => {
+    vals.push(valuesObj[col]);
+  });
+
+  return `INSERT INTO ${table}(${cols.join(', ')}) VALUES(${vals.join(
+    ', '
+  )}) RETURNING *`;
+}
+
+function cleanProps(obj) {
+  const props = Object.keys(obj);
+  let re = /_/;
+  props.forEach(prop => {
+    if (re.test(prop)) {
+      const newName = prop.replace(/_./g, match => match[1].toUpperCase());
+      renameProp(obj, prop, newName);
+    }
+  });
+}
+
+function renameProp(obj, oldName, newName) {
+  if (obj[oldName]) {
+    obj[newName] = obj[oldName];
+    delete obj[oldName];
+  }
+}
 
 module.exports = {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
-  makeQuerySelectAuthInfo,
   makeQuerySelectUser,
+  cleanProps,
+  renameProp,
+  makeInsert,
 };

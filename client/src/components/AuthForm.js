@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap';
 
 import '../styles/login-signup.scss';
 
-
 const AuthForm = ({
   username,
   email,
@@ -25,7 +24,7 @@ const AuthForm = ({
     {onUsernameChange && (
       <AuthInput
         id="username"
-        label="First Name"
+        label="Username"
         onChange={onUsernameChange}
         value={username}
       />
