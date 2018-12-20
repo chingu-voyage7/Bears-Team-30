@@ -44,12 +44,12 @@ const submissionDefs = gql`
     date: DateTime!
     day: Int!
     image: String
-    description: String
-    # progress: Int!  how is this different from day?
+    text: String
+    progress: Int!
     user: User!
-    # comments: [Comment!]
-    # likes: [Like!]
-    # favorites: [Favorite!]
+    comments: [Comment!]
+    likes: [Like!]
+    favorites: [Favorite!]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
@@ -80,17 +80,18 @@ const submissionDefs = gql`
   }
 
   input CreateSubmissionInput {
-    # date: DateTime!
+    date: DateTime!
+    day: Int!
     image: String
-    description: String
-    # progress: Int!
-    # user: UserIdInput!
+    text: String
+    progress: Int!
+    user: UserIdInput!
   }
 
   input UpdateSubmissionInput {
-    # date: DateTime
+    date: DateTime
     image: String
-    description: String
+    text: String
     progress: Int
   }
 

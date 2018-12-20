@@ -10,9 +10,6 @@ const CHALLENGES_TABLE =
 // id (d), userid(R), challengeid(R), created_at (d), updated_at(d), progress(d), goal (R), status(d)
 const USER_CHALLENGES_TABLE = `CREATE TABLE IF NOT EXISTS user_challenges(id SERIAL NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, challengeid INTEGER REFERENCES challenge_groups(id) NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), progress INTEGER NOT NULL DEFAULT 0, goal INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'IN_PROGRESS', PRIMARY KEY (userid, challengeid))`;
 
-const SUBMISSIONS_TABLE =
-  'CREATE TABLE IF NOT EXISTS submissions(id SERIAL NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, challengeid INTEGER REFERENCES challenge_groups(id) NOT NULL, day INTEGER NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), description TEXT, image TEXT, PRIMARY KEY(userid, challengeid, day))';
-
 const DEFAULT_CHALLENGES = [
   `('JavaScript', 'Become a better web developer by building JavaScript projects.', 'TECHNOLOGY', 'Create', 50, 'projects')`,
   `('Running', 'Whether for marathon training or just daily exercise, improve your health by running.', 'HEALTH_WELLNESS', 'Run', 300, 'miles')`,

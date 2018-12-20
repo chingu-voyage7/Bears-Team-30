@@ -23,3 +23,19 @@ function createSubmission() {}
  * Updates a submission
  */
 function updateSubmission() {}
+
+function deleteSubmission(submissionId) {}
+
+function createComment({ data: { text, submissionId } }) {}
+
+function updateComment(commentId, { data: { text, submissionId } }) {}
+
+function deleteComment(commentId) {}
+
+function createLike(submissionId) {}
+
+function deleteLike(likeId) {}
+
+function createFavorite(submissionId) {}
+
+function deleteFavorite(favoriteId) {}
