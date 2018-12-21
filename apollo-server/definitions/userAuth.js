@@ -8,8 +8,6 @@ const authDefs = gql`
     # Checks token and returns isAuthenticated Bool
     auth: AuthResult!
 
-    loginUser(username: String!, password: String!): LoginResult!
-
     # for dev only -- returns all users in db
     users: [User!]
 
@@ -18,6 +16,8 @@ const authDefs = gql`
   }
 
   type Mutation {
+    loginUser(username: String!, password: String!): LoginResult!
+
     createUser(data: CreateUserInput!): CreateUserMutationResponse!
 
     # check which fields updated, if password updated remember

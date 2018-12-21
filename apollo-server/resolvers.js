@@ -27,7 +27,6 @@ const resolvers = {
   Query: {
     user: getUser,
     auth,
-    loginUser,
     users,
     me,
     challengeGroups,
@@ -41,6 +40,7 @@ const resolvers = {
     updateUser,
     deleteUser,
     createUserChallenge,
+    loginUser,
   },
   MutationResponse: {
     __resolveType() {
