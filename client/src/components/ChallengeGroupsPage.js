@@ -9,7 +9,7 @@ import JoinChallengeGroupPage from './JoinChallengeGroupPage';
 class ChallengeGroupsPage extends React.Component {
   state = {
     category: '',
-    query: '',
+    userQuery: '',
     showJoinChallenge: false,
     challengeGroup: null,
   };
@@ -20,10 +20,10 @@ class ChallengeGroupsPage extends React.Component {
     this.setState(() => ({ category }));
   };
 
-  onQueryChange = e => {
-    const query = e.target.value;
+  onUserQueryChange = e => {
+    const userQuery = e.target.value;
 
-    this.setState(() => ({ query }));
+    this.setState(() => ({ userQuery }));
   };
 
   onChallengeSelect = e => {
@@ -44,7 +44,7 @@ class ChallengeGroupsPage extends React.Component {
           <div>
             <h2>Find a Challenge to Join</h2>
             <SearchBar
-              onQueryChange={this.onQueryChange}
+              onUserQueryChange={this.onUserQueryChange}
               value={this.state.query}
             />
             <CategorySelect
@@ -54,7 +54,7 @@ class ChallengeGroupsPage extends React.Component {
             <ChallengeGroupsList
               category={this.state.category}
               onChallengeSelect={this.onChallengeSelect}
-              query={this.state.query}
+              userQuery={this.state.userQuery}
             />
           </div>
         )}

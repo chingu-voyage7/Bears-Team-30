@@ -7,7 +7,7 @@ const { gql } = require('apollo-server');
 const challengeDefs = gql`
   extend type Query {
     # view list of challenge groups, add filterable by category later
-    challengeGroups: [ChallengeGroup!]
+    challengeGroups(category: CategoryType, query: String): [ChallengeGroup!]
 
     # view a specific challenge group
     challengeGroup(challengeGroupId: ID!): ChallengeGroup
@@ -33,7 +33,9 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    createUserChallenge(data: CreateChallengeInput!): CreateUserChallengeResponse!
+    createUserChallenge(
+      data: CreateChallengeInput!
+    ): CreateUserChallengeResponse!
 
     # skipping for now:
     # deleteChallenge(challengeId: ID!): Challenge!
@@ -51,11 +53,17 @@ const challengeDefs = gql`
     ): Submission!
   }
 
+  enum CategoryType {
+    ART
+    HEALTH_WELLNESS
+    TECHNOLOGY
+  }
+
   type ChallengeGroup {
     id: ID!
     name: String!
     description: String!
-    category: String!
+    category: CategoryType!
     goalAction: String!
     goalNumber: Int!
     goalType: String!
@@ -129,7 +137,7 @@ const challengeDefs = gql`
     progress: Int
   }
 
-  type CreateUserChallengeResponse implements MutationResponse{
+  type CreateUserChallengeResponse implements MutationResponse {
     code: ResponseCodes!
     success: Boolean!
     message: String!

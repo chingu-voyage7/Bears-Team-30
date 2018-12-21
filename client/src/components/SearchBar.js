@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-const SearchBar = ({ onQueryChange, value }) => (
+const SearchBar = ({ onUserQueryChange, value }) => (
   <input
     type="search"
     placeholder="Search"
-    onChange={onQueryChange}
+    onChange={onUserQueryChange}
     value={value}
   />
 );
