@@ -1,3 +1,5 @@
+// TODO: rerun query on joining challenge group
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';

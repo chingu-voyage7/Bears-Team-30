@@ -30,6 +30,8 @@ class ChallengeGroupsPage extends React.Component {
     const challengeGroupId = e.target.value;
 
     this.setState(() => ({ showJoinChallenge: true, challengeGroupId }));
+
+    // TODO: call mutation createUserChallenge, rerender Sidebar
   };
 
   render() {

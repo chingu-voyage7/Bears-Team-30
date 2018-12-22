@@ -1,3 +1,5 @@
+// TODO: Fix show visual difference for groups that are already joined, don't show join button
+
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
