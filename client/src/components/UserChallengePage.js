@@ -35,7 +35,9 @@ const UserChallengePage = ({ match }) => (
             Progress: {data.userChallenge.progress} / {data.userChallenge.goal}{' '}
             {data.userChallenge.challengeGroup.goalType}
           </p>
-          <Link to={routes.ADD_SUBMISSION}>Add Progress</Link>
+          <Link to={`/challenge/${data.userChallenge.id}/new`}>
+            Add Progress
+          </Link>
         </div>
       );
     }}

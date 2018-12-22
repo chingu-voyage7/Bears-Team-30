@@ -34,6 +34,7 @@ const AppRouter = () => (
         <Route
           path={routes.CHALLENGE}
           component={privateRoute(UserChallengePage)}
+          exact
         />
         <Route
           path={routes.ADD_SUBMISSION}

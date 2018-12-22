@@ -4,4 +4,4 @@ export const LOGIN = '/login';
 export const SIGNUP = '/signup';
 export const CHALLENGE_GROUPS = '/groups';
 export const CHALLENGE = '/challenge/:id';
-export const ADD_SUBMISSION = '/submission/new';
+export const ADD_SUBMISSION = '/challenge/:id/new';
