@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+
+import * as routes from '../constants/routes';
 
 const GET_MY_CHALLENGES = gql`
   {
@@ -28,13 +31,13 @@ const UserChallengesList = ({ onClick }) => (
           <h3>My Challenges</h3>
           {data.myChallenges.length > 0
             ? data.myChallenges.map(challenge => (
-                <button key={challenge.id} onClick={onClick}>
+                <Link key={challenge.id} to={`/challenge/${challenge.id}`}>
                   <h4>{challenge.challengeGroup.name}</h4>
                   <p>
                     {challenge.progress}/{challenge.goal}{' '}
                     {challenge.challengeGroup.goalType}
                   </p>
-                </button>
+                </Link>
               ))
             : 'No Challenges Joined'}
         </div>

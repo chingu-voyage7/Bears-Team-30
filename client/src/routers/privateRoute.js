@@ -15,7 +15,7 @@ const GET_AUTH = gql`
 `;
 
 const privateRoute = Component => {
-  const PrivateRoute = () => (
+  const PrivateRoute = props => (
     <Query query={GET_AUTH}>
       {({ loading, error, data }) => {
         if (loading) return 'Loading...';
@@ -25,7 +25,7 @@ const privateRoute = Component => {
         return data.auth.isAuthenticated ? (
           <div>
             <Sidebar />
-            <Component />
+            <Component {...props} />
           </div>
         ) : (
           <Redirect to={routes.LOGIN} />

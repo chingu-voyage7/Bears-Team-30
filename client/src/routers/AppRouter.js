@@ -9,6 +9,7 @@ import SignupPage from '../components/SignupPage';
 const LandingPage = () => <div>Landing Page</div>;
 import DashboardPage from '../components/DashboardPage';
 import ChallengeGroupsPage from '../components/ChallengeGroupsPage';
+import UserChallengePage from '../components/UserChallengePage';
 import AddSubmissionPage from '../components/AddSubmissionPage';
 
 const AppRouter = () => (
@@ -29,6 +30,10 @@ const AppRouter = () => (
         <Route
           path={routes.CHALLENGE_GROUPS}
           component={privateRoute(ChallengeGroupsPage)}
+        />
+        <Route
+          path={routes.CHALLENGE}
+          component={privateRoute(UserChallengePage)}
         />
         <Route
           path={routes.ADD_SUBMISSION}
