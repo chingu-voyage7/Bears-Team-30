@@ -27,6 +27,15 @@ const {
   Submission,
   submissions,
   submission,
+  updateSubmission,
+  deleteSubmission,
+  createComment,
+  updateComment,
+  deleteComment,
+  createLike,
+  deleteLike,
+  createFavorite,
+  deleteFavorite,
 } = require('./resolvers/submissions');
 
 const resolvers = {
@@ -51,6 +60,15 @@ const resolvers = {
     createUserChallenge,
     loginUser,
     createSubmission,
+    updateSubmission,
+    deleteSubmission,
+    createComment,
+    updateComment,
+    deleteComment,
+    createLike,
+    deleteLike,
+    createFavorite,
+    deleteFavorite,
   },
   MutationResponse: {
     __resolveType() {

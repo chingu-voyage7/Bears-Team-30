@@ -1,7 +1,14 @@
 const { getUser } = require('../../postgresDb/auth/authHelpers');
 const {
   insertSubmission,
+  insertComment,
+  insertFavorite,
+  insertLike,
+  updateSubmission: updateSubmissionHelper,
   getUserSubmissions,
+  getComments,
+  getLikes,
+  getFavorites,
 } = require('../../postgresDb/submissions/submissionsHelpers');
 
 // QUERIES:
@@ -30,7 +37,15 @@ const Submission = {
   user({ userid }) {
     return getUser({ id: userid });
   },
-  comments({ id }) {},
+  comments({ id }) {
+    return getComments(id);
+  },
+  likes({ id }) {
+    return getLikes(id);
+  },
+  favorites({ id }) {
+    return getFavorites(id);
+  },
 };
 
 // MUTATIONS:
@@ -53,22 +68,44 @@ async function createSubmission(
 /**
  * Updates a submission
  */
-function updateSubmission() {}
+function updateSubmission(parent, { submissionId, data }) {
+  return updateSubmissionHelper(submissionId, data);
+}
 
 function deleteSubmission(submissionId) {}
 
-function createComment({ data: { text, submissionId } }) {}
+function createComment(parent, { data: { text, submissionId } }, { id }) {
+  return insertComment(submissionId, text, id);
+}
 
 function updateComment(commentId, { data: { text, submissionId } }) {}
 
 function deleteComment(commentId) {}
 
-function createLike(submissionId) {}
+function createLike(parent, { submissionId }, { id }) {
+  return insertLike(submissionId, id);
+}
 
 function deleteLike(likeId) {}
 
-function createFavorite(submissionId) {}
+function createFavorite(parent, { submissionId }, { id }) {
+  return insertFavorite(submissionId, id);
+}
 
 function deleteFavorite(favoriteId) {}
 
-module.exports = { createSubmission, Submission, submissions, submission };
+module.exports = {
+  createSubmission,
+  Submission,
+  submissions,
+  submission,
+  updateSubmission,
+  deleteSubmission,
+  createComment,
+  updateComment,
+  deleteComment,
+  createLike,
+  deleteLike,
+  createFavorite,
+  deleteFavorite,
+};

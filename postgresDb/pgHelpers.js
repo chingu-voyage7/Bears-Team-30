@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const TEXTFIELDS = ['userid', 'text', 'image', 'date', 'start_date'];
+const db = require('./index');
 
 const makeQueryInsertAuthInfo = async ({ username, email, password }) => {
   const hash = await bcrypt.hash(password, saltRounds);
@@ -62,6 +63,27 @@ const makeQuery = ({
   }
 };
 
+function getWithId(idObj, table) {
+  const QUERY = makeQuery({
+    query: `SELECT * FROM ${table}`,
+    clause: 'WHERE',
+    clauseProps: idObj,
+  });
+  return db
+    .query(QUERY)
+    .then(res => {
+      const results = res.rows;
+      results.forEach(row => {
+        cleanProps(row);
+      });
+      return results;
+    })
+    .catch(err => {
+      console.error(err);
+      return err;
+    });
+}
+
 function makeInsert(table, valuesObj) {
   const cols = Object.keys(valuesObj);
   const vals = [];
@@ -76,6 +98,26 @@ function makeInsert(table, valuesObj) {
   return `INSERT INTO ${table}(${cols.join(', ')}) VALUES(${vals.join(
     ', '
   )}) RETURNING *`;
+}
+
+function insert(QUERY) {
+  return db.query(QUERY).then(res => {
+    const results = res.rows[0];
+    cleanProps(results);
+    return results;
+  });
+}
+
+function makeUpdate(table, valuesObj, idObj) {
+  valuesObj.updated_at = new Date();
+  return makeQuery({
+    query: `UPDATE ${table}`,
+    clause: 'SET',
+    clauseProps: valuesObj,
+    condition: 'WHERE',
+    conditionProps: idObj,
+    returning: 'RETURNING *',
+  });
 }
 
 function cleanProps(obj) {
@@ -98,10 +140,13 @@ function renameProp(obj, oldName, newName) {
 
 module.exports = {
   makeQuery,
+  getWithId,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
   makeQuerySelectUser,
   cleanProps,
   renameProp,
   makeInsert,
+  insert,
+  makeUpdate,
 };
