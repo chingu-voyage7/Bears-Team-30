@@ -5,15 +5,14 @@ const submissionDefs = gql`
     # optional filter by status
     submission(submissionId: ID!): Submission!
 
-    # skipping for now -- how will this be used?
-    # submissions(day: String): [Submission!]!
+    # show all of a user's submissions for a userchallenge
+    submissions(userId: UUID, userChallengeId: Int!): [Submission!]
   }
 
   extend type Mutation {
     # creates a submission for the user with optional image
     createSubmission(
-      user: UserIdInput!
-      challengeGroup: ID!
+      userChallengeId: ID!
       data: CreateSubmissionInput!
     ): Submission!
 
@@ -85,7 +84,6 @@ const submissionDefs = gql`
     image: String
     text: String
     progress: Int!
-    user: UserIdInput!
   }
 
   input UpdateSubmissionInput {

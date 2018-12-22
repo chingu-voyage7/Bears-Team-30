@@ -1,3 +1,9 @@
+const { getUser } = require('../../postgresDb/auth/authHelpers');
+const {
+  insertSubmission,
+  getUserSubmissions,
+} = require('../../postgresDb/submissions/submissionsHelpers');
+
 // QUERIES:
 
 /**
@@ -5,19 +11,44 @@
  * @param {*} userid
  * @param {*} challengid
  */
-function submissions(userid, challengid) {}
+function submissions(parent, { userId, userChallengeId }) {
+  return getUserSubmissions(
+    { userid: userId },
+    { userchallengeid: userChallengeId }
+  );
+}
 
 /**
  * Returns a specific submission
  * @param {*} submissionId
  */
-function submission() {}
+function submission(parent, { submissionId }) {
+  return getUserSubmissions({ id: submissionId }, null).then(res => res[0]);
+}
+
+const Submission = {
+  user({ userid }) {
+    return getUser({ id: userid });
+  },
+  comments({ id }) {},
+};
 
 // MUTATIONS:
 /**
  * creates a new submission
  */
-function createSubmission() {}
+async function createSubmission(
+  parent,
+  { userChallengeId, data },
+  { id: userid }
+) {
+  console.log(userid);
+  return await insertSubmission({
+    userid,
+    userchallengeid: userChallengeId,
+    ...data,
+  });
+}
 
 /**
  * Updates a submission
@@ -39,3 +70,5 @@ function deleteLike(likeId) {}
 function createFavorite(submissionId) {}
 
 function deleteFavorite(favoriteId) {}
+
+module.exports = { createSubmission, Submission, submissions, submission };

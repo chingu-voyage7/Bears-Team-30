@@ -17,12 +17,18 @@ const server = new ApolloServer({
   resolvers,
   context: ({ req }) => {
     const authorization = req.headers.authorization || '';
-    const token = authorization.replace('Bearer ', '');
-    const id = getUserId(token);
+    let id = null;
+    if (authorization) {
+      const token = authorization.replace('Bearer ', '');
+      id = getUserId(token);
+    }
     return { id };
   },
 });
 
-server.listen().then(({ url }) => {
-  console.log(`Apollo server listening at ${url}`);
-});
+server
+  .listen()
+  .then(({ url }) => {
+    console.log(`Apollo server listening at ${url}`);
+  })
+  .catch(err => console.error(err));

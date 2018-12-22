@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
+const TEXTFIELDS = ['userid', 'text', 'image', 'date', 'start_date'];
 
 const makeQueryInsertAuthInfo = async ({ username, email, password }) => {
   const hash = await bcrypt.hash(password, saltRounds);
@@ -56,7 +57,7 @@ const makeQuery = ({
         values.push(clauseObj[prop]);
         return `${prop} = $${valueIndex++}`;
       })
-      .join(',');
+      .join(', ');
     return `${clauseText} ${clauseValues}`;
   }
 };
@@ -65,7 +66,11 @@ function makeInsert(table, valuesObj) {
   const cols = Object.keys(valuesObj);
   const vals = [];
   cols.forEach(col => {
-    vals.push(valuesObj[col]);
+    if (TEXTFIELDS.includes(col)) {
+      vals.push(`'${valuesObj[col]}'`);
+    } else {
+      vals.push(valuesObj[col]);
+    }
   });
 
   return `INSERT INTO ${table}(${cols.join(', ')}) VALUES(${vals.join(
