@@ -1,19 +1,29 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import * as routes from '../constants/routes';
-import CHALLENGE_GROUPS from '../constants/challengeGroups';
 import GoalSection from './GoalSection';
+
+const GET_CHALLENGE_GROUP = gql`
+  query challengeGroup($challengeGroupId: ID!) {
+    challengeGroup(challengeGroupId: $challengeGroupId) {
+      category
+      description
+      id
+      name
+      goalAction
+      goalNumber
+      goalType
+    }
+  }
+`;
 
 class JoinChallengeGroupPage extends React.Component {
   state = {
-    goalNumber: 0,
+    goalNumber: undefined,
   };
-
-  componentDidMount() {
-    const { goalNumber } = this.props.challengeGroup;
-    this.setState(() => ({ goalNumber }));
-  }
 
   onGoalNumberChange = e => {
     const goalNumber = e.target.value;
@@ -30,21 +40,40 @@ class JoinChallengeGroupPage extends React.Component {
   };
 
   render() {
-    const { challengeGroup } = this.props;
+    const { challengeGroupId } = this.props;
     return (
-      <div>
-        <h3>Edit Your Challenge Settings</h3>
-        <h4>{challengeGroup.name}</h4>
-        <p>{challengeGroup.description}</p>
-        <GoalSection
-          challengeGroup={challengeGroup}
-          onChange={this.onGoalNumberChange}
-          value={this.state.goalNumber}
-        />
-        <button type="button" onClick={this.onSettingsSave}>
-          Save My Settings
-        </button>
-      </div>
+      <Query
+        query={GET_CHALLENGE_GROUP}
+        partialRefetch={true}
+        variables={{
+          challengeGroupId,
+        }}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return 'Loading...';
+          if (error) return `Error! ${error.message}`;
+
+          return (
+            <div>
+              <h3>Edit Your Challenge Settings</h3>
+              <h4>{data.challengeGroup.name}</h4>
+              <p>{data.challengeGroup.description}</p>
+              <GoalSection
+                challengeGroup={data.challengeGroup}
+                value={
+                  this.state.goalNumber
+                    ? this.state.goalNumber
+                    : data.challengeGroup.goalNumber
+                }
+                onChange={this.onGoalNumberChange}
+              />
+              <button type="button" onClick={this.onSettingsSave}>
+                Save My Settings
+              </button>
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }

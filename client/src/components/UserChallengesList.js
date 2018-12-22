@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 const GET_MY_CHALLENGES = gql`
   {
     myChallenges {
+      id
       createdAt
       progress
       goal
@@ -27,7 +28,7 @@ const UserChallengesList = ({ onClick }) => (
           <h3>My Challenges</h3>
           {data.myChallenges.length > 0
             ? data.myChallenges.map(challenge => (
-                <button onClick={onClick}>
+                <button key={challenge.id} onClick={onClick}>
                   <h4>{challenge.challengeGroup.name}</h4>
                   <p>
                     {challenge.progress}/{challenge.goal}{' '}

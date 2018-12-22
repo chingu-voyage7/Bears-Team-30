@@ -12,6 +12,7 @@ const GET_CHALLENGE_GROUPS = gql`
     }
   }
 `;
+
 const ChallengeGroupsList = ({ category, onChallengeSelect, userQuery }) => (
   <Query
     query={GET_CHALLENGE_GROUPS}

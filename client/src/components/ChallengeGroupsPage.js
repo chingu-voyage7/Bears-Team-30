@@ -1,6 +1,5 @@
 import React from 'react';
 
-import CHALLENGE_GROUPS from '../constants/challengeGroups';
 import CategorySelect from './CategorySelect';
 import SearchBar from './SearchBar';
 import ChallengeGroupsList from './ChallengeGroupsList';
@@ -11,7 +10,7 @@ class ChallengeGroupsPage extends React.Component {
     category: '',
     userQuery: '',
     showJoinChallenge: false,
-    challengeGroup: null,
+    challengeGroupId: null,
   };
 
   onCategoryChange = e => {
@@ -30,11 +29,7 @@ class ChallengeGroupsPage extends React.Component {
     e.preventDefault();
     const challengeGroupId = e.target.value;
 
-    const challengeGroup = CHALLENGE_GROUPS.filter(
-      group => group.id === challengeGroupId
-    )[0];
-
-    this.setState(() => ({ showJoinChallenge: true, challengeGroup }));
+    this.setState(() => ({ showJoinChallenge: true, challengeGroupId }));
   };
 
   render() {
@@ -59,7 +54,9 @@ class ChallengeGroupsPage extends React.Component {
           </div>
         )}
         {this.state.showJoinChallenge && (
-          <JoinChallengeGroupPage challengeGroup={this.state.challengeGroup} />
+          <JoinChallengeGroupPage
+            challengeGroupId={this.state.challengeGroupId}
+          />
         )}
       </div>
     );
