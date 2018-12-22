@@ -25,7 +25,7 @@ const AuthForm = ({
       <FormInput
         id="username"
         label="Username"
-        noLabel
+        nolabel
         onChange={onUsernameChange}
         value={username}
       />
@@ -33,7 +33,7 @@ const AuthForm = ({
     <FormInput
       id="email"
       label="Email Address"
-      noLabel
+      nolabel
       onChange={onEmailChange}
       value={email}
     />
@@ -41,7 +41,7 @@ const AuthForm = ({
       <FormInput
         id="password"
         label="Password"
-        noLabel
+        nolabel
         onChange={onPasswordChange}
         type="password"
         value={password}
@@ -51,7 +51,7 @@ const AuthForm = ({
       <FormInput
         id="passwordConfirm"
         label="Confirm Password"
-        noLabel
+        nolabel
         onChange={onPasswordConfirmChange}
         type="password"
         value={passwordConfirm}

@@ -32,9 +32,11 @@ const AddSubmissionPage = ({ match }) => (
 
       return (
         <div>
-          <h2>Add Your Progress for Today</h2>
+          <h2>Your Progress for Today</h2>
           <p>Day {day}</p>
-          <AddSubmissionForm />
+          <AddSubmissionForm
+            goalType={data.userChallenge.challengeGroup.goalType}
+          />
         </div>
       );
     }}

@@ -3,14 +3,14 @@ import React from 'react';
 const FormInput = ({
   id,
   label,
-  noLabel,
+  nolabel,
   onChange,
   placeholder,
   type,
   value,
 }) => (
   <div>
-    {noLabel ? '' : <label htmlFor={id}>{label}</label>}
+    {nolabel ? '' : <label htmlFor={id}>{label}</label>}
     <input
       id={id}
       onChange={onChange}
