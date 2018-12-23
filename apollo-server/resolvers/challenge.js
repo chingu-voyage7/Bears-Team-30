@@ -74,19 +74,6 @@ function myChallenges(parent, args, { id }) {
   return getMyChallenges(id);
 }
 
-/**
- * returns all of user's submissions for a specific challenge
- * @param {*} userid
- * @param {*} challengid
- */
-function submissions(userid, challengid) {}
-
-/**
- * Returns a specific submission
- * @param {*} submissionId
- */
-function submission() {}
-
 // Mutations:
 
 /**
@@ -109,15 +96,6 @@ const Challenge = {
   },
   // submissions,
 };
-/**
- * creates a new submission
- */
-function createSubmission() {}
-
-/**
- * Updates a submission
- */
-function updateSubmission() {}
 
 module.exports = {
   challengeGroups,
@@ -125,11 +103,8 @@ module.exports = {
   userChallenges,
   userChallenge,
   myChallenges,
-  submissions,
-  submission,
   createUserChallenge,
   Challenge,
-  createSubmission,
-  updateSubmission,
+
   ChallengeGroup,
 };

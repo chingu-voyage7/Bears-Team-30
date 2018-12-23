@@ -16,7 +16,7 @@ const authDefs = gql`
   }
 
   type Mutation {
-    loginUser(username: String!, password: String!): LoginResult!
+    loginUser(email: String!, password: String!): LoginResult!
 
     createUser(data: CreateUserInput!): CreateUserMutationResponse!
 

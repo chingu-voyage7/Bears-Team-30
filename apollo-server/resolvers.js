@@ -22,6 +22,22 @@ const {
   ChallengeGroup,
 } = require('./resolvers/challenge');
 
+const {
+  createSubmission,
+  Submission,
+  submissions,
+  submission,
+  updateSubmission,
+  deleteSubmission,
+  createComment,
+  updateComment,
+  deleteComment,
+  createLike,
+  deleteLike,
+  createFavorite,
+  deleteFavorite,
+} = require('./resolvers/submissions');
+
 const resolvers = {
   UUID,
   Query: {
@@ -34,6 +50,8 @@ const resolvers = {
     userChallenge,
     userChallenges,
     myChallenges,
+    submissions,
+    submission,
   },
   Mutation: {
     createUser,
@@ -41,6 +59,16 @@ const resolvers = {
     deleteUser,
     createUserChallenge,
     loginUser,
+    createSubmission,
+    updateSubmission,
+    deleteSubmission,
+    createComment,
+    updateComment,
+    deleteComment,
+    createLike,
+    deleteLike,
+    createFavorite,
+    deleteFavorite,
   },
   MutationResponse: {
     __resolveType() {
@@ -49,6 +77,7 @@ const resolvers = {
   },
   ChallengeGroup,
   Challenge,
+  Submission,
 };
 
 module.exports = resolvers;

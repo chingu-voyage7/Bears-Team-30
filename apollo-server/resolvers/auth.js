@@ -89,8 +89,8 @@ async function auth(parent, args, { id }) {
   return { isAuthenticated: !!id };
 }
 
-async function loginUser(parent, { username, password }) {
-  const row = await getUserHelper({ username });
+async function loginUser(parent, { email, password }) {
+  const row = await getUserHelper({ email });
 
   const isAuthenticated = await bcrypt.compare(password, row.password);
 
