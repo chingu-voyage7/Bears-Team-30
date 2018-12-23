@@ -14,6 +14,7 @@ const {
 const {
   challengeGroups,
   createUserChallenge,
+  updateUserChallenge,
   userChallenge,
   challengeGroup,
   myChallenges,
@@ -61,6 +62,7 @@ const resolvers = {
     updateUser,
     deleteUser,
     createUserChallenge,
+    updateUserChallenge,
     loginUser,
     createSubmission,
     updateSubmission,

@@ -2,6 +2,7 @@ const db = require('../index');
 const {
   makeQuery,
   makeInsert,
+  makeUpdate,
   cleanProps,
   renameProp,
 } = require('../pgHelpers');
@@ -14,6 +15,7 @@ module.exports = {
   getUserChallenges,
   getMyChallenges,
   getChallengeGroup,
+  updateUserChallenge,
 };
 
 function getChallengeGroups() {
@@ -93,6 +95,17 @@ function insertUserChallenge(values, userid) {
         message: `Internal db error: ${err.message}`,
       };
     });
+}
+
+function updateUserChallenge(userChallengeId, valuesObj, userid) {
+  
+  const QUERY = makeUpdate(
+    'user_challenges',
+    valuesObj,
+    { id: userChallengeId },
+    { userid }
+  );
+  return db.query(QUERY);
 }
 
 function getUserChallenge(userChallengeId) {

@@ -37,13 +37,16 @@ const makeQuery = ({
   clauseProps = [],
   condition = '',
   conditionProps = [],
+  secondCondition = '',
+  secondConditionProps = [],
   returning = '',
 }) => {
   const values = [];
   let valueIndex = 1;
   const clauses = parseClause(clause, clauseProps);
   const conditions = parseClause(condition, conditionProps);
-  const text = `${query} ${clauses} ${conditions} ${returning}`.trim();
+  const secondConditions = parseClause(secondCondition, secondConditionProps);
+  const text = `${query} ${clauses} ${conditions} ${secondConditions} ${returning}`.trim();
 
   return {
     text,
@@ -108,7 +111,7 @@ function insert(QUERY) {
   });
 }
 
-function makeUpdate(table, valuesObj, idObj) {
+function makeUpdate(table, valuesObj, idObj, userid) {
   valuesObj.updated_at = new Date();
   return makeQuery({
     query: `UPDATE ${table}`,
@@ -116,6 +119,8 @@ function makeUpdate(table, valuesObj, idObj) {
     clauseProps: valuesObj,
     condition: 'WHERE',
     conditionProps: idObj,
+    secondCondition: userid ? 'AND' : null,
+    secondConditionProps: { userid },
     returning: 'RETURNING *',
   });
 }

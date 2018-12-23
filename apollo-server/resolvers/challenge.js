@@ -6,9 +6,11 @@ const {
   getUserChallenges,
   getMyChallenges,
   getChallengeGroup,
+  updateUserChallenge: updateUserChallengeHelper,
 } = require('../../postgresDb/challenges/challengeHelpers');
 const { getUser } = require('../../postgresDb/auth/authHelpers');
 const { cleanProps } = require('../../postgresDb/pgHelpers');
+const { success, failure, notAuthenticated } = require('./resolverHelpers');
 
 /**
  * Returns all challenge groups
@@ -80,6 +82,15 @@ function createUserChallenge(
   return insertUserChallenge({ challengeid, goal, status }, id);
 }
 
+function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return updateUserChallengeHelper(userChallengeId, data, id)
+    .then(res => ({ challenge: res }))
+    .then(success)
+    .catch(failure);
+}
+
 const Challenge = {
   user({ userid }) {
     return getUser({ id: userid });
@@ -97,7 +108,7 @@ module.exports = {
   userChallenge,
   myChallenges,
   createUserChallenge,
+  updateUserChallenge,
   Challenge,
-
   ChallengeGroup,
 };
