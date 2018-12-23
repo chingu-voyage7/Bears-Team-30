@@ -1,23 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
-import * as routes from '../constants/routes';
-
-const GET_USER_CHALLENGE = gql`
-  query userChallenge($userChallengeId: ID!) {
-    userChallenge(userChallengeId: $userChallengeId) {
-      id
-      progress
-      goal
-      challengeGroup {
-        name
-        goalType
-      }
-    }
-  }
-`;
+import { GET_USER_CHALLENGE } from '../constants/queries';
 
 const UserChallengePage = ({ match }) => (
   <Query

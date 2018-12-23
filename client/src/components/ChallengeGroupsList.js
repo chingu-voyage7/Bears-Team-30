@@ -1,17 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Query, Mutation } from 'react-apollo';
 
-const GET_CHALLENGE_GROUPS = gql`
-  query challengeGroups($category: CategoryType, $userQuery: String) {
-    challengeGroups(category: $category, query: $userQuery) {
-      category
-      description
-      id
-      name
-    }
-  }
-`;
+import { GET_CHALLENGE_GROUPS } from '../constants/queries';
+import { CREATE_USER_CHALLENGE } from '../constants/mutations';
 
 const ChallengeGroupsList = ({
   category,
@@ -41,19 +32,43 @@ const ChallengeGroupsList = ({
               .map(word => word.replace(word[0], word[0].toUpperCase()))
               .join('/');
             return (
-              // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
-              <div className={isJoined ? 'joined' : 'group'} key={group.id}>
-                <h3>{group.name}</h3>
-                <p>{group.description}</p>
-                <p>{displayCategory}</p>
-                {isJoined ? (
-                  <div>Joined!</div>
-                ) : (
-                  <button onClick={onChallengeSelect} value={group.id}>
-                    Join Challenge
-                  </button>
-                )}
-              </div>
+              <Mutation key={group.id} mutation={CREATE_USER_CHALLENGE}>
+                {(createUserChallenge, { loading, error, data }) => {
+                  if (loading) return 'Loading...';
+                  if (error) return `Error! ${error.message}`;
+
+                  return (
+                    // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
+                    <div className={isJoined ? 'joined' : 'group'}>
+                      <h3>{group.name}</h3>
+                      <p>{group.description}</p>
+                      <p>{displayCategory}</p>
+                      {isJoined ? (
+                        <div>Joined!</div>
+                      ) : (
+                        <button
+                          onClick={e => {
+                            e.preventDefault();
+
+                            createUserChallenge({
+                              variables: {
+                                challengeId: group.id,
+                                goal: group.goalNumber,
+                                status: 'IN_PROGRESS',
+                              },
+                            });
+
+                            onChallengeSelect(e);
+                          }}
+                          value={group.id}
+                        >
+                          Join Challenge
+                        </button>
+                      )}
+                    </div>
+                  );
+                }}
+              </Mutation>
             );
           })}
         </div>

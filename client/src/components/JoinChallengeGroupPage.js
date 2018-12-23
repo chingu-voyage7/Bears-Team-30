@@ -1,24 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
+import { GET_CHALLENGE_GROUP } from '../constants/queries';
 import * as routes from '../constants/routes';
 import GoalSection from './GoalSection';
-
-const GET_CHALLENGE_GROUP = gql`
-  query challengeGroup($challengeGroupId: ID!) {
-    challengeGroup(challengeGroupId: $challengeGroupId) {
-      category
-      description
-      id
-      name
-      goalAction
-      goalNumber
-      goalType
-    }
-  }
-`;
 
 class JoinChallengeGroupPage extends React.Component {
   state = {
