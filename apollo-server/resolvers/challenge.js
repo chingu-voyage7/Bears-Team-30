@@ -1,6 +1,8 @@
 const {
   getChallengeGroups,
   getChallengeGroupUsers,
+  getChallengeGroupChallenges,
+  getChallengeSubmissions,
   insertUserChallenge,
   getUserChallenge,
   getUserChallenges,
@@ -10,7 +12,12 @@ const {
 } = require('../../postgresDb/challenges/challengeHelpers');
 const { getUser } = require('../../postgresDb/auth/authHelpers');
 const { cleanProps } = require('../../postgresDb/pgHelpers');
-const { success, failure, notAuthenticated } = require('./resolverHelpers');
+const {
+  success,
+  failure,
+  notAuthenticated,
+  parseResults,
+} = require('./resolverHelpers');
 
 /**
  * Returns all challenge groups
@@ -33,6 +40,16 @@ const ChallengeGroup = {
   users({ id }) {
     const users = getChallengeGroupUsers(id);
     return users.then(res => {
+      const usersArr = [];
+      res.rows.forEach(user => {
+        cleanProps(user);
+        usersArr.push(user);
+      });
+      return usersArr;
+    });
+  },
+  challenges({ id }) {
+    return getChallengeGroupChallenges(id).then(res => {
       const usersArr = [];
       res.rows.forEach(user => {
         cleanProps(user);
@@ -98,7 +115,9 @@ const Challenge = {
   challengeGroup({ challengeid }) {
     return getChallengeGroup(challengeid);
   },
-  // submissions,
+  submissions({ id }) {
+    return getChallengeSubmissions(id).then(parseResults);
+  },
 };
 
 module.exports = {

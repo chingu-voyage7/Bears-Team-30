@@ -1,3 +1,5 @@
+const { cleanProps } = require('../../postgresDb/pgHelpers');
+
 const SUCCESS = {
   code: 's200',
   success: true,
@@ -33,6 +35,12 @@ function failure(err) {
         success: false,
         message: `Rejected because of duplicate content.`,
       };
+    case '23503':
+      return {
+        code: 'e417',
+        success: false,
+        message: 'Rejected because of invalid table id.',
+      };
     default:
       return { ...FAILURE, message: `DB error: ${err.message}` };
   }
@@ -49,4 +57,13 @@ function notAuthenticated(id) {
   return false;
 }
 
-module.exports = { success, failure, notAuthenticated };
+function parseResults(res) {
+  const usersArr = [];
+  res.rows.forEach(user => {
+    cleanProps(user);
+    usersArr.push(user);
+  });
+  return usersArr;
+}
+
+module.exports = { success, failure, notAuthenticated, parseResults };

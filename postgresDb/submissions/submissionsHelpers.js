@@ -18,16 +18,8 @@ function insertSubmission(data) {
   });
 }
 
-function updateSubmission(submissionId, valuesObj) {
-  const QUERY = makeUpdate('submissions', valuesObj, { id: submissionId });
-  console.log(QUERY);
-  return db.query(QUERY).then(res => {
-    console.log(res.rows);
-    const result = res.rows[0];
-
-    cleanProps(result);
-    return result;
-  });
+function updateSubmission(submissionId, valuesObj, userid) {
+  return makeUpdate('submissions', valuesObj, { id: submissionId }, userid);
 }
 
 function getUserSubmissions(idOne, idTwo) {

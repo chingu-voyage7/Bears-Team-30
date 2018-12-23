@@ -83,10 +83,10 @@ function createSubmission(parent, { userChallengeId, data }, { id: userid }) {
 /**
  * Updates a submission
  */
-function updateSubmission(parent, { submissionId, data }, id) {
+function updateSubmission(parent, { submissionId, data }, { id }) {
   if (notAuthenticated(id)) return notAuthenticated(id);
 
-  return updateSubmissionHelper(submissionId, data)
+  return updateSubmissionHelper(submissionId, data, id)
     .then(res => ({ submission: res }))
     .then(success)
     .catch(failure);

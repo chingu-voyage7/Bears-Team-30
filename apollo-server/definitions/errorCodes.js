@@ -11,6 +11,7 @@ const ResponseCodes = gql`
     e414 # Invalid input: userid doesn't exist
     e415 # Invalid input: Attempting to input a duplicate row
     e416 # Invalid input: Non-existing input, or not permissions to modify input
+    e417 # Invalid input: Insert or update violates fk constraint
     e500 # Database error
   }
 `;

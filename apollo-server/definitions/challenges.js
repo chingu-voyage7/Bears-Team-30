@@ -43,7 +43,7 @@ const challengeDefs = gql`
     goalNumber: Int!
     goalType: String!
     users: [User!]
-    # submissions: [Submission!]
+    challenges: [Challenge!]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
@@ -51,6 +51,7 @@ const challengeDefs = gql`
   type Challenge {
     id: ID!
     challengeGroup: ChallengeGroup!
+    startDate: DateTime!
     goal: Int!
     status: String!
     progress: Int!
