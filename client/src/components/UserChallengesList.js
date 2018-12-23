@@ -1,27 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import * as routes from '../constants/routes';
+import { GET_MY_CHALLENGES } from '../constants/queries';
 
-const GET_MY_CHALLENGES = gql`
-  {
-    myChallenges {
-      id
-      createdAt
-      progress
-      goal
-      challengeGroup {
-        name
-        goalType
-      }
-    }
-  }
-`;
-
-const UserChallengesList = ({ onClick }) => (
-  <Query query={GET_MY_CHALLENGES}>
+const UserChallengesList = () => (
+  <Query query={GET_MY_CHALLENGES} partialRefetch={true}>
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;

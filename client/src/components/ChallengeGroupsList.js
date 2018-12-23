@@ -1,5 +1,3 @@
-// TODO: Fix show visual difference for groups that are already joined, don't show join button
-
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -15,7 +13,12 @@ const GET_CHALLENGE_GROUPS = gql`
   }
 `;
 
-const ChallengeGroupsList = ({ category, onChallengeSelect, userQuery }) => (
+const ChallengeGroupsList = ({
+  category,
+  onChallengeSelect,
+  userChallenges,
+  userQuery,
+}) => (
   <Query
     query={GET_CHALLENGE_GROUPS}
     partialRefetch={true}
@@ -31,19 +34,25 @@ const ChallengeGroupsList = ({ category, onChallengeSelect, userQuery }) => (
       return (
         <div>
           {data.challengeGroups.map(group => {
+            const isJoined = userChallenges.includes(group.id);
             const displayCategory = group.category
               .toLowerCase()
               .split('_')
               .map(word => word.replace(word[0], word[0].toUpperCase()))
               .join('/');
             return (
-              <div key={group.id}>
+              // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
+              <div className={isJoined ? 'joined' : 'group'} key={group.id}>
                 <h3>{group.name}</h3>
                 <p>{group.description}</p>
                 <p>{displayCategory}</p>
-                <button onClick={onChallengeSelect} value={group.id}>
-                  Join Challenge
-                </button>
+                {isJoined ? (
+                  <div>Joined!</div>
+                ) : (
+                  <button onClick={onChallengeSelect} value={group.id}>
+                    Join Challenge
+                  </button>
+                )}
               </div>
             );
           })}
