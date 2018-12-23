@@ -1,17 +1,19 @@
 import React from 'react';
+import { Mutation } from 'react-apollo';
 
+import { CREATE_SUBMISSION } from '../constants/mutations';
 import FormInput from './FormInput';
 
 class AddSubmissionForm extends React.Component {
   state = {
-    description: '',
+    text: '',
     progress: 0,
   };
 
-  onDescriptionChange = e => {
-    const description = e.target.value;
+  onTextChange = e => {
+    const text = e.target.value;
 
-    this.setState(() => ({ description }));
+    this.setState(() => ({ text }));
   };
 
   onProgressChange = e => {
@@ -20,37 +22,59 @@ class AddSubmissionForm extends React.Component {
     this.setState(() => ({ progress }));
   };
 
-  onSubmit = e => {
-    e.preventDefault();
-
-    const { description, progress } = this.state;
-
-    console.log(description, progress);
-  };
-
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <FormInput
-          id="description"
-          label="Description"
-          onChange={this.onDescriptionChange}
-          value={this.state.description}
-        />
-        <div>
-          <p>Added Progress: +</p>
-          <FormInput
-            id="progress"
-            label="Progress"
-            nolabel
-            onChange={this.onProgressChange}
-            type="number"
-            value={this.state.progress}
-          />
-          <p>{this.props.goalType}</p>
-        </div>
-        <button type="submit">Add Today's Progress</button>
-      </form>
+      <Mutation mutation={CREATE_SUBMISSION}>
+        {(createSubmission, { loading, error, data }) => {
+          if (loading) return 'Loading...';
+          if (error) return `Error! ${error.message}`;
+
+          return (
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+
+                const { text, progress } = this.state;
+                console.log(text, progress);
+
+                createSubmission({
+                  variables: {
+                    userChallengeId: this.props.userChallengeId,
+                    date: new Date(),
+                    day: 3,
+                    progress: Number(progress),
+                    text,
+                  },
+                }).then(() =>
+                  this.props.history.push(
+                    `/challenge/${this.props.userChallengeId}`
+                  )
+                );
+              }}
+            >
+              <FormInput
+                id="text"
+                label="Text"
+                onChange={this.onTextChange}
+                value={this.state.text}
+              />
+              <div>
+                <p>Added Progress: +</p>
+                <FormInput
+                  id="progress"
+                  label="Progress"
+                  nolabel
+                  onChange={this.onProgressChange}
+                  type="number"
+                  value={this.state.progress}
+                />
+                <p>{this.props.goalType}</p>
+              </div>
+              <button type="submit">Add Submission</button>
+            </form>
+          );
+        }}
+      </Mutation>
     );
   }
 }

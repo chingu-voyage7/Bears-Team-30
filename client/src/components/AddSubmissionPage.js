@@ -1,24 +1,10 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
+import { GET_USER_CHALLENGE } from '../constants/queries';
 import AddSubmissionForm from './AddSubmissionForm';
 
-const GET_USER_CHALLENGE = gql`
-  query userChallenge($userChallengeId: ID!) {
-    userChallenge(userChallengeId: $userChallengeId) {
-      id
-      progress
-      createdAt
-      challengeGroup {
-        name
-        goalType
-      }
-    }
-  }
-`;
-
-const AddSubmissionPage = ({ match }) => (
+const AddSubmissionPage = ({ history, match }) => (
   <Query
     query={GET_USER_CHALLENGE}
     variables={{ userChallengeId: match.params.id }}
@@ -32,9 +18,11 @@ const AddSubmissionPage = ({ match }) => (
 
       return (
         <div>
-          <h2>Your Progress for Today</h2>
+          <h2>Today's Submission</h2>
           <p>Day {day}</p>
           <AddSubmissionForm
+            history={history}
+            userChallengeId={data.userChallenge.id}
             goalType={data.userChallenge.challengeGroup.goalType}
           />
         </div>
