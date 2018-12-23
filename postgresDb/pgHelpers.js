@@ -138,6 +138,29 @@ function renameProp(obj, oldName, newName) {
   }
 }
 
+function deleteWithId(table, id, userid) {
+  const QUERY = makeQuery({
+    query: `DELETE FROM ${table}`,
+    clause: 'WHERE',
+    clauseProps: { id },
+    condition: 'AND',
+    conditionProps: { userid },
+    returning: 'RETURNING *',
+  });
+  return db.query(QUERY).then(res => {
+    const results = res.rows[0];
+    if (!results) {
+      const err = new Error(
+        'deleteWithId: Unable to delete because row id does not exist, or user does not have permission to modify it.'
+      );
+      err.code = 'e416';
+      throw err;
+    }
+    cleanProps(results);
+    return results;
+  });
+}
+
 module.exports = {
   makeQuery,
   getWithId,
@@ -149,4 +172,5 @@ module.exports = {
   makeInsert,
   insert,
   makeUpdate,
+  deleteWithId,
 };

@@ -5,14 +5,12 @@ const {
   insert,
   makeUpdate,
   cleanProps,
-  renameProp,
   getWithId,
+  deleteWithId,
 } = require('../pgHelpers');
 
 function insertSubmission(data) {
-  console.log(data);
   const QUERY = makeInsert('submissions', data);
-  console.log(QUERY);
   return db.query(QUERY).then(res => {
     const results = res.rows[0];
     cleanProps(results);
@@ -23,19 +21,13 @@ function insertSubmission(data) {
 function updateSubmission(submissionId, valuesObj) {
   const QUERY = makeUpdate('submissions', valuesObj, { id: submissionId });
   console.log(QUERY);
-  return db
-    .query(QUERY)
-    .then(res => {
-      console.log(res.rows);
-      const result = res.rows[0];
+  return db.query(QUERY).then(res => {
+    console.log(res.rows);
+    const result = res.rows[0];
 
-      cleanProps(result);
-      return result;
-    })
-    .catch(err => {
-      console.error(err);
-      return err;
-    });
+    cleanProps(result);
+    return result;
+  });
 }
 
 function getUserSubmissions(idOne, idTwo) {
@@ -46,19 +38,13 @@ function getUserSubmissions(idOne, idTwo) {
     condition: idTwo ? 'AND' : null,
     conditionProps: idTwo,
   });
-  return db
-    .query(QUERY)
-    .then(res => {
-      const results = res.rows;
-      results.forEach(row => {
-        cleanProps(row);
-      });
-      return results;
-    })
-    .catch(err => {
-      console.error(err);
-      return err;
+  return db.query(QUERY).then(res => {
+    const results = res.rows;
+    results.forEach(row => {
+      cleanProps(row);
     });
+    return results;
+  });
 }
 
 function getLikes(submissionid) {
@@ -75,26 +61,33 @@ function getFavorites(submissionid) {
 
 function insertComment(submissionid, text, userid) {
   const QUERY = makeInsert('comments', { submissionid, text, userid });
-  return insert(QUERY).catch(err => {
-    console.error(err);
-    return err;
-  });
+  return insert(QUERY);
 }
 
 function insertLike(submissionid, userid) {
   const QUERY = makeInsert('likes', { submissionid, userid });
-  return insert(QUERY).catch(err => {
-    console.error(err);
-    return err;
-  });
+  return insert(QUERY);
 }
 
 function insertFavorite(submissionid, userid) {
   const QUERY = makeInsert('favorites', { submissionid, userid });
-  return insert(QUERY).catch(err => {
-    console.error(err);
-    return err;
-  });
+  return insert(QUERY);
+}
+
+function deleteSubmission(submissionId, userid) {
+  return deleteWithId('submissions', submissionId, userid);
+}
+
+function deleteComment(commentId, userid) {
+  return deleteWithId('comments', commentId, userid);
+}
+
+function deleteLike(likeId, userid) {
+  return deleteWithId('likes', likeId, userid);
+}
+
+function deleteFavorite(favoriteId, userid) {
+  return deleteWithId('favorites', favoriteId, userid);
 }
 
 module.exports = {
@@ -107,4 +100,8 @@ module.exports = {
   getComments,
   getFavorites,
   updateSubmission,
+  deleteSubmission,
+  deleteComment,
+  deleteFavorite,
+  deleteLike,
 };

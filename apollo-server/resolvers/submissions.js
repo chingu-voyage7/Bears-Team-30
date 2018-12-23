@@ -9,9 +9,12 @@ const {
   getComments,
   getLikes,
   getFavorites,
+  deleteSubmission: deleteSubmissionHelper,
+  deleteComment: deleteCommentHelper,
+  deleteFavorite: deleteFavoriteHelper,
+  deleteLike: deleteLikeHelper,
 } = require('../../postgresDb/submissions/submissionsHelpers');
-
-// QUERIES:
+const { success, failure, notAuthenticated } = require('./resolverHelpers');
 
 /**
  * returns all of user's submissions for a specific challenge
@@ -48,51 +51,118 @@ const Submission = {
   },
 };
 
-// MUTATIONS:
+const Comment = {
+  creator({ userid }) {
+    return getUser({ id: userid });
+  },
+  submission({ submissionid }) {
+    return getUserSubmissions({ id: submissionid }, null).then(res => res[0]);
+  },
+};
+
+const Like = Comment;
+
+const Favorite = Comment;
+
 /**
  * creates a new submission
  */
-async function createSubmission(
-  parent,
-  { userChallengeId, data },
-  { id: userid }
-) {
-  console.log(userid);
-  return await insertSubmission({
+function createSubmission(parent, { userChallengeId, data }, { id: userid }) {
+  if (notAuthenticated(userid)) return notAuthenticated(userid);
+
+  return insertSubmission({
     userid,
     userchallengeid: userChallengeId,
     ...data,
-  });
+  })
+    .then(res => ({ submission: res }))
+    .then(success)
+    .catch(failure);
 }
 
 /**
  * Updates a submission
  */
-function updateSubmission(parent, { submissionId, data }) {
-  return updateSubmissionHelper(submissionId, data);
+function updateSubmission(parent, { submissionId, data }, id) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return updateSubmissionHelper(submissionId, data)
+    .then(res => ({ submission: res }))
+    .then(success)
+    .catch(failure);
 }
 
-function deleteSubmission(submissionId) {}
+/**
+ * Note: Does not currently delete associated comments, favorites, or likes
+ * Need to decide if we want to keep those.
+ * @param {*} parent
+ * @param {*} param1
+ * @param {*} param2
+ */
+function deleteSubmission(parent, { submissionId }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return deleteSubmissionHelper(submissionId, id)
+    .then(res => ({ submission: res }))
+    .then(success)
+    .catch(failure);
+}
 
 function createComment(parent, { data: { text, submissionId } }, { id }) {
-  return insertComment(submissionId, text, id);
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return insertComment(submissionId, text, id)
+    .then(res => ({ comment: res }))
+    .then(success)
+    .catch(failure);
 }
 
 function updateComment(commentId, { data: { text, submissionId } }) {}
 
-function deleteComment(commentId) {}
+function deleteComment(parent, { commentId }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return deleteCommentHelper(commentId, id)
+    .then(res => ({ comment: res }))
+    .then(success)
+    .catch(failure);
+}
 
 function createLike(parent, { submissionId }, { id }) {
-  return insertLike(submissionId, id);
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return insertLike(submissionId, id)
+    .then(res => ({ like: res }))
+    .then(success)
+    .catch(failure);
 }
 
-function deleteLike(likeId) {}
+function deleteLike(parent, { likeId }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return deleteLikeHelper(likeId, id)
+    .then(res => ({ like: res }))
+    .then(success)
+    .catch(failure);
+}
 
 function createFavorite(parent, { submissionId }, { id }) {
-  return insertFavorite(submissionId, id);
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return insertFavorite(submissionId, id)
+    .then(res => ({ favorite: res }))
+    .then(success)
+    .catch(failure);
 }
 
-function deleteFavorite(favoriteId) {}
+function deleteFavorite(parent, { favoriteId }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return deleteFavoriteHelper(favoriteId, id)
+    .then(res => ({ favorite: res }))
+    .then(success)
+    .catch(failure);
+}
 
 module.exports = {
   createSubmission,
@@ -108,4 +178,7 @@ module.exports = {
   deleteLike,
   createFavorite,
   deleteFavorite,
+  Comment,
+  Like,
+  Favorite,
 };

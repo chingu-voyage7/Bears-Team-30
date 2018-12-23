@@ -32,10 +32,13 @@ const {
   createComment,
   updateComment,
   deleteComment,
+  Comment,
   createLike,
   deleteLike,
+  Like,
   createFavorite,
   deleteFavorite,
+  Favorite,
 } = require('./resolvers/submissions');
 
 const resolvers = {
@@ -78,6 +81,9 @@ const resolvers = {
   ChallengeGroup,
   Challenge,
   Submission,
+  Comment,
+  Like,
+  Favorite,
 };
 
 module.exports = resolvers;

@@ -10,6 +10,7 @@ const ResponseCodes = gql`
     e413 # Invalid input: email is duplicate
     e414 # Invalid input: userid doesn't exist
     e415 # Invalid input: Attempting to input a duplicate row
+    e416 # Invalid input: Non-existing input, or not permissions to modify input
     e500 # Database error
   }
 `;

@@ -14,28 +14,28 @@ const submissionDefs = gql`
     createSubmission(
       userChallengeId: ID!
       data: CreateSubmissionInput!
-    ): Submission!
+    ): SubmissionResponse!
 
     updateSubmission(
       submissionId: ID!
       data: UpdateSubmissionInput!
-    ): Submission!
+    ): SubmissionResponse!
 
-    deleteSubmission(submissionId: ID!): Submission!
+    deleteSubmission(submissionId: ID!): SubmissionResponse!
 
-    createComment(data: CommentInput!): Comment!
+    createComment(data: CommentInput!): CommentResponse!
 
-    updateComment(commentId: ID!, data: CommentInput!): Comment!
+    updateComment(commentId: ID!, data: CommentInput!): CommentResponse!
 
-    deleteComment(commentId: ID!): Comment!
+    deleteComment(commentId: ID!): CommentResponse!
 
-    createLike(submissionId: ID!): Like!
+    createLike(submissionId: ID!): LikeResponse!
 
-    deleteLike(submissionId: ID!): Like!
+    deleteLike(submissionId: ID!): LikeResponse!
 
-    createFavorite(submissionId: ID!): Favorite!
+    createFavorite(submissionId: ID!): FavoriteResponse!
 
-    deleteFavorite(submissionId: ID!): Favorite!
+    deleteFavorite(submissionId: ID!): FavoriteResponse!
   }
 
   type Submission {
@@ -96,6 +96,34 @@ const submissionDefs = gql`
   input CommentInput {
     text: String!
     submissionId: ID!
+  }
+
+  type SubmissionResponse implements MutationResponse {
+    code: ResponseCodes!
+    success: Boolean!
+    message: String!
+    submission: Submission
+  }
+
+  type CommentResponse implements MutationResponse {
+    code: ResponseCodes!
+    success: Boolean!
+    message: String!
+    comment: Comment
+  }
+
+  type LikeResponse implements MutationResponse {
+    code: ResponseCodes!
+    success: Boolean!
+    message: String!
+    like: Like
+  }
+
+  type FavoriteResponse implements MutationResponse {
+    code: ResponseCodes!
+    success: Boolean!
+    message: String!
+    favorite: Favorite
   }
 `;
 
