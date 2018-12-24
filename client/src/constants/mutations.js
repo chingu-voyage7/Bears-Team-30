@@ -20,6 +20,36 @@ export const CREATE_USER_CHALLENGE = gql`
       message
       challenge {
         id
+        challengeGroup {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER_CHALLENGE = gql`
+  mutation updateUserChallenge(
+    $userChallengeId: ID!
+    $goal: Int
+    $progress: Int
+    $startDate: DateTime
+    $status: Status
+  ) {
+    updateUserChallenge(
+      userChallengeId: $userChallengeId
+      data: {
+        goal: $goal
+        progress: $progress
+        startDate: $startDate
+        status: $status
+      }
+    ) {
+      success
+      code
+      message
+      challenge {
+        id
       }
     }
   }

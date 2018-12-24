@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { Query, Mutation } from 'react-apollo';
 
 import { GET_CHALLENGE_GROUPS } from '../constants/queries';
@@ -32,43 +32,39 @@ const ChallengeGroupsList = ({
               .map(word => word.replace(word[0], word[0].toUpperCase()))
               .join('/');
             return (
-              <Mutation key={group.id} mutation={CREATE_USER_CHALLENGE}>
-                {(createUserChallenge, { loading, error, data }) => {
-                  if (loading) return 'Loading...';
-                  if (error) return `Error! ${error.message}`;
+              <Mutation
+                key={group.id}
+                mutation={CREATE_USER_CHALLENGE}
+                partialRefetch={true}
+              >
+                {(createUserChallenge, { data: mutationData }) => (
+                  // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
+                  <div className={isJoined ? 'joined' : 'group'}>
+                    <h3>{group.name}</h3>
+                    <p>{group.description}</p>
+                    <p>{displayCategory}</p>
+                    {isJoined ? (
+                      <div>Joined!</div>
+                    ) : (
+                      <button
+                        onClick={e => {
+                          e.preventDefault();
 
-                  return (
-                    // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
-                    <div className={isJoined ? 'joined' : 'group'}>
-                      <h3>{group.name}</h3>
-                      <p>{group.description}</p>
-                      <p>{displayCategory}</p>
-                      {isJoined ? (
-                        <div>Joined!</div>
-                      ) : (
-                        <button
-                          onClick={e => {
-                            e.preventDefault();
-
-                            createUserChallenge({
-                              variables: {
-                                challengeId: group.id,
-                                goal: group.goalNumber,
-                                startDate: new Date(),
-                                status: 'IN_PROGRESS',
-                              },
-                            });
-
-                            onChallengeSelect(e);
-                          }}
-                          value={group.id}
-                        >
-                          Join Challenge
-                        </button>
-                      )}
-                    </div>
-                  );
-                }}
+                          createUserChallenge({
+                            variables: {
+                              challengeId: group.id,
+                              goal: group.goalNumber,
+                              startDate: new Date(),
+                              status: 'IN_PROGRESS',
+                            },
+                          }).then(res => onChallengeSelect(res.data));
+                        }}
+                      >
+                        Join Challenge
+                      </button>
+                    )}
+                  </div>
+                )}
               </Mutation>
             );
           })}

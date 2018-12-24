@@ -5,14 +5,15 @@ import { GET_MY_CHALLENGES } from '../constants/queries';
 import CategorySelect from './CategorySelect';
 import SearchBar from './SearchBar';
 import ChallengeGroupsList from './ChallengeGroupsList';
-import JoinChallengeGroupPage from './JoinChallengeGroupPage';
+import UserChallengeSettingsPage from './UserChallengeSettingsPage';
 
 class ChallengeGroupsPage extends React.Component {
   state = {
     category: '',
     userQuery: '',
-    showJoinChallenge: false,
+    showSettingsPage: false,
     challengeGroupId: null,
+    userChallengeId: null,
   };
 
   onCategoryChange = e => {
@@ -27,13 +28,16 @@ class ChallengeGroupsPage extends React.Component {
     this.setState(() => ({ userQuery }));
   };
 
-  onChallengeSelect = e => {
-    e.preventDefault();
-    const challengeGroupId = e.target.value;
+  onChallengeSelect = data => {
+    const challengeGroupId =
+      data.createUserChallenge.challenge.challengeGroup.id;
+    const userChallengeId = data.createUserChallenge.challenge.id;
 
-    this.setState(() => ({ showJoinChallenge: true, challengeGroupId }));
-
-    // TODO: call mutation createUserChallenge, rerender Sidebar
+    this.setState(() => ({
+      showSettingsPage: true,
+      challengeGroupId,
+      userChallengeId,
+    }));
   };
 
   render() {
@@ -49,7 +53,7 @@ class ChallengeGroupsPage extends React.Component {
 
           return (
             <div>
-              {!this.state.showJoinChallenge && (
+              {!this.state.showSettingsPage && (
                 <div>
                   <h2>Find a Challenge to Join</h2>
                   <SearchBar
@@ -68,9 +72,10 @@ class ChallengeGroupsPage extends React.Component {
                   />
                 </div>
               )}
-              {this.state.showJoinChallenge && (
-                <JoinChallengeGroupPage
+              {this.state.showSettingsPage && (
+                <UserChallengeSettingsPage
                   challengeGroupId={this.state.challengeGroupId}
+                  userChallengeId={this.state.userChallengeId}
                 />
               )}
             </div>
