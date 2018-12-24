@@ -22,10 +22,18 @@ export const GET_USER_CHALLENGE = gql`
       id
       progress
       createdAt
+      goal
       challengeGroup {
         id
         name
         goalType
+      }
+      submissions {
+        id
+        date
+        image
+        text
+        progress
       }
     }
   }
