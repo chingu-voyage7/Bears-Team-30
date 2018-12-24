@@ -54,6 +54,7 @@ const ChallengeGroupsList = ({
                               variables: {
                                 challengeId: group.id,
                                 goal: group.goalNumber,
+                                startDate: new Date(),
                                 status: 'IN_PROGRESS',
                               },
                             });

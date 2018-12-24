@@ -4,10 +4,16 @@ export const CREATE_USER_CHALLENGE = gql`
   mutation createUserChallenge(
     $challengeId: ID!
     $goal: Int!
+    $startDate: DateTime!
     $status: Status!
   ) {
     createUserChallenge(
-      data: { challengeId: $challengeId, goal: $goal, status: $status }
+      data: {
+        challengeId: $challengeId
+        goal: $goal
+        startDate: $startDate
+        status: $status
+      }
     ) {
       success
       code
