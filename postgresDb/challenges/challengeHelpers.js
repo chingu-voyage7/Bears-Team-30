@@ -110,7 +110,7 @@ function insertUserChallenge(values, userid) {
         return {
           code: 'e405',
           success: false,
-          message: "Invalid authorization header / user doesn't exist",
+          message: 'Invalid challengeGroupId',
         };
       }
       return {

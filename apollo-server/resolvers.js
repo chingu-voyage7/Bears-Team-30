@@ -60,7 +60,7 @@ const resolvers = {
   Mutation: {
     createUser,
     updateUser,
-    deleteUser,
+    // deleteUser,
     createUserChallenge,
     updateUserChallenge,
     loginUser,

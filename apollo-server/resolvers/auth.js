@@ -90,14 +90,15 @@ async function auth(parent, args, { id }) {
 }
 
 async function loginUser(parent, { email, password }) {
+  let token = null;
   const row = await getUserHelper({ email });
 
-  const isAuthenticated = await bcrypt.compare(password, row.password);
+  if (row) {
+    const isAuthenticated = await bcrypt.compare(password, row.password);
 
-  let token = null;
-
-  if (isAuthenticated) {
-    token = generateJWTToken(row.id);
+    if (isAuthenticated) {
+      token = generateJWTToken(row.id);
+    }
   }
 
   return {
