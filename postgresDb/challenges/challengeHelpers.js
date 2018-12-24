@@ -2,6 +2,7 @@ const db = require('../index');
 const {
   makeQuery,
   makeInsert,
+  makeUpdate,
   cleanProps,
   renameProp,
 } = require('../pgHelpers');
@@ -9,11 +10,14 @@ const {
 module.exports = {
   getChallengeGroups,
   getChallengeGroupUsers,
+  getChallengeGroupChallenges,
+  getChallengeSubmissions,
   insertUserChallenge,
   getUserChallenge,
   getUserChallenges,
   getMyChallenges,
   getChallengeGroup,
+  updateUserChallenge,
 };
 
 function getChallengeGroups() {
@@ -46,6 +50,26 @@ function getChallengeGroupUsers(challengeId) {
   return db.query(QUERY);
 }
 
+function getChallengeGroupChallenges(challengeId) {
+  const QUERY = `
+  SELECT u.*
+  FROM challenge_groups AS c
+  INNER JOIN user_challenges AS u ON c.id = u.challengeid
+  WHERE c.id = ${challengeId}
+  `;
+  return db.query(QUERY);
+}
+
+function getChallengeSubmissions(userchallengeid) {
+  const QUERY = `
+  SELECT s.*
+  FROM user_challenges AS c
+  INNER JOIN submissions AS s ON c.id = s.userchallengeid
+  WHERE c.id = ${userchallengeid}
+  `;
+  return db.query(QUERY);
+}
+
 //userid, goal, challengeid
 function insertUserChallenge(values, userid) {
   if (!userid) {
@@ -56,9 +80,11 @@ function insertUserChallenge(values, userid) {
     };
   }
 
-  values.userid = `'${userid}'`;
-  values.status = `'${values.status}'`;
+  values.userid = userid;
+  renameProp(values, 'startDate', 'start_date');
+
   const QUERY = makeInsert('user_challenges', values);
+
   return db
     .query(QUERY)
     .then(res => {
@@ -95,6 +121,16 @@ function insertUserChallenge(values, userid) {
     });
 }
 
+function updateUserChallenge(userChallengeId, valuesObj, userid) {
+  formatUserChallengeForInput(valuesObj);
+  return makeUpdate(
+    'user_challenges',
+    valuesObj,
+    { id: userChallengeId },
+    userid
+  );
+}
+
 function getUserChallenge(userChallengeId) {
   return db
     .query(`SELECT * FROM user_challenges WHERE id = ${userChallengeId}`)
@@ -119,7 +155,6 @@ function getUserChallenges(userInfo) {
     conditionProps: userInfo,
   });
 
-  console.log(QUERY);
   return db.query(QUERY).then(res => {
     return res.rows.map(row => {
       cleanProps(row);
@@ -141,5 +176,8 @@ function getMyChallenges(id) {
 
 function formatUserChallenge(userChallenge) {
   cleanProps(userChallenge);
-  // renameProp(userChallenge, 'challengeid', 'id' );
+}
+
+function formatUserChallengeForInput(userChallenge) {
+  renameProp(userChallenge, 'startDate', 'start_date');
 }

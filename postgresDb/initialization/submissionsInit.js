@@ -8,15 +8,15 @@ const SUBMISSIONS_TABLE =
 
 // userid, submissionid, text, created_at, updated_at
 const COMMENTS_TABLE =
-  'CREATE TABLE IF NOT EXISTS comments(id SERIAL UNIQUE NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) NOT NULL, text TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY(userid, submissionid))';
+  'CREATE TABLE IF NOT EXISTS comments(id SERIAL PRIMARY KEY, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) ON DELETE CASCADE NOT NULL, text TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now())';
 
 // userid, submissionid, created_at, updated_at
 const LIKES_TABLE =
-  'CREATE TABLE IF NOT EXISTS likes(id SERIAL UNIQUE NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY(userid, submissionid))';
+  'CREATE TABLE IF NOT EXISTS likes(id SERIAL UNIQUE NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) ON DELETE CASCADE NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY(userid, submissionid))';
 
 // userid, submissionid, created_at, updated_at
 const FAVORITES_TABLE =
-  'CREATE TABLE IF NOT EXISTS favorites(id SERIAL UNIQUE NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY(userid, submissionid))';
+  'CREATE TABLE IF NOT EXISTS favorites(id SERIAL UNIQUE NOT NULL, userid UUID REFERENCES auth(id) NOT NULL, submissionid INTEGER REFERENCES submissions(id) ON DELETE CASCADE NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY(userid, submissionid))';
 
 let client;
 async function buildTables() {

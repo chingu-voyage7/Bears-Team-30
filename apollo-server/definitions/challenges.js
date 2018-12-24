@@ -23,12 +23,15 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    createUserChallenge(
-      data: CreateChallengeInput!
-    ): CreateUserChallengeResponse!
+    createUserChallenge(data: CreateChallengeInput!): UserChallengeResponse!
+
+    updateUserChallenge(
+      userChallengeId: ID!
+      data: UpdateChallengeInput!
+    ): UserChallengeResponse!
 
     # skipping for now:
-    # deleteChallenge(challengeId: ID!): Challenge!
+    # deleteUserChallenge(userChallengeId: ID!): UserChallengeResponse!
   }
 
   enum CategoryType {
@@ -46,7 +49,7 @@ const challengeDefs = gql`
     goalNumber: Int!
     goalType: String!
     users: [User!]
-    # submissions: [Submission!]
+    challenges: [Challenge!]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
@@ -54,6 +57,7 @@ const challengeDefs = gql`
   type Challenge {
     id: ID!
     challengeGroup: ChallengeGroup!
+    startDate: DateTime!
     goal: Int!
     status: String!
     progress: Int!
@@ -72,7 +76,7 @@ const challengeDefs = gql`
 
   input CreateChallengeInput {
     challengeId: ID!
-    # startDate: DateTime!
+    startDate: DateTime!
     goal: Int!
     status: Status!
     # user: UserIdInput!
@@ -81,11 +85,11 @@ const challengeDefs = gql`
   input UpdateChallengeInput {
     startDate: DateTime
     goal: Int
-    status: Status
     progress: Int
+    status: Status
   }
 
-  type CreateUserChallengeResponse implements MutationResponse {
+  type UserChallengeResponse implements MutationResponse {
     code: ResponseCodes!
     success: Boolean!
     message: String!

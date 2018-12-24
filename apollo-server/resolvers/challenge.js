@@ -1,14 +1,23 @@
 const {
   getChallengeGroups,
   getChallengeGroupUsers,
+  getChallengeGroupChallenges,
+  getChallengeSubmissions,
   insertUserChallenge,
   getUserChallenge,
   getUserChallenges,
   getMyChallenges,
   getChallengeGroup,
+  updateUserChallenge: updateUserChallengeHelper,
 } = require('../../postgresDb/challenges/challengeHelpers');
 const { getUser } = require('../../postgresDb/auth/authHelpers');
 const { cleanProps } = require('../../postgresDb/pgHelpers');
+const {
+  success,
+  failure,
+  notAuthenticated,
+  parseResults,
+} = require('./resolverHelpers');
 
 /**
  * Returns all challenge groups
@@ -38,6 +47,16 @@ const ChallengeGroup = {
   users({ id }) {
     const users = getChallengeGroupUsers(id);
     return users.then(res => {
+      const usersArr = [];
+      res.rows.forEach(user => {
+        cleanProps(user);
+        usersArr.push(user);
+      });
+      return usersArr;
+    });
+  },
+  challenges({ id }) {
+    return getChallengeGroupChallenges(id).then(res => {
       const usersArr = [];
       res.rows.forEach(user => {
         cleanProps(user);
@@ -87,6 +106,15 @@ function createUserChallenge(
   return insertUserChallenge({ challengeid, goal, status }, id);
 }
 
+function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return updateUserChallengeHelper(userChallengeId, data, id)
+    .then(res => ({ challenge: res }))
+    .then(success)
+    .catch(failure);
+}
+
 const Challenge = {
   user({ userid }) {
     return getUser({ id: userid });
@@ -94,7 +122,9 @@ const Challenge = {
   challengeGroup({ challengeid }) {
     return getChallengeGroup(challengeid);
   },
-  // submissions,
+  submissions({ id }) {
+    return getChallengeSubmissions(id).then(parseResults);
+  },
 };
 
 module.exports = {
@@ -104,7 +134,7 @@ module.exports = {
   userChallenge,
   myChallenges,
   createUserChallenge,
+  updateUserChallenge,
   Challenge,
-
   ChallengeGroup,
 };

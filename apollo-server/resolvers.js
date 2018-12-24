@@ -14,6 +14,7 @@ const {
 const {
   challengeGroups,
   createUserChallenge,
+  updateUserChallenge,
   userChallenge,
   challengeGroup,
   myChallenges,
@@ -32,10 +33,13 @@ const {
   createComment,
   updateComment,
   deleteComment,
+  Comment,
   createLike,
   deleteLike,
+  Like,
   createFavorite,
   deleteFavorite,
+  Favorite,
 } = require('./resolvers/submissions');
 
 const resolvers = {
@@ -58,6 +62,7 @@ const resolvers = {
     updateUser,
     deleteUser,
     createUserChallenge,
+    updateUserChallenge,
     loginUser,
     createSubmission,
     updateSubmission,
@@ -78,6 +83,9 @@ const resolvers = {
   ChallengeGroup,
   Challenge,
   Submission,
+  Comment,
+  Like,
+  Favorite,
 };
 
 module.exports = resolvers;
