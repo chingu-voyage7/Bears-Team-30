@@ -4,7 +4,7 @@ const { makeQuery } = require('../pgHelpers');
 
 // id, userid, userchallengeid, progress, day, text, image, created_at, updated_at
 const SUBMISSIONS_TABLE =
-  'CREATE TABLE IF NOT EXISTS submissions(id SERIAL PRIMARY KEY, userid UUID REFERENCES auth(id) NOT NULL, userchallengeid INTEGER REFERENCES user_challenges(id) NOT NULL, progress INTEGER NOT NULL, day INTEGER NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), text TEXT, image TEXT, date DATE)';
+  'CREATE TABLE IF NOT EXISTS submissions(id SERIAL PRIMARY KEY, userid UUID REFERENCES auth(id) NOT NULL, userchallengeid INTEGER REFERENCES user_challenges(id) NOT NULL, progress INTEGER NOT NULL, created_at TIMESTAMPTZ DEFAULT now(), updated_at TIMESTAMPTZ DEFAULT now(), text TEXT, image TEXT, date DATE)';
 
 // userid, submissionid, text, created_at, updated_at
 const COMMENTS_TABLE =

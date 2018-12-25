@@ -40,22 +40,22 @@ function getChallengeGroup(id) {
     });
 }
 
-function getChallengeGroupUsers(challengeId) {
+function getChallengeGroupUsers(challengeGroupId) {
   const QUERY = `
   SELECT userid AS id, email, username, auth.created_at, auth.updated_at
   FROM user_challenges AS u_c
   INNER JOIN auth ON u_c.userid = auth.id
-  WHERE u_c.challengeid = ${challengeId}
+  WHERE u_c.challengegroupid = ${challengeGroupId}
   `;
   return db.query(QUERY);
 }
 
-function getChallengeGroupChallenges(challengeId) {
+function getChallengeGroupChallenges(challengeGroupId) {
   const QUERY = `
   SELECT u.*
   FROM challenge_groups AS c
-  INNER JOIN user_challenges AS u ON c.id = u.challengeid
-  WHERE c.id = ${challengeId}
+  INNER JOIN user_challenges AS u ON c.id = u.challengegroupid
+  WHERE c.id = ${challengeGroupId}
   `;
   return db.query(QUERY);
 }
@@ -70,7 +70,7 @@ function getChallengeSubmissions(userchallengeid) {
   return db.query(QUERY);
 }
 
-//userid, goal, challengeid
+//userid, goal, challengegroupid
 function insertUserChallenge(values, userid) {
   if (!userid) {
     return {

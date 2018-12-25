@@ -69,7 +69,7 @@ const challengeDefs = gql`
   }
 
   input CreateChallengeInput {
-    challengeId: ID!
+    challengeGroupId: ID!
     startDate: DateTime!
     goal: Int!
     status: Status!
