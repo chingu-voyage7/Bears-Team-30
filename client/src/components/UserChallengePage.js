@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 
 import { GET_USER_CHALLENGE } from '../constants/queries';
 import UserSubmissionsList from './UserSubmissionsList';
+import GroupSubmissionsList from './GroupSubmissionsList';
 
 const UserChallengePage = ({ match }) => (
   <Query
@@ -28,6 +29,7 @@ const UserChallengePage = ({ match }) => (
             startDate={data.userChallenge.createdAt}
             submissions={data.userChallenge && data.userChallenge.submissions}
           />
+          <GroupSubmissionsList userChallengeId={data.userChallenge.id} />
         </div>
       );
     }}
