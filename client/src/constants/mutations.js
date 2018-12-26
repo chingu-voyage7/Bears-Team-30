@@ -2,14 +2,14 @@ import gql from 'graphql-tag';
 
 export const CREATE_USER_CHALLENGE = gql`
   mutation createUserChallenge(
-    $challengeId: ID!
+    $challengeGroupId: ID!
     $goal: Int!
     $startDate: DateTime!
     $status: Status!
   ) {
     createUserChallenge(
       data: {
-        challengeId: $challengeId
+        challengeGroupId: $challengeGroupId
         goal: $goal
         startDate: $startDate
         status: $status

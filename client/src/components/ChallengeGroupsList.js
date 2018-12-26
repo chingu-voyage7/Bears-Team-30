@@ -52,7 +52,7 @@ const ChallengeGroupsList = ({
 
                           createUserChallenge({
                             variables: {
-                              challengeId: group.id,
+                              challengeGroupId: group.id,
                               goal: group.goalNumber,
                               startDate: new Date(),
                               status: 'IN_PROGRESS',
