@@ -22,6 +22,7 @@ export const GET_USER_CHALLENGE = gql`
       id
       progress
       createdAt
+      startDate
       goal
       challengeGroup {
         id
@@ -63,6 +64,27 @@ export const GET_CHALLENGE_GROUP = gql`
       goalAction
       goalNumber
       goalType
+    }
+  }
+`;
+
+export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
+  query challengeGroup($challengeGroupId: ID!) {
+    challengeGroup(challengeGroupId: $challengeGroupId) {
+      challenges {
+        id
+        startDate
+        submissions {
+          id
+          date
+          text
+          image
+          user {
+            id
+            username
+          }
+        }
+      }
     }
   }
 `;
