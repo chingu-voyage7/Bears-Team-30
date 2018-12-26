@@ -35,13 +35,11 @@ class AddSubmissionForm extends React.Component {
                 e.preventDefault();
 
                 const { text, progress } = this.state;
-                console.log(text, progress);
 
                 createSubmission({
                   variables: {
                     userChallengeId: this.props.userChallengeId,
                     date: new Date(),
-                    day: 3,
                     progress: Number(progress),
                     text,
                   },

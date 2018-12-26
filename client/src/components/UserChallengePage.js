@@ -10,6 +10,7 @@ const UserChallengePage = ({ match }) => (
     query={GET_USER_CHALLENGE}
     partialRefetch={true}
     variables={{ userChallengeId: match.params.id }}
+    fetchPolicy="cache-and-network"
   >
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';

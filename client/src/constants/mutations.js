@@ -59,22 +59,17 @@ export const CREATE_SUBMISSION = gql`
   mutation createSubmission(
     $userChallengeId: ID!
     $date: DateTime!
-    $day: Int!
     $progress: Int!
     $image: String
     $text: String
   ) {
     createSubmission(
       userChallengeId: $userChallengeId
-      data: {
-        date: $date
-        day: $day
-        progress: $progress
-        image: $image
-        text: $text
-      }
+      data: { date: $date, progress: $progress, image: $image, text: $text }
     ) {
-      id
+      success
+      code
+      message
     }
   }
 `;
