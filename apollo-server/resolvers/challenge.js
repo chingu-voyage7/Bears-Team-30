@@ -100,10 +100,10 @@ function myChallenges(parent, args, { id }) {
  */
 function createUserChallenge(
   parent,
-  { data: { challengeId: challengeid, goal, status } },
+  { data: { challengeGroupId: challengegroupid, goal, status } },
   { id }
 ) {
-  return insertUserChallenge({ challengeid, goal, status }, id);
+  return insertUserChallenge({ challengegroupid, goal, status }, id);
 }
 
 function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
@@ -119,8 +119,8 @@ const Challenge = {
   user({ userid }) {
     return getUser({ id: userid });
   },
-  challengeGroup({ challengeid }) {
-    return getChallengeGroup(challengeid);
+  challengeGroup({ challengegroupid }) {
+    return getChallengeGroup(challengegroupid);
   },
   submissions({ id }) {
     return getChallengeSubmissions(id).then(parseResults);

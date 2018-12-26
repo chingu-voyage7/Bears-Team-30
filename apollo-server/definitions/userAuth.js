@@ -24,7 +24,7 @@ const authDefs = gql`
     # to hash new password
     updateUser(id: UUID!, data: UpdateUserInput!): UpdateUserMutationResponse!
 
-    deleteUser(id: UUID!): UpdateUserMutationResponse!
+    # deleteUser(id: UUID!): UpdateUserMutationResponse!
   }
 
   type User {

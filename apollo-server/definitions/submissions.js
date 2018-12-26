@@ -41,7 +41,6 @@ const submissionDefs = gql`
   type Submission {
     id: ID!
     date: DateTime!
-    day: Int!
     image: String
     text: String
     progress: Int!
@@ -80,7 +79,6 @@ const submissionDefs = gql`
 
   input CreateSubmissionInput {
     date: DateTime!
-    day: Int!
     image: String
     text: String
     progress: Int!
