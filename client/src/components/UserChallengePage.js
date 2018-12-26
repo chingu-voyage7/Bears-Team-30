@@ -14,7 +14,6 @@ const UserChallengePage = ({ match }) => (
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
-      console.log(data);
 
       return (
         <div>
