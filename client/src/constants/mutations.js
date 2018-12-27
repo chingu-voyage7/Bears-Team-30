@@ -73,3 +73,33 @@ export const CREATE_SUBMISSION = gql`
     }
   }
 `;
+
+export const CREATE_LIKE = gql`
+  mutation createLike(
+    $submissionId: ID!
+  ) {
+    createLike(
+      submissionId: $submissionId
+    ) {
+      success
+      code
+      message
+    }
+  }
+`;
+
+export const DELETE_LIKE = gql`
+  mutation deleteLike(
+    $submissionId: ID!
+  ) {
+    deleteLike(
+      submissionId: $submissionId
+    ) {
+      success
+      code
+      message
+    }
+  }
+`;
+
+
