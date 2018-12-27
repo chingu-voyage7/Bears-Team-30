@@ -11,7 +11,7 @@ const SubmissionsList = ({ startDate, submissions }) =>
       <div key={submission.id}>
         <h5>Day {day}</h5>
         <p>{submission.text}</p>
-        {submission.progress && <p>Progress: +{submission.progress}</p>}
+        <p>Progress: +{submission.progress}</p>
       </div>
     );
   });
