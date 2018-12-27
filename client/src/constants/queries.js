@@ -67,3 +67,24 @@ export const GET_CHALLENGE_GROUP = gql`
     }
   }
 `;
+
+export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
+  query challengeGroup($challengeGroupId: ID!) {
+    challengeGroup(challengeGroupId: $challengeGroupId) {
+      challenges {
+        id
+        startDate
+        submissions {
+          id
+          date
+          text
+          image
+          user {
+            id
+            username
+          }
+        }
+      }
+    }
+  }
+`;
