@@ -31,11 +31,11 @@ const submissionDefs = gql`
 
     createLike(submissionId: ID!): LikeResponse!
 
-    deleteLike(submissionId: ID!): LikeResponse!
+    deleteLike(likeId: ID!): LikeResponse!
 
     createFavorite(submissionId: ID!): FavoriteResponse!
 
-    deleteFavorite(submissionId: ID!): FavoriteResponse!
+    deleteFavorite(favoriteId: ID!): FavoriteResponse!
   }
 
   type Submission {
