@@ -17,8 +17,8 @@ const SubmissionsList = ({ startDate, submissions }) =>
         {submission.progress && <p>Progress: +{submission.progress}</p>}
         <div>
           <ActionButton
-            mutations={['deleteLike', 'createLike']}
-            mutationTypes={[DELETE_LIKE, CREATE_LIKE]}
+            mutations={['createLike', 'deleteLike']}
+            mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
             submissionId={submission.id}
           />
           <button>★</button>

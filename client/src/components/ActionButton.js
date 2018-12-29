@@ -10,22 +10,24 @@ class ActionButton extends React.Component {
     const mutation = mutations[index];
     const id = !!this.state.id ? this.state.id : submissionId;
     return (
-      <Mutation mutation={mutationTypes[index]} variables={{ id }}>
+      <Mutation
+        mutation={mutationTypes[index]}
+        variables={{ id }}
+        onCompleted={data => {
+          console.log(data);
+          return data.createLike
+            ? this.setState(() => ({ id: data.createLike.like.id }))
+            : this.setState(() => ({ id: null }));
+        }}
+      >
         {(mutation, { data }) => (
           <button
             onClick={e => {
               e.preventDefault();
 
-              mutation().then(data => {
-                console.log(data);
-                if ((index = 0)) {
-                  this.setState(() => ({ id: data.createLike.like.id }));
-                } else {
-                  this.setState(() => ({ id: null }));
-                }
-              });
+              mutation();
             }}
-            style={{ background: this.state.create ? 'white' : 'red' }}
+            style={{ background: !!this.state.id ? 'red' : 'white' }}
           >
             ❤
           </button>

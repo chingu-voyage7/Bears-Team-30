@@ -89,7 +89,7 @@ export const CREATE_LIKE = gql`
 
 export const DELETE_LIKE = gql`
   mutation deleteLike($id: ID!) {
-    deleteLike(submissionId: $id) {
+    deleteLike(likeId: $id) {
       success
       code
       message
