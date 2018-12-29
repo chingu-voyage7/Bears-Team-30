@@ -99,3 +99,29 @@ export const DELETE_LIKE = gql`
     }
   }
 `;
+
+export const CREATE_FAVORITE = gql`
+  mutation createFavorite($id: ID!) {
+    createFavorite(submissionId: $id) {
+      success
+      code
+      message
+      favorite {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_FAVORITE = gql`
+  mutation deleteFavorite($id: ID!) {
+    deleteFavorite(favoriteId: $id) {
+      success
+      code
+      message
+      favorite {
+        id
+      }
+    }
+  }
+`;

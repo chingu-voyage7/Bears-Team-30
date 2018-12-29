@@ -1,7 +1,12 @@
 import React from 'react';
 
 import ActionButton from './ActionButton';
-import { DELETE_LIKE, CREATE_LIKE } from '../constants/mutations';
+import {
+  DELETE_LIKE,
+  CREATE_LIKE,
+  DELETE_FAVORITE,
+  CREATE_FAVORITE,
+} from '../constants/mutations';
 
 const SubmissionsList = ({ startDate, submissions }) =>
   submissions.map(submission => {
@@ -20,8 +25,16 @@ const SubmissionsList = ({ startDate, submissions }) =>
             mutations={['createLike', 'deleteLike']}
             mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
             submissionId={submission.id}
+            text="❤"
+            type="like"
           />
-          <button>★</button>
+          <ActionButton
+            mutations={['createFavorite', 'deleteFavorite']}
+            mutationTypes={[CREATE_FAVORITE, DELETE_FAVORITE]}
+            submissionId={submission.id}
+            text="★"
+            type="favorite"
+          />
         </div>
       </div>
     );
