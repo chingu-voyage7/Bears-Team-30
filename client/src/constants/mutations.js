@@ -75,31 +75,27 @@ export const CREATE_SUBMISSION = gql`
 `;
 
 export const CREATE_LIKE = gql`
-  mutation createLike(
-    $submissionId: ID!
-  ) {
-    createLike(
-      submissionId: $submissionId
-    ) {
+  mutation createLike($id: ID!) {
+    createLike(submissionId: $id) {
       success
       code
       message
+      like {
+        id
+      }
     }
   }
 `;
 
 export const DELETE_LIKE = gql`
-  mutation deleteLike(
-    $submissionId: ID!
-  ) {
-    deleteLike(
-      submissionId: $submissionId
-    ) {
+  mutation deleteLike($id: ID!) {
+    deleteLike(submissionId: $id) {
       success
       code
       message
+      like {
+        id
+      }
     }
   }
 `;
-
-
