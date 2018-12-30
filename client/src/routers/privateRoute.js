@@ -1,18 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import * as routes from '../constants/routes';
+import { GET_AUTH } from '../constants/queries';
 import Sidebar from '../components/Sidebar';
-
-const GET_AUTH = gql`
-  {
-    auth {
-      isAuthenticated
-    }
-  }
-`;
 
 const privateRoute = Component => {
   const PrivateRoute = props => (
@@ -20,11 +12,10 @@ const privateRoute = Component => {
       {({ loading, error, data }) => {
         if (loading) return 'Loading...';
         if (error) return `Error! ${error.message}`;
-        console.log(data.auth.isAuthenticated);
 
         return data.auth.isAuthenticated ? (
           <div>
-            <Sidebar />
+            <Sidebar {...props} />
             <Component {...props} />
           </div>
         ) : (
