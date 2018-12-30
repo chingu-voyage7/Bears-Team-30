@@ -5,3 +5,4 @@ export const SIGNUP = '/signup';
 export const CHALLENGE_GROUPS = '/groups';
 export const CHALLENGE = '/challenge/:id';
 export const ADD_SUBMISSION = '/challenge/:id/new';
+export const EDIT_SUBMISSION = '/:id/edit';

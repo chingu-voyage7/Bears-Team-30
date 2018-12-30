@@ -74,6 +74,25 @@ export const CREATE_SUBMISSION = gql`
   }
 `;
 
+export const UPDATE_SUBMISSION = gql`
+  mutation updateSubmission(
+    $submissionId: ID!
+    $date: DateTime
+    $progress: Int
+    $image: String
+    $text: String
+  ) {
+    updateSubmission(
+      submissionId: $submissionId
+      data: { date: $date, progress: $progress, image: $image, text: $text }
+    ) {
+      success
+      code
+      message
+    }
+  }
+`;
+
 export const CREATE_LIKE = gql`
   mutation createLike($id: ID!) {
     createLike(submissionId: $id) {

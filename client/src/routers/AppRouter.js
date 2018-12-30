@@ -11,6 +11,7 @@ import DashboardPage from '../components/DashboardPage';
 import ChallengeGroupsPage from '../components/ChallengeGroupsPage';
 import UserChallengePage from '../components/UserChallengePage';
 import AddSubmissionPage from '../components/AddSubmissionPage';
+import UpdateSubmissionForm from '../components/UpdateSubmissionForm';
 
 const AppRouter = () => (
   <div>
@@ -39,6 +40,10 @@ const AppRouter = () => (
         <Route
           path={routes.ADD_SUBMISSION}
           component={privateRoute(AddSubmissionPage)}
+        />
+        <Route
+          path={routes.EDIT_SUBMISSION}
+          component={privateRoute(UpdateSubmissionForm)}
         />
       </div>
     </BrowserRouter>

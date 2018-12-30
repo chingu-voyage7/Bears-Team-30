@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import ActionButton from './ActionButton';
 import {
@@ -8,7 +9,7 @@ import {
   CREATE_FAVORITE,
 } from '../constants/mutations';
 
-const SubmissionsList = ({ startDate, submissions }) =>
+const SubmissionsList = ({ canEdit, challenge, startDate, submissions }) =>
   submissions.map(submission => {
     const day = Math.ceil(
       (new Date(submission.date).getTime() - new Date(startDate).getTime()) /
@@ -36,6 +37,19 @@ const SubmissionsList = ({ startDate, submissions }) =>
             type="favorite"
           />
         </div>
+        {canEdit && (
+          <Link
+            to={{
+              pathname: `/${submission.id}/edit`,
+              state: {
+                challenge,
+                submission,
+              },
+            }}
+          >
+            Edit
+          </Link>
+        )}
       </div>
     );
   });

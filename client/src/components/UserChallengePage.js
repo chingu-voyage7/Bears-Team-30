@@ -28,6 +28,7 @@ const UserChallengePage = ({ match }) => (
           <UserSubmissionsList
             startDate={data.userChallenge.createdAt}
             submissions={data.userChallenge && data.userChallenge.submissions}
+            challenge={data.userChallenge.id}
           />
           <GroupSubmissionsList
             challengeGroupId={data.userChallenge.challengeGroup.id}
