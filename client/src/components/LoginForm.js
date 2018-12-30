@@ -1,8 +1,8 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 import * as routes from '../constants/routes';
+import { LOG_IN } from '../constants/mutations';
 import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
@@ -10,14 +10,6 @@ const INITIAL_STATE = {
   password: '',
   error: null,
 };
-
-const LOG_IN = gql`
-  mutation loginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-    }
-  }
-`;
 
 class LoginForm extends React.Component {
   constructor(props) {

@@ -13,6 +13,14 @@ export const SIGN_UP = gql`
   }
 `;
 
+export const LOG_IN = gql`
+  mutation loginUser($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      token
+    }
+  }
+`;
+
 export const CREATE_USER_CHALLENGE = gql`
   mutation createUserChallenge(
     $challengeGroupId: ID!

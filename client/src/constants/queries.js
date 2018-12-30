@@ -8,6 +8,15 @@ export const GET_AUTH = gql`
   }
 `;
 
+export const ME = gql`
+  {
+    me {
+      id
+      username
+    }
+  }
+`;
+
 export const GET_MY_CHALLENGES = gql`
   {
     myChallenges {
