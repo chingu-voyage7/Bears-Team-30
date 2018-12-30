@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Query, Mutation } from 'react-apollo';
 
-import { GET_CHALLENGE_GROUP } from '../constants/queries';
+import { GET_CHALLENGE_GROUP, GET_MY_CHALLENGES } from '../constants/queries';
 import { UPDATE_USER_CHALLENGE } from '../constants/mutations';
 import * as routes from '../constants/routes';
 import GoalSection from './GoalSection';
@@ -41,7 +41,26 @@ class UserChallengeSettingsPage extends React.Component {
           if (error) return `Error! ${error.message}`;
 
           return (
-            <Mutation mutation={UPDATE_USER_CHALLENGE}>
+            <Mutation
+              mutation={UPDATE_USER_CHALLENGE}
+              update={(proxy, { data: { updateUserChallenge } }) => {
+                const data = proxy.readQuery({
+                  query: GET_MY_CHALLENGES,
+                });
+
+                data.myChallenges.map(challenge => {
+                  if (challenge.id === updateUserChallenge.challenge.id) {
+                    return updateUserChallenge.challenge;
+                  }
+                  return challenge;
+                });
+
+                proxy.writeQuery({
+                  query: GET_MY_CHALLENGES,
+                  data,
+                });
+              }}
+            >
               {(updateUserChallenge, { data: mutationData }) => (
                 <div>
                   <h3>Edit Your Challenge Settings</h3>
@@ -67,7 +86,13 @@ class UserChallengeSettingsPage extends React.Component {
                           userChallengeId,
                           goal: Number(goalNumber),
                         },
-                      }).then(() => this.props.history.push(routes.DASHBOARD));
+                      }).then(res =>
+                        this.props.history.push(
+                          `/challenge/${
+                            res.data.updateUserChallenge.challenge.id
+                          }`
+                        )
+                      );
                     }}
                   >
                     Save My Settings

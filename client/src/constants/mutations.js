@@ -41,8 +41,13 @@ export const CREATE_USER_CHALLENGE = gql`
       message
       challenge {
         id
+        createdAt
+        progress
+        goal
         challengeGroup {
           id
+          name
+          goalType
         }
       }
     }
@@ -71,6 +76,14 @@ export const UPDATE_USER_CHALLENGE = gql`
       message
       challenge {
         id
+        createdAt
+        progress
+        goal
+        challengeGroup {
+          id
+          name
+          goalType
+        }
       }
     }
   }
