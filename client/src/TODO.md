@@ -60,4 +60,3 @@
   - consistent variable naming
   - better file structure
   - fix query and mutation component structure
-  - make createUrl utility functions instead of passing template strings
