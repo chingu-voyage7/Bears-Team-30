@@ -50,7 +50,6 @@
 </Mutation>
 ```
 
-- Change Sidebar to subscription (waiting for myChallenges subscription)
 - Change ActionButton to subscription (waiting for isLiked, isFavorited subscriptions)
 - Show list of all favorite submissions on Dashboard page (waiting for myFavorites query)
 
@@ -82,3 +81,4 @@
 - Delete submission
 - Edit userChallenge
 - Add like and favorite on submissions
+- List of user challenges in sidebar updates on createUserChallenge and editUserChallenge

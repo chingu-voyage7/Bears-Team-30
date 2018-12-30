@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { graphql, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 import * as routes from '../constants/routes';
 import { ME } from '../constants/queries';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query, Mutation } from 'react-apollo';
 
-import { GET_CHALLENGE_GROUPS } from '../constants/queries';
+import { GET_CHALLENGE_GROUPS, GET_MY_CHALLENGES } from '../constants/queries';
 import { CREATE_USER_CHALLENGE } from '../constants/mutations';
 
 const ChallengeGroupsList = ({
@@ -36,7 +36,18 @@ const ChallengeGroupsList = ({
                 key={group.id}
                 mutation={CREATE_USER_CHALLENGE}
                 onCompleted={data => onChallengeSelect(data)}
-                partialRefetch={true}
+                update={(proxy, { data: { createUserChallenge } }) => {
+                  const data = proxy.readQuery({
+                    query: GET_MY_CHALLENGES,
+                  });
+
+                  data.myChallenges.push(createUserChallenge.challenge);
+
+                  proxy.writeQuery({
+                    query: GET_MY_CHALLENGES,
+                    data,
+                  });
+                }}
               >
                 {(createUserChallenge, { data: mutationData }) => (
                   // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
