@@ -13,26 +13,36 @@ const UserChallengePage = ({ match }) => (
     variables={{ userChallengeId: match.params.id }}
     fetchPolicy="cache-and-network"
   >
-    {({ loading, error, data }) => {
+    {({ loading, error, data: { userChallenge } }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
 
       return (
         <div>
-          <h3>100 Days of {data.userChallenge.challengeGroup.name}</h3>
+          <h3>100 Days of {userChallenge.challengeGroup.name}</h3>
           <p>
-            Progress: {data.userChallenge.progress} / {data.userChallenge.goal}{' '}
-            {data.userChallenge.challengeGroup.goalType}
+            Progress: {userChallenge.progress} / {userChallenge.goal}{' '}
+            {userChallenge.challengeGroup.goalType}
           </p>
-          <Link to={`/challenge/${data.userChallenge.id}/new`}>Add New</Link>
+          <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
           <UserSubmissionsList
-            startDate={data.userChallenge.createdAt}
-            submissions={data.userChallenge.submissions}
-            userChallenge={data.userChallenge}
+            startDate={userChallenge.createdAt}
+            submissions={userChallenge.submissions}
+            userChallenge={userChallenge}
           />
           <GroupSubmissionsList
-            challengeGroupId={data.userChallenge.challengeGroup.id}
+            challengeGroupId={userChallenge.challengeGroup.id}
           />
+          <Link
+            to={{
+              pathname: `/challenge/${userChallenge.id}/settings`,
+              state: {
+                userChallenge,
+              },
+            }}
+          >
+            Challenge Settings
+          </Link>
         </div>
       );
     }}

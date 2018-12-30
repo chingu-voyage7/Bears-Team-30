@@ -12,13 +12,22 @@ class UserChallengeSettingsPage extends React.Component {
     goalNumber: undefined,
   };
 
+  componentDidMount() {
+    this.props.location.state &&
+      this.setState(() => ({
+        goalNumber: this.props.location.state.userChallenge.goal,
+      }));
+  }
+
   onGoalNumberChange = e => {
     const goalNumber = e.target.value;
     this.setState(() => ({ goalNumber }));
   };
 
   render() {
-    const { challengeGroupId } = this.props;
+    const challengeGroupId = this.props.location.state.userChallenge
+      .challengeGroup.id;
+    const userChallengeId = this.props.location.state.userChallenge.id;
     return (
       <Query
         query={GET_CHALLENGE_GROUP}
@@ -55,7 +64,7 @@ class UserChallengeSettingsPage extends React.Component {
 
                       updateUserChallenge({
                         variables: {
-                          userChallengeId: this.props.userChallengeId,
+                          userChallengeId,
                           goal: Number(goalNumber),
                         },
                       }).then(() => this.props.history.push(routes.DASHBOARD));
