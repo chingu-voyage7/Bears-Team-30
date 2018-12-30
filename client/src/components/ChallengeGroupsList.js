@@ -18,13 +18,13 @@ const ChallengeGroupsList = ({
       category: !!category ? category : null,
     }}
   >
-    {({ loading, error, data }) => {
+    {({ loading, error, data: queryData }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
 
       return (
         <div>
-          {data.challengeGroups.map(group => {
+          {queryData.challengeGroups.map(group => {
             const isJoined = userChallenges.includes(group.id);
             const displayCategory = group.category
               .toLowerCase()
@@ -35,6 +35,7 @@ const ChallengeGroupsList = ({
               <Mutation
                 key={group.id}
                 mutation={CREATE_USER_CHALLENGE}
+                onCompleted={data => onChallengeSelect(data)}
                 partialRefetch={true}
               >
                 {(createUserChallenge, { data: mutationData }) => (
@@ -57,7 +58,7 @@ const ChallengeGroupsList = ({
                               startDate: new Date(),
                               status: 'IN_PROGRESS',
                             },
-                          }).then(res => onChallengeSelect(res.data));
+                          });
                         }}
                       >
                         Join Challenge

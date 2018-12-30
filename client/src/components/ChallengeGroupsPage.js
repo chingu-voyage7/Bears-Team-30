@@ -5,15 +5,11 @@ import { GET_MY_CHALLENGES } from '../constants/queries';
 import CategorySelect from './CategorySelect';
 import SearchBar from './SearchBar';
 import ChallengeGroupsList from './ChallengeGroupsList';
-import UserChallengeSettingsPage from './UserChallengeSettingsPage';
 
 class ChallengeGroupsPage extends React.Component {
   state = {
     category: '',
     userQuery: '',
-    showSettingsPage: false,
-    challengeGroupId: null,
-    userChallengeId: null,
   };
 
   onCategoryChange = e => {
@@ -29,15 +25,11 @@ class ChallengeGroupsPage extends React.Component {
   };
 
   onChallengeSelect = data => {
-    const challengeGroupId =
-      data.createUserChallenge.challenge.challengeGroup.id;
-    const userChallengeId = data.createUserChallenge.challenge.id;
+    const userChallenge = data.createUserChallenge.challenge;
 
-    this.setState(() => ({
-      showSettingsPage: true,
-      challengeGroupId,
-      userChallengeId,
-    }));
+    this.props.history.push(`/challenge/${userChallenge.id}/settings`, {
+      userChallenge,
+    });
   };
 
   render() {
@@ -53,31 +45,21 @@ class ChallengeGroupsPage extends React.Component {
 
           return (
             <div>
-              {!this.state.showSettingsPage && (
-                <div>
-                  <h2>Find a Challenge to Join</h2>
-                  <SearchBar
-                    onUserQueryChange={this.onUserQueryChange}
-                    value={this.state.query}
-                  />
-                  <CategorySelect
-                    onCategoryChange={this.onCategoryChange}
-                    value={this.state.category}
-                  />
-                  <ChallengeGroupsList
-                    category={this.state.category}
-                    onChallengeSelect={this.onChallengeSelect}
-                    userChallenges={userChallenges}
-                    userQuery={this.state.userQuery}
-                  />
-                </div>
-              )}
-              {this.state.showSettingsPage && (
-                <UserChallengeSettingsPage
-                  challengeGroupId={this.state.challengeGroupId}
-                  userChallengeId={this.state.userChallengeId}
-                />
-              )}
+              <h2>Find a Challenge to Join</h2>
+              <SearchBar
+                onUserQueryChange={this.onUserQueryChange}
+                value={this.state.query}
+              />
+              <CategorySelect
+                onCategoryChange={this.onCategoryChange}
+                value={this.state.category}
+              />
+              <ChallengeGroupsList
+                category={this.state.category}
+                onChallengeSelect={this.onChallengeSelect}
+                userChallenges={userChallenges}
+                userQuery={this.state.userQuery}
+              />
             </div>
           );
         }}
