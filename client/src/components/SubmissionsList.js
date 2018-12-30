@@ -9,12 +9,7 @@ import {
   CREATE_FAVORITE,
 } from '../constants/mutations';
 
-const SubmissionsList = ({
-  canEdit,
-  userChallengeId,
-  startDate,
-  submissions,
-}) =>
+const SubmissionsList = ({ canEdit, userChallenge, startDate, submissions }) =>
   submissions.map(submission => {
     const day = Math.ceil(
       (new Date(submission.date).getTime() - new Date(startDate).getTime()) /
@@ -47,7 +42,7 @@ const SubmissionsList = ({
             to={{
               pathname: `/${submission.id}/edit`,
               state: {
-                userChallengeId,
+                userChallenge,
                 submission,
               },
             }}
