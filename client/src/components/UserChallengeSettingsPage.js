@@ -41,26 +41,7 @@ class UserChallengeSettingsPage extends React.Component {
           if (error) return `Error! ${error.message}`;
 
           return (
-            <Mutation
-              mutation={UPDATE_USER_CHALLENGE}
-              update={(proxy, { data: { updateUserChallenge } }) => {
-                const data = proxy.readQuery({
-                  query: GET_MY_CHALLENGES,
-                });
-
-                data.myChallenges.map(challenge => {
-                  if (challenge.id === updateUserChallenge.challenge.id) {
-                    return updateUserChallenge.challenge;
-                  }
-                  return challenge;
-                });
-
-                proxy.writeQuery({
-                  query: GET_MY_CHALLENGES,
-                  data,
-                });
-              }}
-            >
+            <Mutation mutation={UPDATE_USER_CHALLENGE}>
               {(updateUserChallenge, { data: mutationData }) => (
                 <div>
                   <h3>Edit Your Challenge Settings</h3>
