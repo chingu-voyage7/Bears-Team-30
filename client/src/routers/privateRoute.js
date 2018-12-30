@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import * as routes from '../constants/routes';

@@ -1,5 +1,18 @@
 import gql from 'graphql-tag';
 
+export const SIGN_UP = gql`
+  mutation createUser($username: String!, $email: String!, $password: String!) {
+    createUser(
+      data: { username: $username, email: $email, password: $password }
+    ) {
+      success
+      code
+      message
+      token
+    }
+  }
+`;
+
 export const CREATE_USER_CHALLENGE = gql`
   mutation createUserChallenge(
     $challengeGroupId: ID!
