@@ -1,22 +1,20 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { UPDATE_SUBMISSION } from '../constants/mutations';
 import FormInput from './FormInput';
 
-class UpdateSubmissionForm extends React.Component {
+class SubmissionForm extends React.Component {
   state = {
     text: '',
     progress: 0,
   };
 
   componentDidMount() {
-    const { submission } = this.props.location.state;
-
-    this.setState(() => ({
-      text: submission.text,
-      progress: submission.progress,
-    }));
+    this.props.submission &&
+      this.setState(() => ({
+        text: this.props.submission.text,
+        progress: this.props.submission.progress,
+      }));
   }
 
   onTextChange = e => {
@@ -32,9 +30,10 @@ class UpdateSubmissionForm extends React.Component {
   };
 
   render() {
+    const { mutation, mutationType, submission, userChallengeId } = this.props;
     return (
-      <Mutation mutation={UPDATE_SUBMISSION}>
-        {(updateSubmission, { loading, error, data }) => {
+      <Mutation mutation={mutationType}>
+        {(mutation, { loading, error, data }) => {
           if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
 
@@ -44,17 +43,18 @@ class UpdateSubmissionForm extends React.Component {
                 e.preventDefault();
 
                 const { text, progress } = this.state;
-                const { challenge, submission } = this.props.location.state;
 
-                updateSubmission({
+                mutation({
                   variables: {
-                    submissionId: submission.id,
+                    id: submission ? submission.id : userChallengeId,
+                    date: submission ? submission.date : new Date(),
                     progress: Number(progress),
                     text,
                   },
-                }).then(() =>
-                  this.props.history.push(`/challenge/${challenge}`)
-                );
+                }).then(data => {
+                  console.log(data);
+                  this.props.history.push(`/challenge/${userChallengeId}`);
+                });
               }}
             >
               <FormInput
@@ -75,7 +75,9 @@ class UpdateSubmissionForm extends React.Component {
                 />
                 <p>{this.props.goalType}</p>
               </div>
-              <button type="submit">Update Submission</button>
+              <button type="submit">
+                {this.props.submission ? 'Update' : 'Add'} Submission
+              </button>
             </form>
           );
         }}
@@ -84,4 +86,4 @@ class UpdateSubmissionForm extends React.Component {
   }
 }
 
-export default UpdateSubmissionForm;
+export default SubmissionForm;

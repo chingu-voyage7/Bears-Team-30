@@ -57,14 +57,14 @@ export const UPDATE_USER_CHALLENGE = gql`
 
 export const CREATE_SUBMISSION = gql`
   mutation createSubmission(
-    $userChallengeId: ID!
+    $id: ID!
     $date: DateTime!
     $progress: Int!
     $image: String
     $text: String
   ) {
     createSubmission(
-      userChallengeId: $userChallengeId
+      userChallengeId: $id
       data: { date: $date, progress: $progress, image: $image, text: $text }
     ) {
       success
@@ -76,14 +76,14 @@ export const CREATE_SUBMISSION = gql`
 
 export const UPDATE_SUBMISSION = gql`
   mutation updateSubmission(
-    $submissionId: ID!
+    $id: ID!
     $date: DateTime
     $progress: Int
     $image: String
     $text: String
   ) {
     updateSubmission(
-      submissionId: $submissionId
+      submissionId: $id
       data: { date: $date, progress: $progress, image: $image, text: $text }
     ) {
       success

@@ -6,7 +6,8 @@
 
 ~~- View all submissions in own userChallenge~~
 
-- Edit submission
+~~- Edit submission~~
+
 - Delete submission
 - Edit userChallenge
 - Delete userChallenge
@@ -17,6 +18,8 @@
 - Show list of all favorite submissions on Dashboard page
 - View individual submission on click?
 - Add comment on submissions?
+- Edit comment
+- Delete comment
 - Add date picker to change challenge start date?
 - Add date picker to change submission date?
 - Add Settings page - can update username, email, password
