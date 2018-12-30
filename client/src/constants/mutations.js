@@ -93,6 +93,16 @@ export const UPDATE_SUBMISSION = gql`
   }
 `;
 
+export const DELETE_SUBMISSION = gql`
+  mutation deleteSubmission($submissionId: ID!) {
+    deleteSubmission(submissionId: $submissionId) {
+      success
+      code
+      message
+    }
+  }
+`;
+
 export const CREATE_LIKE = gql`
   mutation createLike($id: ID!) {
     createLike(submissionId: $id) {

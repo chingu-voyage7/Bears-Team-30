@@ -8,7 +8,8 @@
 
 ~~- Edit submission~~
 
-- Delete submission
+~~- Delete submission~~
+
 - Edit userChallenge
 - Delete userChallenge
 - Change Sidebar to subscription
