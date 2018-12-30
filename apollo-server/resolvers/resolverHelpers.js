@@ -1,4 +1,5 @@
 const { cleanProps } = require('../../postgresDb/pgHelpers');
+const { PubSub } = require('apollo-server');
 
 const SUCCESS = {
   code: 's200',
@@ -11,6 +12,8 @@ const FAILURE = {
   success: false,
   message: `Database error`,
 };
+
+const pubsub = new PubSub();
 
 function success(res) {
   return { ...SUCCESS, ...res };
@@ -66,4 +69,19 @@ function parseResults(res) {
   return usersArr;
 }
 
-module.exports = { success, failure, notAuthenticated, parseResults };
+function publish(channel, prop = null) {
+  return res => {
+    const payload = prop ? res[prop] : res;
+    pubsub.publish(channel, { [channel]: payload });
+    return res;
+  };
+}
+
+module.exports = {
+  success,
+  failure,
+  notAuthenticated,
+  parseResults,
+  publish,
+  pubsub,
+};
