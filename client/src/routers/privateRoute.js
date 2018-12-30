@@ -4,15 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import * as routes from '../constants/routes';
+import { GET_AUTH } from '../constants/queries';
 import Sidebar from '../components/Sidebar';
-
-const GET_AUTH = gql`
-  {
-    auth {
-      isAuthenticated
-    }
-  }
-`;
 
 const privateRoute = Component => {
   const PrivateRoute = props => (

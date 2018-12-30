@@ -1,5 +1,13 @@
 import gql from 'graphql-tag';
 
+export const GET_AUTH = gql`
+  {
+    auth {
+      isAuthenticated
+    }
+  }
+`;
+
 export const GET_MY_CHALLENGES = gql`
   {
     myChallenges {
