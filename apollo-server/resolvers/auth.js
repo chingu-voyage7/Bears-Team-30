@@ -121,6 +121,7 @@ async function updateUser(parent, { id, data }) {
   const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
   const usernameIsDuplicate = await checkIfDuplicate(id, usernameRows);
   const currentUserData = await idRows;
+  console.log(currentUserData)
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =

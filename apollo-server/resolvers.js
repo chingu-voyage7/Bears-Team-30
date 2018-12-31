@@ -29,6 +29,7 @@ const {
   Submission,
   submissions,
   submission,
+  challengeGroupSubmissions,
   updateSubmission,
   deleteSubmission,
   createComment,
@@ -57,6 +58,7 @@ const resolvers = {
     myChallenges,
     submissions,
     submission,
+    challengeGroupSubmissions,
   },
   Mutation: {
     createUser,
