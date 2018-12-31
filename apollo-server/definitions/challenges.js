@@ -1,6 +1,11 @@
 const { gql } = require('apollo-server');
 
 const challengeDefs = gql`
+
+  type Subscription {
+    myStuff: Challenge
+  }
+
   extend type Query {
     # view list of challenge groups, add filterable by category later
     challengeGroups: [ChallengeGroup!]

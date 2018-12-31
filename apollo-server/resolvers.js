@@ -21,6 +21,7 @@ const {
   userChallenges,
   Challenge,
   ChallengeGroup,
+  myStuff,
 } = require('./resolvers/challenge');
 
 const {
@@ -74,6 +75,9 @@ const resolvers = {
     deleteLike,
     createFavorite,
     deleteFavorite,
+  },
+  Subscription: {
+    myStuff,
   },
   MutationResponse: {
     __resolveType() {
