@@ -14,6 +14,9 @@ const {
   deleteFavorite: deleteFavoriteHelper,
   deleteLike: deleteLikeHelper,
 } = require('../../postgresDb/submissions/submissionsHelpers');
+const {
+  getUserChallenge,
+} = require('../../postgresDb/challenges/challengeHelpers');
 const { success, failure, notAuthenticated } = require('./resolverHelpers');
 
 /**
@@ -48,6 +51,9 @@ const Submission = {
   },
   favorites({ id }) {
     return getFavorites(id);
+  },
+  userChallenge({ userchallengeid }) {
+    return getUserChallenge(userchallengeid);
   },
 };
 

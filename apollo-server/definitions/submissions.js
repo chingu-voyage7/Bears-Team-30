@@ -45,6 +45,7 @@ const submissionDefs = gql`
     text: String
     progress: Int!
     user: User!
+    userChallenge: Challenge!
     comments: [Comment!]
     likes: [Like!]
     favorites: [Favorite!]
