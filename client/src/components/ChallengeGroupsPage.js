@@ -6,6 +6,12 @@ import CategorySelect from './CategorySelect';
 import SearchBar from './SearchBar';
 import ChallengeGroupsList from './ChallengeGroupsList';
 import UserChallengeSettingsPage from './UserChallengeSettingsPage';
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+
+
 
 class ChallengeGroupsPage extends React.Component {
   state = {
@@ -52,10 +58,10 @@ class ChallengeGroupsPage extends React.Component {
             data.myChallenges.map(challenge => challenge.challengeGroup.id);
 
           return (
-            <div>
+            <div className="page-content">
               {!this.state.showSettingsPage && (
                 <div>
-                  <h2>Find a Challenge to Join</h2>
+                  <h2 className="title header">Find a Challenge to Join</h2>
                   <SearchBar
                     onUserQueryChange={this.onUserQueryChange}
                     value={this.state.query}
@@ -64,7 +70,7 @@ class ChallengeGroupsPage extends React.Component {
                     onCategoryChange={this.onCategoryChange}
                     value={this.state.category}
                   />
-                  <ChallengeGroupsList
+                <ChallengeGroupsList
                     category={this.state.category}
                     onChallengeSelect={this.onChallengeSelect}
                     userChallenges={userChallenges}

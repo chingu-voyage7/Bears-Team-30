@@ -1,0 +1,79 @@
+@import './variables.scss';
+@import './animations.scss';
+
+
+.sidebar {
+  width: 25%;
+  height: 100%;
+  position: fixed;
+  background-color: $white;
+  box-shadow: 5px 0 5px -5px #333;
+}
+
+.sidebar-container {
+  width: 65%;
+  background-color: $white;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+
+.sidebar-header {
+  line-height: 20px;
+
+  .days {
+    color: $sidebar-font;
+    letter-spacing:1px;
+    text-align:center;
+    padding-bottom: 20px;
+    padding-left: 3px;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    padding-top: 60px;
+    text-transform: uppercase;
+    font-size: 17px;
+    letter-spacing: 3px;
+  }
+}
+
+.sidebar-items {
+  width: 100%;
+}
+
+.challenges {
+
+  width: 100%;
+
+  h3 {
+    color: $sidebar-font;
+    letter-spacing:1px;
+    font-weight: 100;
+    font-size: 14px;
+    padding-top: 60px;
+    padding-bottom: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  h4 {
+    color: $sidebar-font;
+    font-size: 12px;
+    padding-top: 7px;
+    margin-bottom: 2px;
+    letter-spacing: 2px;
+  }
+
+  p {
+    color: $sidebar-font;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 1px;
+
+  }
+}

@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 import UserChallengePage from './UserChallengePage';
+import '../styles/base.scss';
+import '../styles/components/dashboard.scss'
+
 
 const DashboardPage = props => (
-  <div>
-    <h2>My Dashboard</h2>
-    <Link to={routes.CHALLENGE_GROUPS}>Join a Challenge</Link>
+  <div className="page-content">
+
+    <Link to={routes.CHALLENGE_GROUPS} className="dashboard-btn">Join a Challenge</Link>
   </div>
 );
 

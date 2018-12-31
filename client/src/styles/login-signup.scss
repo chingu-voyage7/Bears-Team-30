@@ -25,15 +25,15 @@
       font-size: 68px;
     }
   }
+}
 
-  .header-underline {
-    width: 70px;
-    height: 2px;
-    background-color: $white;
-    margin: 0 auto 35px auto;
-    box-shadow: 1px 1px 10px $black;
-    border-radius: 15px;
-  }
+.header-underline {
+  width: 70px;
+  height: 2px;
+  background-color: $white;
+  margin: 0 auto 35px auto;
+  box-shadow: 1px 1px 10px $black;
+  border-radius: 15px;
 }
 
 .form-input {
