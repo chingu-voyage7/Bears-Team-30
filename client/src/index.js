@@ -10,6 +10,17 @@ import { ApolloProvider } from 'react-apollo';
 import AppRouter from './routers/AppRouter.js';
 import './styles/normalize.scss';
 
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      submission: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'Submission', id: args.id }),
+      userChallenge: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'Challenge', id: args.id }),
+    },
+  },
+});
+
 const request = operation => {
   const token = localStorage.getItem('token');
   operation.setContext({
@@ -57,7 +68,7 @@ const client = new ApolloClient({
       credentials: 'same-origin',
     }),
   ]),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 const App = (

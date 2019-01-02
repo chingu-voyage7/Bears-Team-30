@@ -21,13 +21,21 @@ export const GET_MY_CHALLENGES = gql`
   {
     myChallenges {
       id
-      createdAt
       progress
+      createdAt
+      startDate
       goal
       challengeGroup {
         id
         name
         goalType
+      }
+      submissions {
+        id
+        date
+        image
+        text
+        progress
       }
     }
   }
@@ -88,6 +96,7 @@ export const GET_CHALLENGE_GROUP = gql`
 export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
   query challengeGroup($challengeGroupId: ID!) {
     challengeGroup(challengeGroupId: $challengeGroupId) {
+      id
       challenges {
         id
         startDate

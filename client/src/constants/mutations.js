@@ -44,6 +44,10 @@ export const CREATE_USER_CHALLENGE = gql`
         createdAt
         progress
         goal
+        startDate
+        submissions {
+          id
+        }
         challengeGroup {
           id
           name
@@ -79,6 +83,10 @@ export const UPDATE_USER_CHALLENGE = gql`
         createdAt
         progress
         goal
+        startDate
+        submissions {
+          id
+        }
         challengeGroup {
           id
           name

@@ -53,22 +53,27 @@
 - Change ActionButton to subscription (waiting for isLiked, isFavorited subscriptions)
 - Show list of all favorite submissions on Dashboard page (waiting for myFavorites query)
 
+## Fix
+- number input in challenge settings page
+
 ## TBD
 
 - pagination
-  - UserSubmissionsList and GroupSubmissionsList show 10 at a time - click button for more
-  - UserSubmissionsPage shows all
-  - GroupSubmissionsPage shows 40 - scroll for more
+  - UserSubmissionsList and GroupSubmissionsList show 5 at a time - click button for more
+  - UserSubmissionsPage shows 20 - scroll for more
+  - GroupSubmissionsPage shows 20 - scroll for more
 - testing
 - sort sidebar userChallenges by startDate
 - make createUrl util functions, use instead of template strings
-- refactor
-  - consistent { withRouter }
-  - consistent component naming
-  - consistent variable naming
-  - better file structure
-  - fix query and mutation component structure
-  - Set up query from Apollo client cache
+- consistent { withRouter }
+- consistent component naming
+- consistent variable naming
+- better file structure
+- fix query and mutation component structure
+- Set up more queries from Apollo client cache
+- Get challengeGroupSubmissions query
+- Add day field back to Submission - not taken as arg, calculated on back-end
+- use fragments
 
 ## Completed:
 
