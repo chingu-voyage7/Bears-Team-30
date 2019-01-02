@@ -1,13 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import ActionButton from './ActionButton';
-import {
-  DELETE_LIKE,
-  CREATE_LIKE,
-  DELETE_FAVORITE,
-  CREATE_FAVORITE,
-} from '../constants/mutations';
+import LikeButton from './LikeButton';
+import FavoriteButton from './FavoriteButton';
 
 const SubmissionsList = ({ canEdit, userChallenge, startDate, submissions }) =>
   submissions.map(submission => {
@@ -22,20 +17,8 @@ const SubmissionsList = ({ canEdit, userChallenge, startDate, submissions }) =>
         <p>{submission.text}</p>
         {submission.progress && <p>Progress: +{submission.progress}</p>}
         <div>
-          <ActionButton
-            mutations={['createLike', 'deleteLike']}
-            mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
-            submissionId={submission.id}
-            text="❤"
-            type="like"
-          />
-          <ActionButton
-            mutations={['createFavorite', 'deleteFavorite']}
-            mutationTypes={[CREATE_FAVORITE, DELETE_FAVORITE]}
-            submissionId={submission.id}
-            text="★"
-            type="favorite"
-          />
+          <LikeButton submissionId={submission.id} />
+          <FavoriteButton submissionId={submission.id} />
         </div>
         {canEdit && (
           <Link

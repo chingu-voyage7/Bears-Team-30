@@ -1,59 +1,21 @@
 ## Can Do:
 
 - Make page to show all submissions in challengeGroup - get to it from list of group submissions in UserChallengePage; sort by latest or popular
-
-  ```js
-  let submissions = [];
-
-  console.log(data.challengeGroup.challenges);
-  data.challengeGroup.challenges.forEach(challenge => {
-    const startDate = challenge.startDate;
-    const challengeSubmissions = challenge.submissions.map(submission => ({
-      ...submission,
-      startDate,
-    }));
-    submissions.push(...challengeSubmissions);
-  });
-  console.log('submissions: ', submissions);
-  ```
-
-- View individual submission on click?
-- Add comment on submissions?
-- Edit comment
-- Delete comment
-- Add date picker to change challenge start date?
-- Add date picker to change submission date?
+- View individual submission on click
+- Add comment on submissions
+  - Edit comment
+  - Delete comment
+- "Delete" userChallenge - use updateUserChallenge to set "status" field to CANCELLED
+- Add date picker to change challenge start date
+- Add date picker to change submission date
 - Add Settings page - can update username, email, password
 
 ## Waiting:
 
-- Delete userChallenge (waiting for deleteUserChallenge mutation)
-
-```js
-<Mutation mutation={DELETE_USER_CHALLENGE}>
-  {(deleteUserChallenge, { data: deleteData }) => (
-    <button
-      type="button"
-      onClick={e => {
-        e.preventDefault();
-
-        deleteUserChallenge({
-          variables: {
-            userChallengeId,
-          },
-        }).then(() => this.props.history.push(routes.DASHBOARD));
-      }}
-    >
-      Leave Challenge
-    </button>
-  )}
-</Mutation>
-```
-
-- Change ActionButton to subscription (waiting for isLiked, isFavorited subscriptions)
 - Show list of all favorite submissions on Dashboard page (waiting for myFavorites query)
 
 ## Fix
+
 - number input in challenge settings page
 
 ## TBD
@@ -87,3 +49,4 @@
 - Edit userChallenge
 - Add like and favorite on submissions
 - List of user challenges in sidebar updates on createUserChallenge and editUserChallenge
+- ActionButton updates on create/delete like and favorite
