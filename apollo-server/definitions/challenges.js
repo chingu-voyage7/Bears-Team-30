@@ -1,7 +1,6 @@
 const { gql } = require('apollo-server');
 
 const challengeDefs = gql`
-
   type Subscription {
     myStuff: Challenge
   }

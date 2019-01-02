@@ -9,6 +9,7 @@ const {
   deleteUser,
   users,
   me,
+  User,
 } = require('./resolvers/auth');
 
 const {
@@ -86,6 +87,7 @@ const resolvers = {
       return null;
     },
   },
+  User,
   ChallengeGroup,
   Challenge,
   Submission,

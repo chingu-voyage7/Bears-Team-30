@@ -28,9 +28,14 @@ const authDefs = gql`
   }
 
   type User {
-    id: UUID!
+    # id: UUID!
     username: String!
-    email: String!
+    # email: String!
+    userChallenges: [Challenge]
+    submissions: [Submission]
+    likes: [Like]
+    favorites: [Favorite]
+    comments: [Comment]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
