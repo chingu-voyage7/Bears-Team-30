@@ -88,6 +88,7 @@ const resolvers = {
     },
   },
   User,
+  Me: User,
   ChallengeGroup,
   Challenge,
   Submission,
