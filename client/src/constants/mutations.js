@@ -122,12 +122,6 @@ export const CREATE_SUBMISSION = gql`
       success
       code
       message
-      submission {
-        id
-        likes {
-          id
-        }
-      }
     }
   }
 `;
@@ -147,12 +141,6 @@ export const UPDATE_SUBMISSION = gql`
       success
       code
       message
-      submission {
-        id
-        likes {
-          id
-        }
-      }
     }
   }
 `;
@@ -163,12 +151,6 @@ export const DELETE_SUBMISSION = gql`
       success
       code
       message
-      submission {
-        id
-        likes {
-          id
-        }
-      }
     }
   }
 `;
@@ -181,9 +163,6 @@ export const CREATE_LIKE = gql`
       message
       like {
         id
-        submission {
-          id
-        }
       }
     }
   }
@@ -197,9 +176,6 @@ export const DELETE_LIKE = gql`
       message
       like {
         id
-        submission {
-          id
-        }
       }
     }
   }
@@ -213,9 +189,6 @@ export const CREATE_FAVORITE = gql`
       message
       favorite {
         id
-        submission {
-          id
-        }
       }
     }
   }
@@ -229,9 +202,6 @@ export const DELETE_FAVORITE = gql`
       message
       favorite {
         id
-        submission {
-          id
-        }
       }
     }
   }

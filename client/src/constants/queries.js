@@ -114,33 +114,3 @@ export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
     }
   }
 `;
-
-export const GET_LIKED = gql`
-  query submission($submissionId: ID!) {
-    submission(submissionId: $submissionId) {
-      id
-      likes {
-        id
-        creator {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
-
-export const GET_FAVORITED = gql`
-  query submission($submissionId: ID!) {
-    submission(submissionId: $submissionId) {
-      id
-      favorites {
-        id
-        creator {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
