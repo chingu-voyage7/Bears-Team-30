@@ -1,3 +1,4 @@
+const { withFilter } = require('apollo-server');
 const {
   getChallengeGroups,
   getChallengeGroupUsers,
@@ -17,6 +18,8 @@ const {
   failure,
   notAuthenticated,
   parseResults,
+  publish,
+  pubsub,
 } = require('./resolverHelpers');
 
 /**
@@ -112,8 +115,22 @@ function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
   return updateUserChallengeHelper(userChallengeId, data, id)
     .then(res => ({ challenge: res }))
     .then(success)
+    .then(publish('myStuff', 'challenge'))
     .catch(failure);
 }
+
+/**
+ * Subscribe to any changes in the logged-in user's challenges
+ */
+const myStuff = {
+  subscribe: withFilter(
+    () => pubsub.asyncIterator('myStuff'),
+    (payload, variables, { id }) => {
+      console.log('withFilter arguments:', { payload, variables, id });
+      return payload.myStuff.userid === id;
+    }
+  ),
+};
 
 const Challenge = {
   user({ userid }) {
@@ -137,4 +154,5 @@ module.exports = {
   updateUserChallenge,
   Challenge,
   ChallengeGroup,
+  myStuff,
 };

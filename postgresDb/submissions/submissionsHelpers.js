@@ -6,6 +6,7 @@ const {
   makeUpdate,
   cleanProps,
   getWithId,
+  selectWithPagination,
   deleteWithId,
 } = require('../pgHelpers');
 
@@ -37,6 +38,11 @@ function getUserSubmissions(idOne, idTwo) {
     });
     return results;
   });
+}
+
+function getChallengeGroupSubmissions(challengegroupid, paginationOptions) {
+  const QUERY = selectWithPagination({ challengegroupid }, paginationOptions);
+  return db.query(QUERY);
 }
 
 function getLikes(submissionid) {
@@ -88,6 +94,7 @@ module.exports = {
   insertFavorite,
   insertLike,
   getUserSubmissions,
+  getChallengeGroupSubmissions,
   getLikes,
   getComments,
   getFavorites,

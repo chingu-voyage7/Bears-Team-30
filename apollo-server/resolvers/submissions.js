@@ -6,6 +6,7 @@ const {
   insertLike,
   updateSubmission: updateSubmissionHelper,
   getUserSubmissions,
+  getChallengeGroupSubmissions,
   getComments,
   getLikes,
   getFavorites,
@@ -14,16 +15,24 @@ const {
   deleteFavorite: deleteFavoriteHelper,
   deleteLike: deleteLikeHelper,
 } = require('../../postgresDb/submissions/submissionsHelpers');
-const { success, failure, notAuthenticated } = require('./resolverHelpers');
+const {
+  getUserChallenge,
+} = require('../../postgresDb/challenges/challengeHelpers');
+const {
+  success,
+  failure,
+  notAuthenticated,
+  parseResults,
+} = require('./resolverHelpers');
 
 /**
  * returns all of user's submissions for a specific challenge
  * @param {*} userid
  * @param {*} challengid
  */
-function submissions(parent, { userId, userChallengeId }) {
+function submissions(parent, { userChallengeId }, { id }) {
   return getUserSubmissions(
-    { userid: userId },
+    // { userid: id },
     { userchallengeid: userChallengeId }
   );
 }
@@ -34,6 +43,60 @@ function submissions(parent, { userId, userChallengeId }) {
  */
 function submission(parent, { submissionId }) {
   return getUserSubmissions({ id: submissionId }, null).then(res => res[0]);
+}
+
+// return submissions in a challenge group
+function challengeGroupSubmissions(
+  parent,
+  { challengeGroupId, amount, sortBy, offset }
+) {
+  // console.log(challengeGroupId, amount, sortBy, offset);
+
+  const selectOrder = function(sortBy) {
+    switch (sortBy) {
+      case 'NEW':
+        return { order: 'created_at DESC' };
+      case 'OLD':
+        return { order: 'created_at ASC' };
+      case 'HOT':
+        return {
+          order: 'like_count DESC',
+          customQuery: `
+          SELECT S.*, challengegroupid, COUNT(L.id) AS like_count
+          FROM submissions S
+          INNER JOIN user_challenges U ON S.userchallengeid = U.id
+          LEFT JOIN likes L ON L.submissionid = S.id
+          `,
+          groupBy: 'GROUP BY S.id, U.challengegroupid',
+        };
+      case 'FAVE':
+        return {
+          order: 'fave_count DESC',
+          customQuery: `
+          SELECT S.*, challengegroupid, COUNT(F.id) AS fave_count
+          FROM submissions S
+          INNER JOIN user_challenges U ON S.userchallengeid = U.id
+          LEFT JOIN favorites F ON F.submissionid = S.id
+          `,
+          groupBy: 'GROUP BY S.id, U.challengegroupid',
+        };
+      default:
+        return null;
+    }
+  };
+
+  return getChallengeGroupSubmissions(challengeGroupId, {
+    customQuery: `
+    SELECT S.*, challengegroupid
+    FROM submissions S
+    INNER JOIN user_challenges U ON S.userchallengeid = U.id
+    `,
+    limit: amount,
+    offset,
+    ...selectOrder(sortBy),
+  })
+    .then(parseResults)
+    .catch(failure);
 }
 
 const Submission = {
@@ -48,6 +111,9 @@ const Submission = {
   },
   favorites({ id }) {
     return getFavorites(id);
+  },
+  userChallenge({ userchallengeid }) {
+    return getUserChallenge(userchallengeid);
   },
 };
 
@@ -167,6 +233,7 @@ function deleteFavorite(parent, { favoriteId }, { id }) {
 module.exports = {
   createSubmission,
   Submission,
+  challengeGroupSubmissions,
   submissions,
   submission,
   updateSubmission,

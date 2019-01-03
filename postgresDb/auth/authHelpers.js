@@ -34,7 +34,7 @@ async function checkEmail(email) {
 }
 
 async function checkId(id) {
-  const row = await getUser(id);
+  const row = await getUser({ id });
   if (row) return [row];
   return false;
 }

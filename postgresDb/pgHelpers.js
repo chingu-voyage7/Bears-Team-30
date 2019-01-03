@@ -40,13 +40,21 @@ const makeQuery = ({
   secondCondition = '',
   secondConditionProps = [],
   returning = '',
+  orderBy = '',
+  limit = '',
+  offset = '',
 }) => {
   const values = [];
   let valueIndex = 1;
   const clauses = parseClause(clause, clauseProps);
   const conditions = parseClause(condition, conditionProps);
   const secondConditions = parseClause(secondCondition, secondConditionProps);
-  const text = `${query} ${clauses} ${conditions} ${secondConditions} ${returning}`.trim();
+
+  const orderClause = orderBy ? `ORDER BY ${orderBy}` : '';
+  const offsetClause = offset ? `OFFSET ${offset}` : 'OFFSET 0';
+  const limitClause = limit ? `LIMIT ${limit} ${offsetClause}` : '';
+
+  const text = `${query} ${clauses} ${conditions} ${secondConditions} ${orderClause} ${returning} ${limitClause}`.trim();
 
   return {
     text,
@@ -85,6 +93,22 @@ function getWithId(idObj, table) {
       console.error(err);
       return err;
     });
+}
+
+function selectWithPagination(
+  idObj,
+  { table = null, customQuery = null, order, limit, offset, groupBy = null }
+) {
+  const query = customQuery || `SELECT * FROM ${table}`;
+  return makeQuery({
+    query,
+    clause: 'WHERE',
+    clauseProps: idObj,
+    condition: groupBy,
+    orderBy: order,
+    limit,
+    offset,
+  });
 }
 
 function makeInsert(table, valuesObj, { forceText } = {}) {
@@ -185,6 +209,7 @@ function deleteWithId(table, id, userid) {
 module.exports = {
   makeQuery,
   getWithId,
+  selectWithPagination,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
   makeQuerySelectUser,

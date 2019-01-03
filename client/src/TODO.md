@@ -1,8 +1,9 @@
-## Can Do:
+## To Do:
 
 - Show number of likes/favorites for each submission
 - Show number of users in each challengeGroup
 - Make challengeGroup submissions page - access from link in groupSubmissionsList on UserChallengePage; sort by latest or popular
+- Show list of user's favorites on Dashboard Page
 - Make page for all current user's submissions to userChallenge - show day/text
 - View individual submission on click
 - Add comment on submissions
@@ -17,8 +18,6 @@
 - finish challenge on day 100 - set status to COMPLETED
 
 ## Waiting:
-
-- Show list of all favorite submissions on Dashboard page (waiting for myFavorites query)
 
 ## Fix
 
