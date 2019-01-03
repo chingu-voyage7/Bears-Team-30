@@ -1,33 +1,23 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { ME, GET_FAVORITED } from '../constants/queries';
+import { ME } from '../constants/queries';
 import { CREATE_FAVORITE, DELETE_FAVORITE } from '../constants/mutations';
 import ActionButton from './ActionButton';
 
-const LikeButton = ({ submissionId }) => (
-  <Query
-    query={GET_FAVORITED}
-    partialRefetch={true}
-    variables={{ submissionId }}
-  >
-    {({ loading, error, client, data }) => {
+const FavoriteButton = ({ submissionId }) => (
+  <Query query={ME} partialRefetch={true}>
+    {({ loading, error, data }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
 
-      const { me } = client.readQuery({
-        query: ME,
-      });
-
-      const favoritedBy = data.submission.favorites.map(
-        favorite => favorite.creator.id
+      const matchedItem = data.me.favorites.find(
+        favorite => favorite.submission.id === submissionId
       );
-      const favorites = data.submission.favorites.map(favorite => favorite.id);
-      const existingId = favorites[favoritedBy.indexOf(me.id)];
 
       return (
         <ActionButton
-          existingId={existingId}
+          matchedItem={matchedItem}
           mutations={['createFavorite', 'deleteFavorite']}
           mutationTypes={[CREATE_FAVORITE, DELETE_FAVORITE]}
           submissionId={submissionId}
@@ -39,4 +29,4 @@ const LikeButton = ({ submissionId }) => (
   </Query>
 );
 
-export default LikeButton;
+export default FavoriteButton;

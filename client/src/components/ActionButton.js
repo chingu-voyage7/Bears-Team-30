@@ -1,43 +1,34 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { GET_LIKED, GET_FAVORITED } from '../constants/queries';
+import { ME } from '../constants/queries';
 
 const ActionButton = ({
   mutations,
   mutationTypes,
   submissionId,
   text,
-  type,
-  existingId,
+  matchedItem,
 }) => {
-  const index = !existingId ? 0 : 1;
+  const index = !matchedItem ? 0 : 1;
+  const mutationType = mutationTypes[index];
   const mutation = mutations[index];
-  const id = !!existingId ? existingId : submissionId;
-  const create = mutations[0];
+  const id = !!matchedItem ? matchedItem.id : submissionId;
+
   return (
     <Mutation
-      mutation={mutationTypes[index]}
+      mutation={mutationType}
       variables={{ id }}
-      refetchQueries={[
-        {
-          query: GET_LIKED,
-          variables: { submissionId },
-        },
-        {
-          query: GET_FAVORITED,
-          variables: { submissionId },
-        },
-      ]}
+      refetchQueries={[{ query: ME }]}
     >
-      {(mutation, { data }) => (
+      {(mutation, { client, data }) => (
         <button
           onClick={e => {
             e.preventDefault();
 
             mutation();
           }}
-          style={{ background: !!existingId ? 'red' : 'white' }}
+          style={{ background: !!matchedItem ? 'red' : 'white' }}
         >
           {text}
         </button>

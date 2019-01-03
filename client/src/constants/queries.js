@@ -13,6 +13,25 @@ export const ME = gql`
     me {
       id
       username
+      email
+      likes {
+        id
+        submission {
+          id
+        }
+      }
+      favorites {
+        id
+        submission {
+          id
+        }
+      }
+      comments {
+        id
+        submission {
+          id
+        }
+      }
     }
   }
 `;
@@ -106,39 +125,8 @@ export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
           text
           image
           user {
-            id
             username
           }
-        }
-      }
-    }
-  }
-`;
-
-export const GET_LIKED = gql`
-  query submission($submissionId: ID!) {
-    submission(submissionId: $submissionId) {
-      id
-      likes {
-        id
-        creator {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
-
-export const GET_FAVORITED = gql`
-  query submission($submissionId: ID!) {
-    submission(submissionId: $submissionId) {
-      id
-      favorites {
-        id
-        creator {
-          id
-          username
         }
       }
     }
