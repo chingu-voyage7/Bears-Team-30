@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
     "apollo": "nodemon ./apollo-server/index.js",
-    "start": "nodemon ./server/bin/www",
+    "start": "nodemon ./apollo-server/index.js",
     "dev": "concurrently \"npm run client\" \"npm run apollo\""
   },
   "repository": {
@@ -38,6 +38,7 @@
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.4.0",
     "morgan": "~1.9.0",
+    "nodemon": "^1.18.9",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -64,7 +65,6 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
     "node-sass": "^4.11.0",
-    "nodemon": "^1.18.8",
     "prettier": "^1.15.3",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
