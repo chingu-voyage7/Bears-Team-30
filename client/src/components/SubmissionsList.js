@@ -6,10 +6,15 @@ import FavoriteButton from './FavoriteButton';
 
 const SubmissionsList = ({ canEdit, userChallenge, startDate, submissions }) =>
   submissions.map(submission => {
-    const day = Math.ceil(
-      (new Date(submission.date).getTime() - new Date(startDate).getTime()) /
-        (1000 * 60 * 60 * 24)
-    );
+    const challengeStartDate = startDate
+      ? startDate
+      : submission.userChallenge.startDate;
+    const day =
+      Math.ceil(
+        new Date(submission.date).getTime() -
+          new Date(challengeStartDate).getTime()
+      ) /
+      (1000 * 60 * 60 * 24);
 
     return (
       <div key={submission.id}>

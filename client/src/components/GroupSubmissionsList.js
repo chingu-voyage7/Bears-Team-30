@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 
-import { GET_CHALLENGE_GROUP_SUBMISSIONS } from '../constants/queries';
+import { GET_GROUP_SUBMISSIONS } from '../constants/queries';
 import SubmissionsList from './SubmissionsList';
 
 const GroupSubmissionsList = ({ challengeGroupId }) => (
   <Query
-    query={GET_CHALLENGE_GROUP_SUBMISSIONS}
+    query={GET_GROUP_SUBMISSIONS}
     partialRefetch={true}
-    variables={{ challengeGroupId }}
+    variables={{ challengeGroupId, amount: 5 }}
   >
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
@@ -17,16 +17,9 @@ const GroupSubmissionsList = ({ challengeGroupId }) => (
       return (
         <div>
           <h4>All Group Submissions</h4>
-          {data.challengeGroup.challenges.map(challenge => (
-            <Fragment key={challenge.id}>
-              {challenge.submissions.length > 0 && (
-                <SubmissionsList
-                  startDate={challenge.startDate}
-                  submissions={challenge.submissions}
-                />
-              )}
-            </Fragment>
-          ))}
+          {data.challengeGroupSubmissions && (
+            <SubmissionsList submissions={data.challengeGroupSubmissions} />
+          )}
         </div>
       );
     }}
