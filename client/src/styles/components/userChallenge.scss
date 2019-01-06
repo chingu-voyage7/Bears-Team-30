@@ -42,20 +42,20 @@
 
 
 
-.submissions-container {
-  padding-bottom: 20px;
-  width: 70%;
-  text-align: center !important;
-
-  .no-submissions {
-    padding-top: 15px;
-    text-align: center;
-    color: $white;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-}
+// .submissions-container {
+//   padding-bottom: 20px;
+//   // width: 70%;
+//   text-align: center !important;
+//
+//   .no-submissions {
+//     padding-top: 15px;
+//     text-align: center;
+//     color: $white;
+//     font-size: 10px;
+//     text-transform: uppercase;
+//     letter-spacing: 2px;
+//   }
+// }
 
 .user-item {
   text-align: center;
@@ -64,11 +64,13 @@
 
 .submissions-box {
   text-align: center;
+  width: 100%;
 }
 
 .submission-list {
   display: inline-block;
-  width: 70%;
+  text-align: center;
+  // width: 70%;
 }
 
 .like-favorite {

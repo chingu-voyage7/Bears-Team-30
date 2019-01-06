@@ -15,7 +15,7 @@ const GroupSubmissionsList = ({ challengeGroupId }) => (
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div className="submissions-container">
+        <div className="list-container-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
           <h4 className="title header">All Group Submissions</h4>
           {data.challengeGroup.challenges.map(challenge => (
             <Fragment key={challenge.id}>

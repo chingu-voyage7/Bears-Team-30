@@ -8,7 +8,7 @@ import '../styles/variables.scss';
 import '../styles/components/userChallenge.scss';
 
 const UserSubmissionsList = ({ userChallenge, submissions, startDate }) => (
-  <div className="submissions-container">
+  <div className="list-container-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
     <h4 className="title header">My Submissions</h4>
     {submissions.length > 0 ? (
       <SubmissionsList

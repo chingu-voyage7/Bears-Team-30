@@ -45,6 +45,7 @@ class UserChallengeSettingsPage extends React.Component {
               {(updateUserChallenge, { data: mutationData }) => (
                 <div className="page-content">
                   <h3 className="title header">Edit Your Challenge Settings</h3>
+                  <div className="fadeInUp">
                   <h4 className="user-header">{data.challengeGroup.name}</h4>
                   <p className="small-text header">{data.challengeGroup.description}</p>
                   <GoalSection
@@ -79,6 +80,7 @@ class UserChallengeSettingsPage extends React.Component {
                   >
                     Save My Settings
                   </button>
+                  </div>
                 </div>
                 </div>
               )}
