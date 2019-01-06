@@ -5,8 +5,16 @@ const submissionDefs = gql`
     # optional filter by status
     submission(submissionId: ID!): Submission!
 
-    # show all of a user's submissions for a userchallenge
-    submissions(userId: UUID, userChallengeId: Int!): [Submission!]
+    # show all submissions for a given userChallenge
+    submissions(userChallengeId: Int!): [Submission!]
+
+    # return submissions for a give challenge group
+    challengeGroupSubmissions(
+      challengeGroupId: Int!
+      amount: Int = 10
+      sortBy: SORT_FIELDS = NEW
+      offset: Int = 0
+    ): [Submission]
   }
 
   extend type Mutation {
@@ -31,11 +39,11 @@ const submissionDefs = gql`
 
     createLike(submissionId: ID!): LikeResponse!
 
-    deleteLike(submissionId: ID!): LikeResponse!
+    deleteLike(likeId: ID!): LikeResponse!
 
     createFavorite(submissionId: ID!): FavoriteResponse!
 
-    deleteFavorite(submissionId: ID!): FavoriteResponse!
+    deleteFavorite(favoriteId: ID!): FavoriteResponse!
   }
 
   type Submission {
@@ -45,9 +53,12 @@ const submissionDefs = gql`
     text: String
     progress: Int!
     user: User!
+    userChallenge: Challenge!
     comments: [Comment!]
     likes: [Like!]
+    likeCount: Int
     favorites: [Favorite!]
+    faveCount: Int
     updatedAt: DateTime!
     createdAt: DateTime!
   }
@@ -122,6 +133,13 @@ const submissionDefs = gql`
     success: Boolean!
     message: String!
     favorite: Favorite
+  }
+
+  enum SORT_FIELDS {
+    OLD
+    NEW
+    HOT
+    FAVE
   }
 `;
 

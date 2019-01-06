@@ -12,7 +12,7 @@ const authDefs = gql`
     users: [User!]
 
     # returns username of logged-in account
-    me: User
+    me: Me
   }
 
   type Mutation {
@@ -28,9 +28,27 @@ const authDefs = gql`
   }
 
   type User {
+    # id: UUID!
+    username: String!
+    # email: String!
+    userChallenges: [Challenge]
+    submissions: [Submission]
+    likes: [Like]
+    favorites: [Favorite]
+    comments: [Comment]
+    updatedAt: DateTime!
+    createdAt: DateTime!
+  }
+
+  type Me {
     id: UUID!
     username: String!
     email: String!
+    userChallenges: [Challenge]
+    submissions: [Submission]
+    likes: [Like]
+    favorites: [Favorite]
+    comments: [Comment]
     updatedAt: DateTime!
     createdAt: DateTime!
   }

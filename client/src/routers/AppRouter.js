@@ -10,7 +10,9 @@ const LandingPage = () => <div>Landing Page</div>;
 import DashboardPage from '../components/DashboardPage';
 import ChallengeGroupsPage from '../components/ChallengeGroupsPage';
 import UserChallengePage from '../components/UserChallengePage';
+import UserChallengeSettingsPage from '../components/UserChallengeSettingsPage';
 import AddSubmissionPage from '../components/AddSubmissionPage';
+import UpdateSubmissionPage from '../components/UpdateSubmissionPage';
 
 const AppRouter = () => (
   <div>
@@ -37,8 +39,16 @@ const AppRouter = () => (
           exact
         />
         <Route
+          path={routes.CHALLENGE_SETTINGS}
+          component={privateRoute(UserChallengeSettingsPage)}
+        />
+        <Route
           path={routes.ADD_SUBMISSION}
           component={privateRoute(AddSubmissionPage)}
+        />
+        <Route
+          path={routes.EDIT_SUBMISSION}
+          component={privateRoute(UpdateSubmissionPage)}
         />
       </div>
     </BrowserRouter>

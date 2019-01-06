@@ -9,6 +9,7 @@ const {
   deleteUser,
   users,
   me,
+  User,
 } = require('./resolvers/auth');
 
 const {
@@ -21,6 +22,7 @@ const {
   userChallenges,
   Challenge,
   ChallengeGroup,
+  myStuff,
 } = require('./resolvers/challenge');
 
 const {
@@ -28,6 +30,7 @@ const {
   Submission,
   submissions,
   submission,
+  challengeGroupSubmissions,
   updateSubmission,
   deleteSubmission,
   createComment,
@@ -56,6 +59,7 @@ const resolvers = {
     myChallenges,
     submissions,
     submission,
+    challengeGroupSubmissions,
   },
   Mutation: {
     createUser,
@@ -75,11 +79,16 @@ const resolvers = {
     createFavorite,
     deleteFavorite,
   },
+  Subscription: {
+    myStuff,
+  },
   MutationResponse: {
     __resolveType() {
       return null;
     },
   },
+  User,
+  Me: User,
   ChallengeGroup,
   Challenge,
   Submission,

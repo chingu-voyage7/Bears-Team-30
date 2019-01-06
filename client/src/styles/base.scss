@@ -6,6 +6,7 @@
   width: 75%;
   height: 100vh;
   padding-bottom: 20px;
+  text-align: center;
 }
 
 .title {
@@ -137,7 +138,7 @@
 
   .content {
     background-color: $white;
-    height: 95%;
+    height: 98%;
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -150,6 +151,17 @@
       letter-spacing: 3px;
     }
 
+    h5 {
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin: 0;
+      border-bottom: 1px solid;
+      padding-bottom: 15px;
+      padding-top: 5px;
+    }
+
     p {
       font-size: 10px;
       text-transform: uppercase;
@@ -157,4 +169,64 @@
       padding-top: 15px;
     }
   }
+}
+
+.my-submissions {
+  padding-bottom: 15px;
+  background-color: $white;
+  margin: 13px 0;
+  height: 99% !important;
+}
+
+.p-t-15 {
+  padding-top: 15px;
+}
+
+.p-b-15 {
+  padding-bottom: 15px;
+}
+
+
+.button-transparent {
+  font-size: 12px !important;
+  width: 45%;
+  text-align: center;
+  border: 1px solid;
+  // margin-top: 25px;
+  padding: 15px 40px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  background: transparent;
+  color: $white;
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position:relative;
+  overflow:hidden;
+  display:block;
+  margin:auto;
+  line-height: 18px;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+    letter-spacing: 4px;
+    font-size: 14px;
+  }
+}
+
+.form-edit {
+  width: 60%;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.small-text {
+  color: $white;
+  font-size: 12px;
+  padding-top: 7px;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
 }

@@ -6,6 +6,7 @@ const {
   makeQuery,
   makeQueryInsertAuthInfo,
   makeQueryInsertUser,
+  getWithId,
 } = require('../../postgresDb/pgHelpers');
 
 const {
@@ -121,6 +122,7 @@ async function updateUser(parent, { id, data }) {
   const emailIsDuplicate = await checkIfDuplicate(id, emailRows);
   const usernameIsDuplicate = await checkIfDuplicate(id, usernameRows);
   const currentUserData = await idRows;
+  console.log(currentUserData);
 
   if (emailIsDuplicate || usernameIsDuplicate || !currentUserData) {
     const { created_at: createdAt = 'N/A', updated_at: updatedAt = 'N/A' } =
@@ -226,6 +228,24 @@ function users() {
   });
 }
 
+const User = {
+  userChallenges({ id: userid }) {
+    return getWithId({ userid }, 'user_challenges');
+  },
+  submissions({ id: userid }) {
+    return getWithId({ userid }, 'submissions');
+  },
+  likes({ id: userid }) {
+    return getWithId({ userid }, 'likes');
+  },
+  favorites({ id: userid }) {
+    return getWithId({ userid }, 'favorites');
+  },
+  comments({ id: userid }) {
+    return getWithId({ userid }, 'comments');
+  },
+};
+
 function me(parent, args, { id }) {
   if (!id) throw new Error('User not logged in.');
   return getUserHelper({ id });
@@ -244,4 +264,5 @@ module.exports = {
   deleteUser,
   users,
   me,
+  User,
 };

@@ -2,7 +2,8 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { GET_USER_CHALLENGE } from '../constants/queries';
-import AddSubmissionForm from './AddSubmissionForm';
+import { CREATE_SUBMISSION } from '../constants/mutations';
+import SubmissionForm from './SubmissionForm';
 
 import '../styles/sidebar.scss';
 import '../styles/base.scss';
@@ -25,11 +26,13 @@ const AddSubmissionPage = ({ history, match }) => (
       return (
         <div className="page-content">
           <h2 className="title header">Today's Submission</h2>
-          <p>Day {day}</p>
-          <AddSubmissionForm
-            history={history}
-            userChallengeId={data.userChallenge.id}
+          <p className="user-header">Day {day}</p>
+          <SubmissionForm
             goalType={data.userChallenge.challengeGroup.goalType}
+            history={history}
+            mutation="createSubmission"
+            mutationType={CREATE_SUBMISSION}
+            userChallengeId={data.userChallenge.id}
           />
         </div>
       );

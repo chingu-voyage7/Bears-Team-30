@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Query, Mutation } from 'react-apollo';
 
-import { GET_CHALLENGE_GROUP } from '../constants/queries';
+import { GET_CHALLENGE_GROUP, GET_MY_CHALLENGES } from '../constants/queries';
 import { UPDATE_USER_CHALLENGE } from '../constants/mutations';
 import * as routes from '../constants/routes';
 import GoalSection from './GoalSection';
@@ -12,13 +12,22 @@ class UserChallengeSettingsPage extends React.Component {
     goalNumber: undefined,
   };
 
+  componentDidMount() {
+    this.props.location.state &&
+      this.setState(() => ({
+        goalNumber: this.props.location.state.userChallenge.goal,
+      }));
+  }
+
   onGoalNumberChange = e => {
     const goalNumber = e.target.value;
     this.setState(() => ({ goalNumber }));
   };
 
   render() {
-    const { challengeGroupId } = this.props;
+    const challengeGroupId = this.props.location.state.userChallenge
+      .challengeGroup.id;
+    const userChallengeId = this.props.location.state.userChallenge.id;
     return (
       <Query
         query={GET_CHALLENGE_GROUP}
@@ -34,10 +43,10 @@ class UserChallengeSettingsPage extends React.Component {
           return (
             <Mutation mutation={UPDATE_USER_CHALLENGE}>
               {(updateUserChallenge, { data: mutationData }) => (
-                <div>
-                  <h3>Edit Your Challenge Settings</h3>
-                  <h4>{data.challengeGroup.name}</h4>
-                  <p>{data.challengeGroup.description}</p>
+                <div className="page-content">
+                  <h3 className="title header">Edit Your Challenge Settings</h3>
+                  <h4 className="user-header">{data.challengeGroup.name}</h4>
+                  <p className="small-text header">{data.challengeGroup.description}</p>
                   <GoalSection
                     challengeGroup={data.challengeGroup}
                     value={
@@ -47,7 +56,8 @@ class UserChallengeSettingsPage extends React.Component {
                     }
                     onChange={this.onGoalNumberChange}
                   />
-                  <button
+                <div className="p-t-15">
+                <button className="button-transparent"
                     type="button"
                     onClick={e => {
                       e.preventDefault();
@@ -55,14 +65,21 @@ class UserChallengeSettingsPage extends React.Component {
 
                       updateUserChallenge({
                         variables: {
-                          userChallengeId: this.props.userChallengeId,
+                          userChallengeId,
                           goal: Number(goalNumber),
                         },
-                      }).then(() => this.props.history.push(routes.DASHBOARD));
+                      }).then(res =>
+                        this.props.history.push(
+                          `/challenge/${
+                            res.data.updateUserChallenge.challenge.id
+                          }`
+                        )
+                      );
                     }}
                   >
                     Save My Settings
                   </button>
+                </div>
                 </div>
               )}
             </Mutation>

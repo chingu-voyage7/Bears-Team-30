@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Query } from 'react-apollo';
 
 import { GET_MY_CHALLENGES } from '../constants/queries';
@@ -19,15 +19,15 @@ const UserChallengesList = () => (
           {data.myChallenges.length > 0
             ? data.myChallenges.map(challenge => (
               <div className="link-hover">
-                <Link key={challenge.id} to={`/challenge/${challenge.id}`}>
+
+                <NavLink key={challenge.id} to={`/challenge/${challenge.id}`}>
                   <h4>{challenge.challengeGroup.name}</h4>
                   <p>
                     {challenge.progress}/{challenge.goal}{' '}
                     {challenge.challengeGroup.goalType}
                   </p>
-                </Link>
+                </NavLink>
               </div>
-
               ))
             : 'No Challenges Joined'}
         </div>
