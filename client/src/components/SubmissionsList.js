@@ -10,6 +10,7 @@ const SubmissionsList = ({
   onLoadMore,
   page,
   showPageNumbers,
+  showUsernames,
   startDate,
   submissions,
   totalPages,
@@ -33,6 +34,7 @@ const SubmissionsList = ({
         <div key={submission.id}>
           <h5>Day {day}</h5>
           <p>{submission.text}</p>
+          {showUsernames && <p>{submission.user.username}</p>}
           <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
           <div>
             <LikeButton submissionId={submission.id} />

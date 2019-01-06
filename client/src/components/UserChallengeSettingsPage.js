@@ -2,9 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Query, Mutation } from 'react-apollo';
 
-import { GET_CHALLENGE_GROUP, GET_MY_CHALLENGES } from '../constants/queries';
+import { GET_CHALLENGE_GROUP } from '../constants/queries';
 import { UPDATE_USER_CHALLENGE } from '../constants/mutations';
-import * as routes from '../constants/routes';
 import GoalSection from './GoalSection';
 
 class UserChallengeSettingsPage extends React.Component {
@@ -13,14 +12,26 @@ class UserChallengeSettingsPage extends React.Component {
   };
 
   componentDidMount() {
+    console.log(this.props.location.state);
     this.props.location.state &&
       this.setState(() => ({
         goalNumber: this.props.location.state.userChallenge.goal,
       }));
   }
 
+  onGoalNumberBlur = e => {
+    const goalNumber = e.target.value;
+
+    if (!goalNumber) {
+      this.setState(() => ({
+        goalNumber: this.props.location.state.userChallenge.goal,
+      }));
+    }
+  };
+
   onGoalNumberChange = e => {
     const goalNumber = e.target.value;
+
     this.setState(() => ({ goalNumber }));
   };
 
@@ -50,10 +61,11 @@ class UserChallengeSettingsPage extends React.Component {
                   <GoalSection
                     challengeGroup={data.challengeGroup}
                     value={
-                      this.state.goalNumber
-                        ? this.state.goalNumber
-                        : data.challengeGroup.goalNumber
+                      this.state.goalNumber === undefined
+                        ? data.challengeGroup.goalNumber
+                        : this.state.goalNumber
                     }
+                    onBlur={this.onGoalNumberBlur}
                     onChange={this.onGoalNumberChange}
                   />
                   <button

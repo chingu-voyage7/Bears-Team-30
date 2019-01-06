@@ -23,6 +23,14 @@ class SubmissionForm extends React.Component {
     this.setState(() => ({ text }));
   };
 
+  onProgressBlur = e => {
+    const progress = e.target.value;
+
+    if (!progress) {
+      this.setState(() => ({ progress: 0 }));
+    }
+  };
+
   onProgressChange = e => {
     const progress = e.target.value;
 
@@ -69,6 +77,7 @@ class SubmissionForm extends React.Component {
                   id="progress"
                   label="Progress"
                   nolabel
+                  onBlur={this.onProgressBlur}
                   onChange={this.onProgressChange}
                   type="number"
                   value={this.state.progress}
