@@ -10,7 +10,7 @@ const submissionDefs = gql`
 
     # return submissions for a give challenge group
     challengeGroupSubmissions(
-      challengeGroupId: Int!
+      challengeGroupId: ID!
       amount: Int = 10
       sortBy: SORT_FIELDS = NEW
       offset: Int = 0

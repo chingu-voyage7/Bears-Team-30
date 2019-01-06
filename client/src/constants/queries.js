@@ -112,23 +112,67 @@ export const GET_CHALLENGE_GROUP = gql`
   }
 `;
 
-export const GET_CHALLENGE_GROUP_SUBMISSIONS = gql`
+export const GET_GROUP_SUBMISSIONS_COUNT = gql`
   query challengeGroup($challengeGroupId: ID!) {
     challengeGroup(challengeGroupId: $challengeGroupId) {
       id
       challenges {
         id
-        startDate
         submissions {
           id
-          date
-          text
-          image
-          user {
-            username
-          }
         }
       }
+    }
+  }
+`;
+
+export const GET_GROUP_SUBMISSIONS = gql`
+  query challengeGroupSubmissions(
+    $challengeGroupId: ID!
+    $amount: Int
+    $sortBy: SORT_FIELDS
+    $offset: Int
+  ) {
+    challengeGroupSubmissions(
+      challengeGroupId: $challengeGroupId
+      amount: $amount
+      sortBy: $sortBy
+      offset: $offset
+    ) {
+      id
+      date
+      image
+      text
+      progress
+      user {
+        username
+      }
+      userChallenge {
+        id
+        startDate
+      }
+      comments {
+        id
+        text
+        creator {
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        creator {
+          username
+        }
+      }
+      likeCount
+      favorites {
+        id
+        creator {
+          username
+        }
+      }
+      faveCount
     }
   }
 `;
