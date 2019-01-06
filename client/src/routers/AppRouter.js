@@ -13,6 +13,7 @@ import UserChallengePage from '../components/UserChallengePage';
 import UserChallengeSettingsPage from '../components/UserChallengeSettingsPage';
 import AddSubmissionPage from '../components/AddSubmissionPage';
 import UpdateSubmissionPage from '../components/UpdateSubmissionPage';
+import GroupSubmissionsPage from '../components/GroupSubmissionsPage';
 
 const AppRouter = () => (
   <div>
@@ -32,6 +33,11 @@ const AppRouter = () => (
         <Route
           path={routes.CHALLENGE_GROUPS}
           component={privateRoute(ChallengeGroupsPage)}
+          exact
+        />
+        <Route
+          path={routes.CHALLENGE_GROUP_SUBMISSIONS}
+          component={privateRoute(GroupSubmissionsPage)}
         />
         <Route
           path={routes.CHALLENGE}
