@@ -124,9 +124,39 @@ export const CREATE_SUBMISSION = gql`
       message
       submission {
         id
+        date
+        image
+        text
+        progress
+        user {
+          username
+        }
+        userChallenge {
+          id
+          startDate
+        }
+        comments {
+          id
+          text
+          creator {
+            username
+          }
+        }
         likes {
           id
+          creator {
+            username
+          }
         }
+        likeCount
+        favorites {
+          id
+          creator {
+            username
+          }
+        }
+        faveCount
+        createdAt
       }
     }
   }
@@ -149,9 +179,39 @@ export const UPDATE_SUBMISSION = gql`
       message
       submission {
         id
+        date
+        image
+        text
+        progress
+        user {
+          username
+        }
+        userChallenge {
+          id
+          startDate
+        }
+        comments {
+          id
+          text
+          creator {
+            username
+          }
+        }
         likes {
           id
+          creator {
+            username
+          }
         }
+        likeCount
+        favorites {
+          id
+          creator {
+            username
+          }
+        }
+        faveCount
+        createdAt
       }
     }
   }
@@ -165,9 +225,39 @@ export const DELETE_SUBMISSION = gql`
       message
       submission {
         id
+        date
+        image
+        text
+        progress
+        user {
+          username
+        }
+        userChallenge {
+          id
+          startDate
+        }
+        comments {
+          id
+          text
+          creator {
+            username
+          }
+        }
         likes {
           id
+          creator {
+            username
+          }
         }
+        likeCount
+        favorites {
+          id
+          creator {
+            username
+          }
+        }
+        faveCount
+        createdAt
       }
     }
   }
@@ -183,6 +273,42 @@ export const CREATE_LIKE = gql`
         id
         submission {
           id
+          date
+          image
+          text
+          progress
+          user {
+            username
+          }
+          userChallenge {
+            id
+            startDate
+          }
+          comments {
+            id
+            text
+            creator {
+              username
+            }
+          }
+          likes {
+            id
+            creator {
+              username
+            }
+          }
+          likeCount
+          favorites {
+            id
+            creator {
+              username
+            }
+          }
+          faveCount
+          createdAt
+        }
+        creator {
+          username
         }
       }
     }
@@ -199,6 +325,42 @@ export const DELETE_LIKE = gql`
         id
         submission {
           id
+          date
+          image
+          text
+          progress
+          user {
+            username
+          }
+          userChallenge {
+            id
+            startDate
+          }
+          comments {
+            id
+            text
+            creator {
+              username
+            }
+          }
+          likes {
+            id
+            creator {
+              username
+            }
+          }
+          likeCount
+          favorites {
+            id
+            creator {
+              username
+            }
+          }
+          faveCount
+          createdAt
+        }
+        creator {
+          username
         }
       }
     }
@@ -215,6 +377,42 @@ export const CREATE_FAVORITE = gql`
         id
         submission {
           id
+          date
+          image
+          text
+          progress
+          user {
+            username
+          }
+          userChallenge {
+            id
+            startDate
+          }
+          comments {
+            id
+            text
+            creator {
+              username
+            }
+          }
+          likes {
+            id
+            creator {
+              username
+            }
+          }
+          likeCount
+          favorites {
+            id
+            creator {
+              username
+            }
+          }
+          faveCount
+          createdAt
+        }
+        creator {
+          username
         }
       }
     }
@@ -231,6 +429,42 @@ export const DELETE_FAVORITE = gql`
         id
         submission {
           id
+          date
+          image
+          text
+          progress
+          user {
+            username
+          }
+          userChallenge {
+            id
+            startDate
+          }
+          comments {
+            id
+            text
+            creator {
+              username
+            }
+          }
+          likes {
+            id
+            creator {
+              username
+            }
+          }
+          likeCount
+          favorites {
+            id
+            creator {
+              username
+            }
+          }
+          faveCount
+          createdAt
+        }
+        creator {
+          username
         }
       }
     }

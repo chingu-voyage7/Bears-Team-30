@@ -16,7 +16,6 @@
 - challenge progress updates when submission added with +progress
 - challenge ends after day 100 - set status to COMPLETED
 - show usernames on submissions in submission lists
-- Show number of likes/favorites for each submission
 - Show number of users in each challengeGroup
 - Show challenge status in userChallenges list
 - add more groups
@@ -54,3 +53,4 @@
 - GroupSubmissionsList shows pages of 5 submissions
 - GroupSubmissionsPage shows pages of 20 submissions
 - Make UserSubmissionsPage to show submissions by user to current challenge
+- Show number of likes/favorites for each submission

@@ -73,13 +73,6 @@ export const GET_USER_CHALLENGE = gql`
         name
         goalType
       }
-      submissions {
-        id
-        date
-        image
-        text
-        progress
-      }
     }
   }
 `;
@@ -173,6 +166,91 @@ export const GET_GROUP_SUBMISSIONS = gql`
         }
       }
       faveCount
+      createdAt
+    }
+  }
+`;
+
+export const GET_USER_SUBMISSIONS = gql`
+  query submissions($userChallengeId: ID!) {
+    submissions(userChallengeId: $userChallengeId) {
+      id
+      date
+      image
+      text
+      progress
+      user {
+        username
+      }
+      userChallenge {
+        id
+        startDate
+      }
+      comments {
+        id
+        text
+        creator {
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        creator {
+          username
+        }
+      }
+      likeCount
+      favorites {
+        id
+        creator {
+          username
+        }
+      }
+      faveCount
+      createdAt
+    }
+  }
+`;
+
+export const GET_SUBMISSION = gql`
+  query submission($submissionId: ID!) {
+    submission(submissionId: $submissionId) {
+      id
+      date
+      image
+      text
+      progress
+      user {
+        username
+      }
+      userChallenge {
+        id
+        startDate
+      }
+      comments {
+        id
+        text
+        creator {
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        creator {
+          username
+        }
+      }
+      likeCount
+      favorites {
+        id
+        creator {
+          username
+        }
+      }
+      faveCount
+      createdAt
     }
   }
 `;

@@ -25,11 +25,7 @@ const UserChallengePage = ({ match }) => (
             {userChallenge.challengeGroup.goalType}
           </p>
           <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
-          <UserSubmissionsList
-            startDate={userChallenge.createdAt}
-            submissions={userChallenge.submissions}
-            userChallenge={userChallenge}
-          />
+          <UserSubmissionsList userChallenge={userChallenge} />
           <GroupSubmissionsList
             challengeGroupId={userChallenge.challengeGroup.id}
           />
