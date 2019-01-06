@@ -7,12 +7,13 @@ import FavoriteButton from './FavoriteButton';
 const SubmissionsList = ({
   canEdit,
   handleShowPrevious,
-  userChallenge,
   onLoadMore,
+  page,
+  showPageNumbers,
   startDate,
   submissions,
-  page,
   totalPages,
+  userChallenge,
 }) => (
   <div>
     {submissions.map(submission => {
@@ -29,7 +30,7 @@ const SubmissionsList = ({
         <div key={submission.id}>
           <h5>Day {day}</h5>
           <p>{submission.text}</p>
-          {submission.progress && <p>Progress: +{submission.progress}</p>}
+          <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
           <div>
             <LikeButton submissionId={submission.id} />
             <FavoriteButton submissionId={submission.id} />
@@ -53,9 +54,11 @@ const SubmissionsList = ({
     {onLoadMore && (
       <div>
         {page > 1 && <button onClick={handleShowPrevious}>Previous</button>}
-        <span>
-          Page {page}/{totalPages}
-        </span>
+        {showPageNumbers && (
+          <span>
+            Page {page}/{totalPages}
+          </span>
+        )}
         {page < totalPages && <button onClick={onLoadMore}>Next</button>}
       </div>
     )}

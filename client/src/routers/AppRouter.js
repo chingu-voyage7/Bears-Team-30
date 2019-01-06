@@ -14,6 +14,7 @@ import UserChallengeSettingsPage from '../components/UserChallengeSettingsPage';
 import AddSubmissionPage from '../components/AddSubmissionPage';
 import UpdateSubmissionPage from '../components/UpdateSubmissionPage';
 import GroupSubmissionsPage from '../components/GroupSubmissionsPage';
+import UserSubmissionsPage from '../components/UserSubmissionsPage';
 
 const AppRouter = () => (
   <div>
@@ -43,6 +44,10 @@ const AppRouter = () => (
           path={routes.CHALLENGE}
           component={privateRoute(UserChallengePage)}
           exact
+        />
+        <Route
+          path={routes.CHALLENGE_SUBMISSIONS}
+          component={privateRoute(UserSubmissionsPage)}
         />
         <Route
           path={routes.CHALLENGE_SETTINGS}
