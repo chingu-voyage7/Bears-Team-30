@@ -112,6 +112,18 @@ export const GET_CHALLENGE_GROUP = gql`
   }
 `;
 
+export const GET_GROUP_SUBMISSIONS_COUNT = gql`
+  query challengeGroup($challengeGroupId: ID!) {
+    challengeGroup(challengeGroupId: $challengeGroupId) {
+      challenges {
+        submissions {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const GET_GROUP_SUBMISSIONS = gql`
   query challengeGroupSubmissions(
     $challengeGroupId: ID!

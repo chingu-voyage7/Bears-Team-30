@@ -55,3 +55,4 @@
 - Add like and favorite on submissions
 - List of user challenges in sidebar updates on createUserChallenge and editUserChallenge
 - ActionButton updates on create/delete like and favorite
+- GroupSubmissionsList shows pages of 5 submissions
