@@ -35,6 +35,7 @@ const makeQuery = ({
   query,
   clause = '',
   clauseProps = [],
+  from = '',
   condition = '',
   conditionProps = [],
   secondCondition = '',
@@ -50,11 +51,12 @@ const makeQuery = ({
   const conditions = parseClause(condition, conditionProps);
   const secondConditions = parseClause(secondCondition, secondConditionProps);
 
+  const fromClause = from ? `FROM ${from}` : '';
   const orderClause = orderBy ? `ORDER BY ${orderBy}` : '';
   const offsetClause = offset ? `OFFSET ${offset}` : 'OFFSET 0';
   const limitClause = limit ? `LIMIT ${limit} ${offsetClause}` : '';
 
-  const text = `${query} ${clauses} ${conditions} ${secondConditions} ${orderClause} ${returning} ${limitClause}`.trim();
+  const text = `${query} ${clauses} ${fromClause} ${conditions} ${secondConditions} ${orderClause} ${returning} ${limitClause}`.trim();
 
   return {
     text,
@@ -140,17 +142,7 @@ function insert(QUERY) {
 }
 
 function makeUpdate(table, valuesObj, idObj, userid) {
-  valuesObj.updated_at = new Date();
-  const QUERY = makeQuery({
-    query: `UPDATE ${table}`,
-    clause: 'SET',
-    clauseProps: valuesObj,
-    condition: 'WHERE',
-    conditionProps: idObj,
-    secondCondition: userid ? 'AND' : null,
-    secondConditionProps: { userid },
-    returning: 'RETURNING *',
-  });
+  const QUERY = makeUpdateQuery(table, valuesObj, idObj, userid);
   return db.query(QUERY).then(res => {
     const results = res.rows[0];
     if (!results) {
@@ -162,6 +154,21 @@ function makeUpdate(table, valuesObj, idObj, userid) {
     }
     cleanProps(results);
     return results;
+  });
+}
+
+function makeUpdateQuery(table, valuesObj, idObj, userid) {
+  valuesObj.updated_at = new Date();
+
+  return makeQuery({
+    query: `UPDATE ${table}`,
+    clause: 'SET',
+    clauseProps: valuesObj,
+    condition: 'WHERE',
+    conditionProps: idObj,
+    secondCondition: userid ? 'AND' : null,
+    secondConditionProps: { userid },
+    returning: 'RETURNING *',
   });
 }
 
@@ -184,14 +191,8 @@ function renameProp(obj, oldName, newName) {
 }
 
 function deleteWithId(table, id, userid) {
-  const QUERY = makeQuery({
-    query: `DELETE FROM ${table}`,
-    clause: 'WHERE',
-    clauseProps: { id },
-    condition: 'AND',
-    conditionProps: { userid },
-    returning: 'RETURNING *',
-  });
+  const QUERY = makeDeleteWithIdQuery(table, id, userid);
+
   return db.query(QUERY).then(res => {
     const results = res.rows[0];
     if (!results) {
@@ -203,6 +204,17 @@ function deleteWithId(table, id, userid) {
     }
     cleanProps(results);
     return results;
+  });
+}
+
+function makeDeleteWithIdQuery(table, id, userid) {
+  return makeQuery({
+    query: `DELETE FROM ${table}`,
+    clause: 'WHERE',
+    clauseProps: { id },
+    condition: 'AND',
+    conditionProps: { userid },
+    returning: 'RETURNING *',
   });
 }
 
@@ -218,5 +230,7 @@ module.exports = {
   makeInsert,
   insert,
   makeUpdate,
+  makeUpdateQuery,
   deleteWithId,
+  makeDeleteWithIdQuery,
 };

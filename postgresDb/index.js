@@ -12,12 +12,10 @@ pool.on('error', (err, client) => {
 
 module.exports = {
   query: (text, values) =>
-    pool
-      .query(text, values)
-      .catch(e => {
-        console.error('DB error:', e);
-        throw e;
-      }),
+    pool.query(text, values).catch(e => {
+      console.error('DB error:', e);
+      throw e;
+    }),
   getClient: () => pool.connect(),
   drain: () => pool.end(),
 };
