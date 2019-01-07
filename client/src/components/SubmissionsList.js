@@ -27,7 +27,7 @@ const SubmissionsList = ({
       );
 
       return (
-        <div className="list-container-item user-item col-xs-12 my-submissions">
+        <div className="my-submissions">
 
         <div key={submission.id} className="content">
           <h5>Day {day}</h5>
@@ -56,13 +56,13 @@ const SubmissionsList = ({
     })}
     {onLoadMore && (
       <div>
-        {page > 1 && <button onClick={handleShowPrevious}>Previous</button>}
+        {page > 1 && <button className="button-small-transparent" onClick={handleShowPrevious}>Previous</button>}
         {showPageNumbers && (
           <span>
             Page {page}/{totalPages}
           </span>
         )}
-        {page < totalPages && <button onClick={onLoadMore}>Next</button>}
+        {page < totalPages && <button className="button-small-transparent" onClick={onLoadMore}>Next</button>}
       </div>
     )}
   </div>

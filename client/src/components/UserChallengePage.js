@@ -19,21 +19,13 @@ const UserChallengePage = ({ match }) => (
 
       return (
         <div className="page-content">
-          <h3>100 Days of {userChallenge.challengeGroup.name}</h3>
-          <p>
+          <h3 className="title header">100 Days of {userChallenge.challengeGroup.name}</h3>
+          <p className="user-header">
             Progress: {userChallenge.progress} / {userChallenge.goal}{' '}
             {userChallenge.challengeGroup.goalType}
           </p>
-          <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
-          <UserSubmissionsList
-            startDate={userChallenge.createdAt}
-            submissions={userChallenge.submissions}
-            userChallenge={userChallenge}
-          />
-          <GroupSubmissionsList
-            challengeGroupId={userChallenge.challengeGroup.id}
-          />
-          <Link
+          <Link className="button-transparent" to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+          <Link className="button-transparent m-t-15"
             to={{
               pathname: `/challenge/${userChallenge.id}/settings`,
               state: {
@@ -43,6 +35,17 @@ const UserChallengePage = ({ match }) => (
           >
             Challenge Settings
           </Link>
+          <div>
+          <UserSubmissionsList
+            startDate={userChallenge.createdAt}
+            submissions={userChallenge.submissions}
+            userChallenge={userChallenge}
+          />
+          <GroupSubmissionsList
+            challengeGroupId={userChallenge.challengeGroup.id}
+          />
+
+        </div>
         </div>
       );
     }}

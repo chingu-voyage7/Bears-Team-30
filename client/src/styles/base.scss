@@ -137,6 +137,7 @@
   // width: 300px;
 
   .content {
+    color: $black;
     background-color: $white;
     height: 98%;
     width: 100%;
@@ -186,10 +187,18 @@
   padding-bottom: 15px;
 }
 
+.m-b-15 {
+  margin-bottom: 15px !important;
+}
+
+.m-t-15 {
+  margin-top: 15px !important;
+}
+
 
 .button-transparent {
   font-size: 12px !important;
-  width: 45%;
+  width: 52%;
   text-align: center;
   border: 1px solid;
   // margin-top: 25px;
@@ -216,6 +225,29 @@
   }
 }
 
+.button-small-transparent {
+  font-size: 8px !important;
+  width: 25%;
+  border: 1px solid $white;
+  background: transparent;
+  margin-top: 5px;
+  padding: 5px 8px;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  color: $white;
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: $white;
+    color: rgb(80,56,76);
+    letter-spacing: 2px;
+    font-size: 12px;
+  }
+}
+
 .form-edit {
   width: 60%;
   text-align: center;
@@ -233,4 +265,27 @@
 
 .width100 {
   width: 100% !important;
+}
+
+.button-small {
+  font-size: 8px !important;
+  width: 50%;
+  border: 1px solid;
+  margin-top: 5px;
+  padding: 5px 8px;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  color: rgb(80,56,76);
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: $white;
+    background-color: rgb(80,56,76);
+    letter-spacing: 2px;
+    font-size: 14px;
+    text-decoration: none;
+  }
 }

@@ -20,7 +20,7 @@ const UserSubmissionsList = ({ userChallenge, submissions, startDate }) => (
           submissions={submissions}
           userChallenge={userChallenge}
         />
-        <Link
+        <Link className="button-transparent"
           to={{
             pathname: `/challenge/${userChallenge.id}/submissions`,
             state: {
