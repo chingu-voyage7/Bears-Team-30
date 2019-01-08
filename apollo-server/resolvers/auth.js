@@ -8,6 +8,7 @@ const {
   makeQueryInsertUser,
   getWithId,
 } = require('../../postgresDb/pgHelpers');
+const { parseResults } = require('./resolverHelpers');
 
 const {
   checkIfDuplicate,
@@ -223,9 +224,7 @@ async function deleteUser(parent, { id }) {
 }
 
 function users() {
-  return db.query('SELECT * FROM auth').then(res => {
-    return res.rows;
-  });
+  return db.query('SELECT * FROM auth').then(parseResults);
 }
 
 const User = {

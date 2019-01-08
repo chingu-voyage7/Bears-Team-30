@@ -3,24 +3,83 @@ const {
   makeQuery,
   makeInsert,
   insert,
-  makeUpdate,
+  makeUpdateQuery,
   cleanProps,
   getWithId,
   selectWithPagination,
   deleteWithId,
+  makeDeleteWithIdQuery,
 } = require('../pgHelpers');
 
-function insertSubmission(data) {
+function insertSubmission(data, userid) {
   const QUERY = makeInsert('submissions', data);
-  return db.query(QUERY).then(res => {
-    const results = res.rows[0];
-    cleanProps(results);
-    return results;
-  });
+
+  return submissionTxn(QUERY, userid);
 }
 
-function updateSubmission(submissionId, valuesObj, userid) {
-  return makeUpdate('submissions', valuesObj, { id: submissionId }, userid);
+async function updateSubmission(submissionId, valuesObj, userid) {
+  const updateQuery = makeUpdateQuery(
+    'submissions',
+    valuesObj,
+    { id: submissionId },
+    userid
+  );
+
+  // check if progress is update
+  if (valuesObj.progress) {
+    return submissionTxn(updateQuery, userid, { update: submissionId });
+  }
+
+  return db.query(updateQuery);
+}
+
+async function submissionTxn(subQuery, userid, { update, remove } = {}) {
+  const client = await db.getClient();
+  let res;
+  try {
+    client.query('BEGIN');
+    const sign = remove ? '-' : '+';
+    let progressBefore = 0;
+
+    // update flag passes submissionId
+    if (update) {
+      const beforeQuery = `
+      SELECT progress FROM submissions
+      WHERE id = ${update}
+      `;
+      progressBefore = await client
+        .query(beforeQuery)
+        .then(res => res.rows[0].progress);
+    }
+
+    res = await client.query(subQuery);
+    if (!res.rows[0]) {
+      const err = new Error(
+        'deleteWithId: Unable to delete because row id does not exist, or user does not have permission to modify it.'
+      );
+      err.code = 'e416';
+      throw err;
+    }
+
+    const { userchallengeid, progress } = res.rows[0];
+
+    const progQuery = `
+      UPDATE user_challenges
+      SET progress = progress ${sign} ${progress - (progressBefore || 0)}
+      WHERE id = ${userchallengeid}
+      AND userid = '${userid}'
+      RETURNING *;
+    `;
+
+    await client.query(progQuery);
+    await client.query('COMMIT');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
+  return res;
 }
 
 function getUserSubmissions(idOne, idTwo) {
@@ -73,7 +132,9 @@ function insertFavorite(submissionid, userid) {
 }
 
 function deleteSubmission(submissionId, userid) {
-  return deleteWithId('submissions', submissionId, userid);
+  const QUERY = makeDeleteWithIdQuery('submissions', submissionId, userid);
+
+  return submissionTxn(QUERY, userid, { remove: true });
 }
 
 function deleteComment(commentId, userid) {

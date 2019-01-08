@@ -69,6 +69,12 @@ function parseResults(res) {
   return usersArr;
 }
 
+function parseResult(res) {
+  const user = res.rows[0];
+  cleanProps(user);
+  return user;
+}
+
 function publish(channel, prop = null) {
   return res => {
     const payload = prop ? res[prop] : res;
@@ -82,6 +88,7 @@ module.exports = {
   failure,
   notAuthenticated,
   parseResults,
+  parseResult,
   publish,
   pubsub,
 };

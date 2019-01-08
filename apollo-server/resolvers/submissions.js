@@ -23,6 +23,7 @@ const {
   failure,
   notAuthenticated,
   parseResults,
+  parseResult,
 } = require('./resolverHelpers');
 
 /**
@@ -135,12 +136,15 @@ const Favorite = Comment;
  */
 function createSubmission(parent, { userChallengeId, data }, { id: userid }) {
   if (notAuthenticated(userid)) return notAuthenticated(userid);
-
-  return insertSubmission({
-    userid,
-    userchallengeid: userChallengeId,
-    ...data,
-  })
+  return insertSubmission(
+    {
+      userid,
+      userchallengeid: userChallengeId,
+      ...data,
+    },
+    userid
+  )
+    .then(parseResult)
     .then(res => ({ submission: res }))
     .then(success)
     .catch(failure);
@@ -153,6 +157,7 @@ function updateSubmission(parent, { submissionId, data }, { id }) {
   if (notAuthenticated(id)) return notAuthenticated(id);
 
   return updateSubmissionHelper(submissionId, data, id)
+    .then(parseResult)
     .then(res => ({ submission: res }))
     .then(success)
     .catch(failure);
@@ -169,6 +174,7 @@ function deleteSubmission(parent, { submissionId }, { id }) {
   if (notAuthenticated(id)) return notAuthenticated(id);
 
   return deleteSubmissionHelper(submissionId, id)
+    .then(parseResult)
     .then(res => ({ submission: res }))
     .then(success)
     .catch(failure);
