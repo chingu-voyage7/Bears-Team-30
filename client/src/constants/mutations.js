@@ -48,10 +48,14 @@ export const CREATE_USER_CHALLENGE = gql`
         submissions {
           id
         }
+        status
         challengeGroup {
           id
           name
+          description
           goalType
+          goalAction
+          goalNumber
         }
       }
     }
@@ -87,10 +91,14 @@ export const UPDATE_USER_CHALLENGE = gql`
         submissions {
           id
         }
+        status
         challengeGroup {
           id
           name
+          description
           goalType
+          goalAction
+          goalNumber
         }
       }
     }

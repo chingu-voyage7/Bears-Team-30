@@ -48,7 +48,10 @@ export const GET_MY_CHALLENGES = gql`
       challengeGroup {
         id
         name
+        description
         goalType
+        goalAction
+        goalNumber
       }
     }
   }
@@ -65,7 +68,10 @@ export const GET_USER_CHALLENGE = gql`
       challengeGroup {
         id
         name
+        description
         goalType
+        goalAction
+        goalNumber
       }
     }
   }

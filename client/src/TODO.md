@@ -12,7 +12,6 @@
 ## Fix
 
 - EditSubmissionPage uses query if location.state undefined
-- number input in challenge settings page
 - challenge progress updates when submission added with +progress
 - challenge ends after day 100 - set status to COMPLETED
 - Show number of users in each challengeGroup
@@ -54,3 +53,5 @@
 - show usernames on submissions in submission lists
 - sort sidebar userChallenges by startDate
 - Show challenge status in userChallenges list
+- fix number input in challenge settings page
+- UserChallegeSettingsPage uses query if location.state undefined
