@@ -96,6 +96,7 @@ function myChallenges(parent, args, { id }) {
  */
 function createUserChallenge(
   parent,
+<<<<<<< HEAD
   { data: { challengeGroupId: challengegroupid, goal, status } },
   { id }
 ) {
@@ -110,6 +111,12 @@ function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
     .then(success)
     .then(publish('myStuff', 'challenge'))
     .catch(failure);
+=======
+  { data: { challengeId: challengeid, goal, status } },
+  { id }
+) {
+  return insertUserChallenge({ challengeid, goal, status }, id);
+>>>>>>> development
 }
 
 /**
