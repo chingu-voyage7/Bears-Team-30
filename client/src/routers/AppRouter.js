@@ -6,7 +6,7 @@ import publicRoute from './publicRoute';
 import privateRoute from './privateRoute';
 import LoginPage from '../components/LoginPage';
 import SignupPage from '../components/SignupPage';
-const LandingPage = () => <div>Landing Page</div>;
+import LandingPage from '../components/LandingPage';
 import DashboardPage from '../components/DashboardPage';
 import ChallengeGroupsPage from '../components/ChallengeGroupsPage';
 import UserChallengePage from '../components/UserChallengePage';
