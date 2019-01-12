@@ -83,6 +83,7 @@ class UserChallengeSettingsPage extends React.Component {
                     onBlur={this.onGoalNumberBlur}
                     onChange={this.onGoalNumberChange}
                   />
+              </div>
                 </div>
               );
             }}

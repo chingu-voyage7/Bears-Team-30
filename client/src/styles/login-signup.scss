@@ -25,6 +25,45 @@
       font-size: 68px;
     }
   }
+
+  p {
+    color: $white;
+    letter-spacing:1px;
+    text-align:center;
+    font-weight: 400;
+    font-size: 12px;
+    font-family: 'Josefin Sans', sans-serif;
+  }
+}
+
+.landing-button {
+  font-size: 12px !important;
+  width: 52%;
+  text-align: center;
+  border: 1px solid;
+  padding: 5px 0;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  background: transparent;
+  color: $white;
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position:relative;
+  overflow:hidden;
+  display:block;
+  margin:auto;
+  line-height: 18px;
+  text-decoration: none;
+  margin-top: 15px;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+    letter-spacing: 4px;
+    font-size: 14px;
+  }
 }
 
 .header-underline {

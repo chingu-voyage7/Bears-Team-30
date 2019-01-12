@@ -40,9 +40,9 @@ const SubmissionsList = ({
           <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
           <div className="like-favorite">
             <LikeButton submissionId={submission.id} />
-            <span>{likeCount}</span>
+            <span className="num-font">{likeCount}</span>
             <FavoriteButton submissionId={submission.id} />
-            {faveCount}
+            <span className="num-font">{faveCount}</span>
           </div>
           {canEdit && (
             <Link className="button-small"

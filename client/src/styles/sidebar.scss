@@ -45,10 +45,11 @@
 
 .sidebar-items {
   width: 100%;
+  overflow: scroll;
 }
 
 .challenges {
-
+  height: 400px;
   width: 100%;
 
   h3 {
@@ -56,7 +57,7 @@
     letter-spacing:1px;
     font-weight: 100;
     font-size: 14px;
-    padding-top: 60px;
+    padding-top: 20px;
     padding-bottom: 10px;
     font-family: 'Josefin Sans', sans-serif;
     letter-spacing: 1px;

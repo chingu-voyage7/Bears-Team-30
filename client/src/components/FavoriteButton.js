@@ -21,7 +21,7 @@ const FavoriteButton = ({ submissionId }) => (
           mutations={['createFavorite', 'deleteFavorite']}
           mutationTypes={[CREATE_FAVORITE, DELETE_FAVORITE]}
           submissionId={submissionId}
-          text="★"
+          text="♥"
           type="favorite"
         />
       );

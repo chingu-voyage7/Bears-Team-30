@@ -216,6 +216,7 @@
   display:block;
   margin:auto;
   line-height: 18px;
+  text-decoration: none;
 
   &:hover {
     color: $white;
@@ -288,4 +289,11 @@
     font-size: 14px;
     text-decoration: none;
   }
+}
+
+.num-font {
+  font-size: 16px;
+  font-family: 'Josefin Sans', sans-serif;
+  padding-left: 3px;
+  padding-right: 3px;
 }

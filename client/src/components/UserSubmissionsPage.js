@@ -4,12 +4,19 @@ import { Query } from 'react-apollo';
 import { GET_USER_CHALLENGE } from '../constants/queries';
 import UserSubmissionsWrapper from './UserSubmissionsWrapper';
 
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
 const UserSubmissionsPage = ({ location, match }) => {
   const { id } = match.params;
 
   return (
-    <div>
-      <h2>My Submissions</h2>
+    <div className="page-content">
+      <h2 className="title header">My Submissions</h2>
+      <div className="list-container-item width100  col-lg-4 col-md-6 col-sm-6 col-xs-12 m-b-15">
       {location.state ? (
         <UserSubmissionsWrapper
           amount={100}
@@ -38,6 +45,7 @@ const UserSubmissionsPage = ({ location, match }) => {
           }}
         </Query>
       )}
+    </div>
     </div>
   );
 };
