@@ -1,10 +1,10 @@
-// priorities:
-// myChallenges query: return userChallenges
-// userchallenges query
-
 const { gql } = require('apollo-server');
 
 const challengeDefs = gql`
+  type Subscription {
+    myStuff: Challenge
+  }
+
   extend type Query {
     # view list of challenge groups, add filterable by category later
     challengeGroups: [ChallengeGroup!]
@@ -18,13 +18,7 @@ const challengeDefs = gql`
     # view a user challenge
     userChallenge(userChallengeId: ID!): Challenge
 
-    # optional filter by status
-    submission(submissionId: ID!): Submission!
-
     myChallenges: [Challenge!]
-
-    # skipping for now -- how will this be used?
-    # submissions(day: String): [Submission!]!
   }
 
   extend type Mutation {
@@ -33,22 +27,15 @@ const challengeDefs = gql`
     # updateChallengeGroup(challengeGroupId: ID!, data: UpdateChallengeGroupInput!): ChallengeGroup!
 
     # creates a user's challenge
-    createUserChallenge(data: CreateChallengeInput!): CreateUserChallengeResponse!
+    createUserChallenge(data: CreateChallengeInput!): UserChallengeResponse!
+
+    updateUserChallenge(
+      userChallengeId: ID!
+      data: UpdateChallengeInput!
+    ): UserChallengeResponse!
 
     # skipping for now:
-    # deleteChallenge(challengeId: ID!): Challenge!
-
-    # creates a submission for the user with optional image
-    createSubmission(
-      user: UserIdInput!
-      challengeGroup: ID!
-      data: CreateSubmissionInput!
-    ): Submission!
-
-    updateSubmission(
-      submissionId: ID!
-      data: UpdateSubmissionInput!
-    ): Submission!
+    # deleteUserChallenge(userChallengeId: ID!): UserChallengeResponse!
   }
 
   type ChallengeGroup {
@@ -60,7 +47,7 @@ const challengeDefs = gql`
     goalNumber: Int!
     goalType: String!
     users: [User!]
-    # submissions: [Submission!]
+    challenges: [Challenge!]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
@@ -68,6 +55,7 @@ const challengeDefs = gql`
   type Challenge {
     id: ID!
     challengeGroup: ChallengeGroup!
+    startDate: DateTime!
     goal: Int!
     status: String!
     progress: Int!
@@ -75,21 +63,6 @@ const challengeDefs = gql`
     user: User!
     createdAt: DateTime!
     updatedAt: DateTime!
-  }
-
-  type Submission {
-    id: ID!
-    date: DateTime!
-    day: Int!
-    image: String
-    description: String
-    # progress: Int!  how is this different from day?
-    user: User!
-    # comments: [Comment!]
-    # likes: [Like!]
-    # favorites: [Favorite!]
-    updatedAt: DateTime!
-    createdAt: DateTime!
   }
 
   enum Status {
@@ -100,8 +73,8 @@ const challengeDefs = gql`
   }
 
   input CreateChallengeInput {
-    challengeId: ID!
-    # startDate: DateTime!
+    challengeGroupId: ID!
+    startDate: DateTime!
     goal: Int!
     status: Status!
     # user: UserIdInput!
@@ -110,26 +83,11 @@ const challengeDefs = gql`
   input UpdateChallengeInput {
     startDate: DateTime
     goal: Int
+    progress: Int
     status: Status
-    progress: Int
   }
 
-  input CreateSubmissionInput {
-    # date: DateTime!
-    image: String
-    description: String
-    # progress: Int!
-    # user: UserIdInput!
-  }
-
-  input UpdateSubmissionInput {
-    # date: DateTime
-    image: String
-    description: String
-    progress: Int
-  }
-
-  type CreateUserChallengeResponse implements MutationResponse{
+  type UserChallengeResponse implements MutationResponse {
     code: ResponseCodes!
     success: Boolean!
     message: String!

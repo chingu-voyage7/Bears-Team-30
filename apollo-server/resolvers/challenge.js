@@ -1,14 +1,26 @@
+const { withFilter } = require('apollo-server');
 const {
   getChallengeGroups,
   getChallengeGroupUsers,
+  getChallengeGroupChallenges,
+  getChallengeSubmissions,
   insertUserChallenge,
   getUserChallenge,
   getUserChallenges,
   getMyChallenges,
   getChallengeGroup,
+  updateUserChallenge: updateUserChallengeHelper,
 } = require('../../postgresDb/challenges/challengeHelpers');
 const { getUser } = require('../../postgresDb/auth/authHelpers');
 const { cleanProps } = require('../../postgresDb/pgHelpers');
+const {
+  success,
+  failure,
+  notAuthenticated,
+  parseResults,
+  publish,
+  pubsub,
+} = require('./resolverHelpers');
 
 /**
  * Returns all challenge groups
@@ -31,6 +43,16 @@ const ChallengeGroup = {
   users({ id }) {
     const users = getChallengeGroupUsers(id);
     return users.then(res => {
+      const usersArr = [];
+      res.rows.forEach(user => {
+        cleanProps(user);
+        usersArr.push(user);
+      });
+      return usersArr;
+    });
+  },
+  challenges({ id }) {
+    return getChallengeGroupChallenges(id).then(res => {
       const usersArr = [];
       res.rows.forEach(user => {
         cleanProps(user);
@@ -67,19 +89,6 @@ function myChallenges(parent, args, { id }) {
   return getMyChallenges(id);
 }
 
-/**
- * returns all of user's submissions for a specific challenge
- * @param {*} userid
- * @param {*} challengid
- */
-function submissions(userid, challengid) {}
-
-/**
- * Returns a specific submission
- * @param {*} submissionId
- */
-function submission() {}
-
 // Mutations:
 
 /**
@@ -87,30 +96,46 @@ function submission() {}
  */
 function createUserChallenge(
   parent,
-  { data: { challengeId: challengeid, goal, status } },
+  { data: { challengeGroupId: challengegroupid, goal, status } },
   { id }
 ) {
-  return insertUserChallenge({ challengeid, goal, status }, id);
+  return insertUserChallenge({ challengegroupid, goal, status }, id);
 }
+
+function updateUserChallenge(parent, { userChallengeId, data }, { id }) {
+  if (notAuthenticated(id)) return notAuthenticated(id);
+
+  return updateUserChallengeHelper(userChallengeId, data, id)
+    .then(res => ({ challenge: res }))
+    .then(success)
+    .then(publish('myStuff', 'challenge'))
+    .catch(failure);
+}
+
+/**
+ * Subscribe to any changes in the logged-in user's challenges
+ */
+const myStuff = {
+  subscribe: withFilter(
+    () => pubsub.asyncIterator('myStuff'),
+    (payload, variables, { id }) => {
+      console.log('withFilter arguments:', { payload, variables, id });
+      return payload.myStuff.userid === id;
+    }
+  ),
+};
 
 const Challenge = {
   user({ userid }) {
     return getUser({ id: userid });
   },
-  challengeGroup({ challengeid }) {
-    return getChallengeGroup(challengeid);
+  challengeGroup({ challengegroupid }) {
+    return getChallengeGroup(challengegroupid);
   },
-  // submissions,
+  submissions({ id }) {
+    return getChallengeSubmissions(id).then(parseResults);
+  },
 };
-/**
- * creates a new submission
- */
-function createSubmission() {}
-
-/**
- * Updates a submission
- */
-function updateSubmission() {}
 
 module.exports = {
   challengeGroups,
@@ -118,11 +143,9 @@ module.exports = {
   userChallenges,
   userChallenge,
   myChallenges,
-  submissions,
-  submission,
   createUserChallenge,
+  updateUserChallenge,
   Challenge,
-  createSubmission,
-  updateSubmission,
   ChallengeGroup,
+  myStuff,
 };

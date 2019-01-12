@@ -12,11 +12,11 @@ const authDefs = gql`
     users: [User!]
 
     # returns username of logged-in account
-    me: User
+    me: Me
   }
 
   type Mutation {
-    loginUser(username: String!, password: String!): LoginResult!
+    loginUser(email: String!, password: String!): LoginResult!
 
     createUser(data: CreateUserInput!): CreateUserMutationResponse!
 
@@ -24,13 +24,31 @@ const authDefs = gql`
     # to hash new password
     updateUser(id: UUID!, data: UpdateUserInput!): UpdateUserMutationResponse!
 
-    deleteUser(id: UUID!): UpdateUserMutationResponse!
+    # deleteUser(id: UUID!): UpdateUserMutationResponse!
   }
 
   type User {
+    # id: UUID!
+    username: String!
+    # email: String!
+    userChallenges: [Challenge]
+    submissions: [Submission]
+    likes: [Like]
+    favorites: [Favorite]
+    comments: [Comment]
+    updatedAt: DateTime!
+    createdAt: DateTime!
+  }
+
+  type Me {
     id: UUID!
     username: String!
     email: String!
+    userChallenges: [Challenge]
+    submissions: [Submission]
+    likes: [Like]
+    favorites: [Favorite]
+    comments: [Comment]
     updatedAt: DateTime!
     createdAt: DateTime!
   }
