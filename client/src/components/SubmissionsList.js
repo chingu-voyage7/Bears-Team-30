@@ -10,6 +10,7 @@ const SubmissionsList = ({
   onLoadMore,
   page,
   showPageNumbers,
+  showUsernames,
   startDate,
   submissions,
   totalPages,
@@ -26,25 +27,28 @@ const SubmissionsList = ({
           (1000 * 60 * 60 * 24)
       );
 
+      const likeCount = submission.likes.length;
+      const faveCount = submission.favorites.length;
+
       return (
         <div className="my-submissions">
 
         <div key={submission.id} className="content">
           <h5>Day {day}</h5>
           <p>{submission.text}</p>
+          {showUsernames && <p>{submission.user.username}</p>}
           <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
-            <div className="like-favorite">
-              <LikeButton submissionId={submission.id} />
-              <FavoriteButton submissionId={submission.id} />
-            </div>
+          <div className="like-favorite">
+            <LikeButton submissionId={submission.id} />
+            <span>{likeCount}</span>
+            <FavoriteButton submissionId={submission.id} />
+            {faveCount}
+          </div>
           {canEdit && (
             <Link className="button-small"
               to={{
                 pathname: `/${submission.id}/edit`,
-                state: {
-                  userChallenge,
-                  submission,
-                },
+                state: { userChallenge, submission },
               }}
             >
               Edit

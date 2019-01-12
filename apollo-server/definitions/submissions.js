@@ -6,7 +6,7 @@ const submissionDefs = gql`
     submission(submissionId: ID!): Submission!
 
     # show all submissions for a given userChallenge
-    submissions(userChallengeId: Int!): [Submission!]
+    submissions(userChallengeId: ID!): [Submission!]
 
     # return submissions for a give challenge group
     challengeGroupSubmissions(

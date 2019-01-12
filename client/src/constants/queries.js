@@ -43,18 +43,15 @@ export const GET_MY_CHALLENGES = gql`
       progress
       createdAt
       startDate
+      status
       goal
       challengeGroup {
         id
         name
+        description
         goalType
-      }
-      submissions {
-        id
-        date
-        image
-        text
-        progress
+        goalAction
+        goalNumber
       }
     }
   }
@@ -71,14 +68,10 @@ export const GET_USER_CHALLENGE = gql`
       challengeGroup {
         id
         name
+        description
         goalType
-      }
-      submissions {
-        id
-        date
-        image
-        text
-        progress
+        goalAction
+        goalNumber
       }
     }
   }
@@ -173,6 +166,91 @@ export const GET_GROUP_SUBMISSIONS = gql`
         }
       }
       faveCount
+      createdAt
+    }
+  }
+`;
+
+export const GET_USER_SUBMISSIONS = gql`
+  query submissions($userChallengeId: ID!) {
+    submissions(userChallengeId: $userChallengeId) {
+      id
+      date
+      image
+      text
+      progress
+      user {
+        username
+      }
+      userChallenge {
+        id
+        startDate
+      }
+      comments {
+        id
+        text
+        creator {
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        creator {
+          username
+        }
+      }
+      likeCount
+      favorites {
+        id
+        creator {
+          username
+        }
+      }
+      faveCount
+      createdAt
+    }
+  }
+`;
+
+export const GET_SUBMISSION = gql`
+  query submission($submissionId: ID!) {
+    submission(submissionId: $submissionId) {
+      id
+      date
+      image
+      text
+      progress
+      user {
+        username
+      }
+      userChallenge {
+        id
+        startDate
+      }
+      comments {
+        id
+        text
+        creator {
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        creator {
+          username
+        }
+      }
+      likeCount
+      favorites {
+        id
+        creator {
+          username
+        }
+      }
+      faveCount
+      createdAt
     }
   }
 `;

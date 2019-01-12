@@ -3,6 +3,7 @@ const {
   makeQuery,
   makeInsert,
   makeUpdate,
+  makeUpdateQuery,
   cleanProps,
   renameProp,
 } = require('../pgHelpers');

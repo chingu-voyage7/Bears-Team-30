@@ -12,19 +12,14 @@
 ## Fix
 
 - EditSubmissionPage uses query if location.state undefined
-- number input in challenge settings page
 - challenge progress updates when submission added with +progress
 - challenge ends after day 100 - set status to COMPLETED
-- show usernames on submissions in submission lists
-- Show number of likes/favorites for each submission
 - Show number of users in each challengeGroup
-- Show challenge status in userChallenges list
 - add more groups
 - add landing page info
 - GroupSubmissionsPage can sort by date or popular
 - Add date picker to change challenge start date
 - Add date picker to change submission date
-- sort sidebar userChallenges by startDate
 - make createUrl util functions, use instead of template strings
 - consistent { withRouter }
 - consistent component naming
@@ -54,3 +49,9 @@
 - GroupSubmissionsList shows pages of 5 submissions
 - GroupSubmissionsPage shows pages of 20 submissions
 - Make UserSubmissionsPage to show submissions by user to current challenge
+- Show number of likes/favorites for each submission
+- show usernames on submissions in submission lists
+- sort sidebar userChallenges by startDate
+- Show challenge status in userChallenges list
+- fix number input in challenge settings page
+- UserChallegeSettingsPage uses query if location.state undefined

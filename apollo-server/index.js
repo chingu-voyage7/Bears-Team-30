@@ -51,14 +51,17 @@ const server = new ApolloServer({
     }
     return { id };
   },
+  introspection: true,
   playground: {
+    endpoint: 'https://hundred-day-journey.appspot.com',
     subscriptionEndpoint: 'ws://localhost:4000/graphql',
   },
 });
 
 server
-  .listen()
+  .listen({ port: process.env.PORT || 4000 })
   .then(({ url, subscriptionsUrl }) => {
+    console.log('environment:', process.env.NODE_ENV);
     console.log(`Server listening at ${url}`);
     console.log(`Subscriptions ready at ${subscriptionsUrl}`);
   })

@@ -25,6 +25,10 @@ const UserChallengePage = ({ match }) => (
             {userChallenge.challengeGroup.goalType}
           </p>
           <Link className="button-transparent" to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+          <UserSubmissionsList userChallenge={userChallenge} />
+          <GroupSubmissionsList
+            challengeGroupId={userChallenge.challengeGroup.id}
+          />
           <Link className="button-transparent m-t-15"
             to={{
               pathname: `/challenge/${userChallenge.id}/settings`,

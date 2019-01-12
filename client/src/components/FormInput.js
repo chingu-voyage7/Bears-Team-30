@@ -4,6 +4,7 @@ const FormInput = ({
   id,
   label,
   nolabel,
+  onBlur,
   onChange,
   placeholder,
   type,
@@ -13,6 +14,7 @@ const FormInput = ({
     {nolabel ? '' : <label htmlFor={id}>{label}</label>}
     <input
       id={id}
+      onBlur={onBlur}
       onChange={onChange}
       placeholder={placeholder ? placeholder : label}
       type={type ? type : 'text'}

@@ -17,18 +17,43 @@ const UserChallengesList = () => (
         <div className="challenges">
           <h3>My Challenges</h3>
           {data.myChallenges.length > 0
-            ? data.myChallenges.map(challenge => (
-              <div className="link-hover">
+            ? data.myChallenges
+                .sort((a, b) => a.startDate > b.startDate)
+                .map(challenge => {
+                  const day = Math.ceil(
+                    (new Date().getTime() -
+                      new Date(challenge.startDate).getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  );
 
-                <NavLink key={challenge.id} to={`/challenge/${challenge.id}`}>
-                  <h4>{challenge.challengeGroup.name}</h4>
-                  <p>
-                    {challenge.progress}/{challenge.goal}{' '}
-                    {challenge.challengeGroup.goalType}
-                  </p>
-                </NavLink>
-              </div>
-              ))
+                  const status = challenge.status
+                    .toLowerCase()
+                    .split('_')
+                    .map(word =>
+                      word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.slice(1))
+                    )
+                    .join(' ');
+                  return (
+                    <div className="link-hover">
+
+                    <NavLink
+                      key={challenge.id}
+                      to={`/challenge/${challenge.id}`}
+                    >
+                      <h4>{challenge.challengeGroup.name}</h4>
+                      <p>Day {day}</p>
+                      <p>{status}</p>
+                      <p>
+                        {challenge.progress}/{challenge.goal}{' '}
+                        {challenge.challengeGroup.goalType}
+                      </p>
+                    </NavLink>
+                  </div>
+                  );
+                })
             : 'No Challenges Joined'}
         </div>
       );

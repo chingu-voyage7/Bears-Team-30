@@ -66,9 +66,6 @@ class GroupSubmissionsWrapper extends React.Component {
                   <div>
                     {data.challengeGroupSubmissions && (
                       <SubmissionsList
-                        submissions={submissions}
-                        page={page}
-                        totalPages={Math.ceil(submissionsCount / amount)}
                         handleShowNext={this.handleShowNext}
                         handleShowPrevious={this.handleShowPrevious}
                         onLoadMore={() => {
@@ -96,6 +93,10 @@ class GroupSubmissionsWrapper extends React.Component {
                             },
                           }).then(() => this.handleShowNext());
                         }}
+                        page={page}
+                        showUsernames
+                        submissions={submissions}
+                        totalPages={Math.ceil(submissionsCount / amount)}
                       />
                     )}
                   </div>
