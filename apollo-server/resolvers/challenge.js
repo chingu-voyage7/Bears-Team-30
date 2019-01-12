@@ -25,15 +25,22 @@ const {
 /**
  * Returns all challenge groups
  */
-async function challengeGroups() {
+async function challengeGroups(parent, { category, query }) {
   const challengeGroupsData = await getChallengeGroups();
 
   const challengeGroups = challengeGroupsData.rows;
   const results = [];
 
-  challengeGroups.forEach(challenge => {
-    cleanProps(challenge);
-    results.push(challenge);
+  challengeGroups.forEach(group => {
+    cleanProps(group);
+
+    const isQueryMatch =
+      query === '' ||
+      group.name.toLowerCase().includes(query.toLowerCase()) ||
+      group.description.toLowerCase().includes(query.toLowerCase());
+    const isCategoryMatch = category === null || group.category === category;
+
+    isQueryMatch && isCategoryMatch && results.push(group);
   });
 
   return results;

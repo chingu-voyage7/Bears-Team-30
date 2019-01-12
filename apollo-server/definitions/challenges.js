@@ -7,7 +7,7 @@ const challengeDefs = gql`
 
   extend type Query {
     # view list of challenge groups, add filterable by category later
-    challengeGroups: [ChallengeGroup!]
+    challengeGroups(category: CategoryType, query: String): [ChallengeGroup!]
 
     # view a specific challenge group
     challengeGroup(challengeGroupId: ID!): ChallengeGroup
@@ -38,11 +38,17 @@ const challengeDefs = gql`
     # deleteUserChallenge(userChallengeId: ID!): UserChallengeResponse!
   }
 
+  enum CategoryType {
+    ART
+    HEALTH_WELLNESS
+    TECHNOLOGY
+  }
+
   type ChallengeGroup {
     id: ID!
     name: String!
     description: String!
-    category: String!
+    category: CategoryType!
     goalAction: String!
     goalNumber: Int!
     goalType: String!

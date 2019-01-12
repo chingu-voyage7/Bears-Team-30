@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
+import { Mutation } from 'react-apollo';
 
-import * as routes from '../../constants/routes';
+import * as routes from '../constants/routes';
+import { LOG_IN } from '../constants/mutations';
 import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
@@ -15,14 +16,6 @@ class LoginForm extends React.Component {
     super(props);
     this.state = { ...INITIAL_STATE };
   }
-  onSubmit = event => {
-    event.preventDefault();
-    const { email, password } = this.state;
-    const { history } = this.props;
-    console.log(email, password);
-    axios.post('/auth/login', { email, password });
-    history.push(routes.DASHBOARD);
-  };
   onEmailChange = event => {
     const email = event.target.value;
     this.setState(() => ({
@@ -39,16 +32,33 @@ class LoginForm extends React.Component {
     const { email, password, error } = this.state;
     const isInvalid = password === '' || email === '';
     return (
-      <AuthForm
-        email={email}
-        password={password}
-        onEmailChange={this.onEmailChange}
-        onPasswordChange={this.onPasswordChange}
-        onSubmit={this.onSubmit}
-        isInvalid={isInvalid}
-        error={error}
-        buttonText="Log In"
-      />
+      <Mutation mutation={LOG_IN}>
+        {(loginUser, { client, data }) => (
+          <AuthForm
+            email={email}
+            password={password}
+            onEmailChange={this.onEmailChange}
+            onPasswordChange={this.onPasswordChange}
+            onSubmit={e => {
+              e.preventDefault();
+              const { email, password } = this.state;
+
+              loginUser({
+                variables: { email, password },
+              })
+                .then(res => {
+                  res.data.loginUser &&
+                    localStorage.setItem('token', res.data.loginUser.token);
+                })
+                .then(() => client.clearStore())
+                .then(() => this.props.history.push(routes.DASHBOARD));
+            }}
+            isInvalid={isInvalid}
+            error={error}
+            buttonText="Log In"
+          />
+        )}
+      </Mutation>
     );
   }
 }
