@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
+    "build": "webpack -p --config client/webpack.config.js",
     "apollo": "nodemon ./apollo-server/index.js",
-    "start": "nodemon ./apollo-server/index.js",
+    "start": "node apollo-server/index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
     "dev": "concurrently \"npm run client\" \"npm run apollo\""
   },
   "repository": {
