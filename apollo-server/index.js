@@ -1,5 +1,5 @@
 const { ApolloServer } = require('apollo-server');
-const { RedisCache } = require('apollo-server-cache-redis');
+const redis = require('redis');
 
 const authDefs = require('./definitions/userAuth');
 const submissionDefs = require('./definitions/submissions');
@@ -8,15 +8,24 @@ const challengeDefs = require('./definitions/challenges');
 const ErrorCodes = require('./definitions/errorCodes');
 const { getUserId } = require('../postgresDb/auth/authHelpers');
 
-// const cache = new RedisCache({});
+// const memClient = redis.createClient({
+//   host: process.env.REDISHOST,
+//   port: process.env.REDISPORT,
+//   password: process.env.REDISKEY,
+// });
+// memClient.on('error', e => {
+//   console.error('Redis error:', e);
+// });
 
 process.on('unhandledRejection', (reason, promise) => {
+  console.error('uhoh');
   console.error(reason, promise);
 });
 
 const server = new ApolloServer({
   typeDefs: [authDefs, ErrorCodes, challengeDefs, submissionDefs],
   resolvers,
+  // cache: memClient,
   subscriptions: {
     onConnect: (connectionParams, webSocket) => {
       console.log('connecting');
