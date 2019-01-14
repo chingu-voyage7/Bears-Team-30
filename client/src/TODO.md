@@ -1,3 +1,33 @@
+## Final To-Dos
+
+Me:
+~~- Fix added submission not showing in UserSubmissionsList~~
+
+- Fix added submission not showing in GroupSubmissionsList
+- UpdateSubmissionPage uses query if location.state undefined
+- Show list of user's favorites on Dashboard Page
+- Show updating progress text on UserChallengePage
+- Add front-end test suite
+  ~~- Show number of users in each ChallengeGroup~~
+- Use fragments
+
+Paul:
+
+- UserChallenge status set on back end, updates to COMPLETED after day 100
+- Add email/username/password validation
+- Add back-end test suite
+
+Abby:
+
+- Add description, images to Landing Page
+- Style all pages
+
+Anyone:
+
+- Create premade users, submissions
+- Set up production app
+- Add more challenge groups
+
 ## To Do
 
 - Show list of user's favorites on Dashboard Page
@@ -12,9 +42,8 @@
 ## Fix
 
 - EditSubmissionPage uses query if location.state undefined
-- challenge progress updates when submission added with +progress
+- progress text on dashboard updates
 - challenge ends after day 100 - set status to COMPLETED
-- Show number of users in each challengeGroup
 - add more groups
 - add landing page info
 - GroupSubmissionsPage can sort by date or popular
@@ -55,3 +84,5 @@
 - Show challenge status in userChallenges list
 - fix number input in challenge settings page
 - UserChallegeSettingsPage uses query if location.state undefined
+- challenge progress updates when submission added with +progress
+- Show number of users in each challengeGroup

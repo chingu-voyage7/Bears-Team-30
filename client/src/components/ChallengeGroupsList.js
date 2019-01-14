@@ -18,19 +18,20 @@ const ChallengeGroupsList = ({
       category: !!category ? category : null,
     }}
   >
-    {({ loading, error, data: queryData }) => {
+    {({ loading, error, data: { challengeGroups } }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
 
       return (
         <div>
-          {queryData.challengeGroups.map(group => {
+          {challengeGroups.map(group => {
             const isJoined = userChallenges.includes(group.id);
             const displayCategory = group.category
               .toLowerCase()
               .split('_')
               .map(word => word.replace(word[0], word[0].toUpperCase()))
               .join('/');
+            const membersCount = group.users.length;
             return (
               <Mutation
                 key={group.id}
@@ -55,6 +56,7 @@ const ChallengeGroupsList = ({
                     <h3>{group.name}</h3>
                     <p>{group.description}</p>
                     <p>{displayCategory}</p>
+                    <p>{membersCount} members</p>
                     {isJoined ? (
                       <div>Joined!</div>
                     ) : (

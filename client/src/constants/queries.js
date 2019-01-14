@@ -87,6 +87,9 @@ export const GET_CHALLENGE_GROUPS = gql`
       goalAction
       goalNumber
       goalType
+      users {
+        username
+      }
     }
   }
 `;
@@ -101,6 +104,9 @@ export const GET_CHALLENGE_GROUP = gql`
       goalAction
       goalNumber
       goalType
+      users {
+        username
+      }
     }
   }
 `;
