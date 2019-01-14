@@ -2,6 +2,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import FormInput from './FormInput';
+import { GET_USER_SUBMISSIONS } from '../constants/queries';
 
 class SubmissionForm extends React.Component {
   state = {
@@ -40,7 +41,37 @@ class SubmissionForm extends React.Component {
   render() {
     const { mutation, mutationType, submission, userChallengeId } = this.props;
     return (
-      <Mutation mutation={mutationType}>
+      <Mutation
+        mutation={mutationType}
+        onCompleted={() =>
+          this.props.history.push(`/challenge/${userChallengeId}`)
+        }
+        update={(proxy, { data }) => {
+          const userData = proxy.readQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId },
+          });
+
+          if (data.createSubmission) {
+            userData.submissions.push(data.createSubmission.submission);
+          } else if (data.updateSubmission) {
+            userData.submissions.map(submission => {
+              if (submission.id === data.updateSubmission.submission.id) {
+                return data.updateSubmission.submission;
+              }
+              return submission;
+            });
+          }
+
+          console.log(userData);
+
+          proxy.writeQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId },
+            data: userData,
+          });
+        }}
+      >
         {(mutation, { loading, error, data }) => {
           if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
@@ -59,9 +90,6 @@ class SubmissionForm extends React.Component {
                     progress: Number(progress),
                     text,
                   },
-                }).then(data => {
-                  console.log(data);
-                  this.props.history.push(`/challenge/${userChallengeId}`);
                 });
               }}
             >

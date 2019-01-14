@@ -136,6 +136,7 @@ export const CREATE_SUBMISSION = gql`
         image
         text
         progress
+        createdAt
         user {
           username
         }
@@ -146,6 +147,7 @@ export const CREATE_SUBMISSION = gql`
         comments {
           id
           text
+          createdAt
           creator {
             username
           }
@@ -156,15 +158,12 @@ export const CREATE_SUBMISSION = gql`
             username
           }
         }
-        likeCount
         favorites {
           id
           creator {
             username
           }
         }
-        faveCount
-        createdAt
       }
     }
   }
@@ -191,6 +190,7 @@ export const UPDATE_SUBMISSION = gql`
         image
         text
         progress
+        createdAt
         user {
           username
         }
@@ -201,6 +201,7 @@ export const UPDATE_SUBMISSION = gql`
         comments {
           id
           text
+          createdAt
           creator {
             username
           }
@@ -211,15 +212,12 @@ export const UPDATE_SUBMISSION = gql`
             username
           }
         }
-        likeCount
         favorites {
           id
           creator {
             username
           }
         }
-        faveCount
-        createdAt
       }
     }
   }
@@ -237,6 +235,7 @@ export const DELETE_SUBMISSION = gql`
         image
         text
         progress
+        createdAt
         user {
           username
         }
@@ -247,6 +246,7 @@ export const DELETE_SUBMISSION = gql`
         comments {
           id
           text
+          createdAt
           creator {
             username
           }
@@ -257,15 +257,12 @@ export const DELETE_SUBMISSION = gql`
             username
           }
         }
-        likeCount
         favorites {
           id
           creator {
             username
           }
         }
-        faveCount
-        createdAt
       }
     }
   }
@@ -279,12 +276,16 @@ export const CREATE_LIKE = gql`
       message
       like {
         id
+        creator {
+          username
+        }
         submission {
           id
           date
           image
           text
           progress
+          createdAt
           user {
             username
           }
@@ -295,6 +296,7 @@ export const CREATE_LIKE = gql`
           comments {
             id
             text
+            createdAt
             creator {
               username
             }
@@ -305,18 +307,12 @@ export const CREATE_LIKE = gql`
               username
             }
           }
-          likeCount
           favorites {
             id
             creator {
               username
             }
           }
-          faveCount
-          createdAt
-        }
-        creator {
-          username
         }
       }
     }
@@ -331,12 +327,16 @@ export const DELETE_LIKE = gql`
       message
       like {
         id
+        creator {
+          username
+        }
         submission {
           id
           date
           image
           text
           progress
+          createdAt
           user {
             username
           }
@@ -347,6 +347,7 @@ export const DELETE_LIKE = gql`
           comments {
             id
             text
+            createdAt
             creator {
               username
             }
@@ -357,18 +358,12 @@ export const DELETE_LIKE = gql`
               username
             }
           }
-          likeCount
           favorites {
             id
             creator {
               username
             }
           }
-          faveCount
-          createdAt
-        }
-        creator {
-          username
         }
       }
     }
@@ -383,12 +378,16 @@ export const CREATE_FAVORITE = gql`
       message
       favorite {
         id
+        creator {
+          username
+        }
         submission {
           id
           date
           image
           text
           progress
+          createdAt
           user {
             username
           }
@@ -399,6 +398,7 @@ export const CREATE_FAVORITE = gql`
           comments {
             id
             text
+            createdAt
             creator {
               username
             }
@@ -409,18 +409,12 @@ export const CREATE_FAVORITE = gql`
               username
             }
           }
-          likeCount
           favorites {
             id
             creator {
               username
             }
           }
-          faveCount
-          createdAt
-        }
-        creator {
-          username
         }
       }
     }
@@ -435,12 +429,16 @@ export const DELETE_FAVORITE = gql`
       message
       favorite {
         id
+        creator {
+          username
+        }
         submission {
           id
           date
           image
           text
           progress
+          createdAt
           user {
             username
           }
@@ -451,6 +449,7 @@ export const DELETE_FAVORITE = gql`
           comments {
             id
             text
+            createdAt
             creator {
               username
             }
@@ -461,18 +460,12 @@ export const DELETE_FAVORITE = gql`
               username
             }
           }
-          likeCount
           favorites {
             id
             creator {
               username
             }
           }
-          faveCount
-          createdAt
-        }
-        creator {
-          username
         }
       }
     }
