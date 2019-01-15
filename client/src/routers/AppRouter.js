@@ -20,7 +20,7 @@ import '../styles/base.scss';
 
 
 const AppRouter = () => (
-  <div className="page-container">
+  <div>
     <BrowserRouter>
       <div>
         <Route
