@@ -36,8 +36,9 @@ const SubmissionsList = ({
         <div key={submission.id} className="content">
           <h5>Day {day}</h5>
           <p>{submission.text}</p>
-          {showUsernames && <p>{submission.user.username}</p>}
-          <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
+          {showUsernames && <span className="username">{submission.user.username}</span>}
+          <br></br>
+          <span className="submission-progress">Progress: +{submission.progress ? submission.progress : '0'}</span>
           <div className="like-favorite">
             <LikeButton submissionId={submission.id} />
             <span className="num-font">{likeCount}</span>

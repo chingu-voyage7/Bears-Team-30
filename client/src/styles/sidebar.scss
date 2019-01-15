@@ -5,9 +5,10 @@
 .sidebar {
   width: 25%;
   height: 100%;
-  position: fixed;
+  // position: fixed;
   background-color: $white;
   box-shadow: 5px 0 5px -5px #333;
+  float: left;
 }
 
 .sidebar-container {
@@ -45,8 +46,12 @@
 
 .sidebar-items {
   width: 100%;
-  overflow: scroll;
+  // overflow: scroll;
 }
+
+// .active {
+//   background-color: yellow;
+// }
 
 .challenges {
   height: 400px;
@@ -66,16 +71,25 @@
   h4 {
     color: $sidebar-font;
     font-size: 12px;
-    padding-top: 7px;
-    margin-bottom: 2px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
     letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  span {
+    color: $sidebar-font;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    margin-top: 0px;
   }
 
   p {
     color: $sidebar-font;
     font-size: 10px;
-    line-height: 14px;
     letter-spacing: 1px;
-
+    margin-bottom: 0px;
   }
 }

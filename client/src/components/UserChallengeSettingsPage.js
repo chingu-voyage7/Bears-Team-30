@@ -39,12 +39,12 @@ class UserChallengeSettingsPage extends React.Component {
     const userChallengeId = this.props.match.params.id;
 
     return (
-      <div>
-        <h3>Edit Your Challenge Settings</h3>
+      <div className="page-content">
+        <h3 className="title header">Edit Your Challenge Settings</h3>
         {state ? (
           <div>
-            <h4>{state.userChallenge.challengeGroup.name}</h4>
-            <p>{state.userChallenge.challengeGroup.description}</p>
+            <h4 className="header p-t-50">{state.userChallenge.challengeGroup.name}</h4>
+            <p className="user-header">{state.userChallenge.challengeGroup.description}</p>
             <GoalSection
               challengeGroup={state.userChallenge.challengeGroup}
               value={
@@ -70,7 +70,7 @@ class UserChallengeSettingsPage extends React.Component {
 
               return (
                 <div className="page-content">
-                  <div className="fadeInUp">
+                  <div>
                   <h4  className="user-header">{data.userChallenge.challengeGroup.name}</h4>
                   <p className="small-text header">{data.userChallenge.challengeGroup.description}</p>
                   <GoalSection
@@ -91,7 +91,7 @@ class UserChallengeSettingsPage extends React.Component {
         )}
         <Mutation mutation={UPDATE_USER_CHALLENGE}>
           {(updateUserChallenge, { data: mutationData }) => (
-            <button
+            <button className="button-transparent"
               type="button"
               onClick={e => {
                 e.preventDefault();

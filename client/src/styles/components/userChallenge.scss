@@ -40,21 +40,21 @@
   }
 }
 
-
+.no-submissions {
+    padding-top: 15px;
+    text-align: center;
+    color: $white;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
 
 // .submissions-container {
 //   padding-bottom: 20px;
 //   // width: 70%;
 //   text-align: center !important;
 //
-//   .no-submissions {
-//     padding-top: 15px;
-//     text-align: center;
-//     color: $white;
-//     font-size: 10px;
-//     text-transform: uppercase;
-//     letter-spacing: 2px;
-//   }
+//
 // }
 
 .user-item {
@@ -75,4 +75,65 @@
 
 .like-favorite {
   padding-bottom: 10px;
+  padding-top: 15px;
+
+  .num-font {
+    font-weight: 100;
+    font-size: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    margin-right: 5px;
+    margin-left: 2px;
+  }
+}
+
+.like {
+  margin-top: 10px;
+}
+
+.like-button {
+
+  display: inline;
+
+  span {
+    visibility: hidden;
+    width: 52px;
+    background-color: rgb(44,51,84);
+    color: #fff;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-weight: 100;
+    text-transform: uppercase;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  &:hover {
+    span {
+      visibility: visible;
+    }
+  }
+}
+
+.username {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+
+.progress-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  input {
+    width: 70px;
+  }
 }

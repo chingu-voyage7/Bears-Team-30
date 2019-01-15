@@ -20,7 +20,7 @@ const ChallengeGroupsList = ({category, onChallengeSelect, userChallenges, userQ
         return `Error! ${error.message}`;
 
       return (
-        <div className="list-container fadeInUp">
+        <div className="list-container">
         {
           queryData.challengeGroups.map(group => {
             const isJoined = userChallenges.includes(group.id);

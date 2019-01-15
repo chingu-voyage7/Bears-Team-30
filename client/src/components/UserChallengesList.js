@@ -42,9 +42,10 @@ const UserChallengesList = () => (
                     <NavLink
                       key={challenge.id}
                       to={`/challenge/${challenge.id}`}
+                      activeClassName="active"
                     >
                       <h4>{challenge.challengeGroup.name}</h4>
-                      <p>Day {day}</p>
+                      <span>Day {day}</span>
                       <p>{status}</p>
                       <p>
                         {challenge.progress}/{challenge.goal}{' '}

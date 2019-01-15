@@ -17,7 +17,7 @@ const Sidebar = ({ history }) => (
           <nav className="sidebar-navigation">
             <div></div>
             <div className="sidebar-container">
-              <div className="sidebar-header fadeInDown">
+              <div className="sidebar-header">
                 <Link to={routes.DASHBOARD}>
                   <span className="title">100</span>
                   <br></br>
@@ -25,31 +25,30 @@ const Sidebar = ({ history }) => (
                 </Link>
               </div>
 
-              <div className="fadeInUp">
+              <div>
                 <div className="sidebar-header">
-          <h2>{data.me.username}</h2>
-          </div>
-          <div className="sidebar-items">
+                  <h2>{data.me.username}</h2>
+                </div>
+                <div className="sidebar-items">
 
-          <button className="button-small"
-            onClick={e => {
-              e.preventDefault();
+                  <button className="button-small"
+                    onClick={e => {
+                      e.preventDefault();
 
-              localStorage.setItem('token', null);
-              client.clearStore().then(() => history.push(routes.LOGIN));
-            }}
-          >
-            Log Out
-          </button>
-        </div>
-        <div className="sidebar-items">
+                      localStorage.setItem('token', null);
+                      client.clearStore().then(() => history.push(routes.LOGIN));
+                    }}>
+                    Log Out
+                  </button>
+                </div>
+                <div className="sidebar-items">
 
-          <UserChallengesList />
-          </div>
-        </div>
-      </div>
-    </nav>
-  </header>
+                  <UserChallengesList />
+                </div>
+              </div>
+            </div>
+          </nav>
+        </header>
       );
     }}
   </Query>

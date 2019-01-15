@@ -81,7 +81,7 @@ class SubmissionForm extends React.Component {
                 onChange={this.onTextChange}
                 value={this.state.text}
               />
-              <div>
+            <div className="progress-form">
                 <p className="small-text">Added Progress: +</p>
                 <FormInput
                   id="progress"
@@ -92,7 +92,7 @@ class SubmissionForm extends React.Component {
                   type="number"
                   value={this.state.progress}
                 />
-                <p>{this.props.goalType}</p>
+              <p className="small-text">{this.props.goalType}</p>
               </div>
             </div>
               <div className="p-b-15">

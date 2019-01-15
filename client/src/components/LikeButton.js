@@ -19,14 +19,18 @@ const FavoriteButton = ({ submissionId }) => (
       );
 
       return (
-        <ActionButton
-          matchedItem={matchedItem}
-          mutations={['createLike', 'deleteLike']}
-          mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
-          submissionId={submissionId}
-          text="★"
-          type="like"
-        />
+        <div className="like-button">
+          <ActionButton className="like"
+            matchedItem={matchedItem}
+            mutations={['createLike', 'deleteLike']}
+            mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
+            submissionId={submissionId}
+            text="♥"
+            type="like"
+          />
+          <span>Like</span>
+        </div>
+
       );
     }}
   </Query>
