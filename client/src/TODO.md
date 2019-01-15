@@ -6,7 +6,7 @@ Me:
 - Fix added submission not showing in GroupSubmissionsList
 - UpdateSubmissionPage uses query if location.state undefined
 - Show list of user's favorites on Dashboard Page
-- Show updating progress text on UserChallengePage
+  ~~- Show updating progress text on UserChallengePage~~
 - Add front-end test suite
   ~~- Show number of users in each ChallengeGroup~~
 - Use fragments
