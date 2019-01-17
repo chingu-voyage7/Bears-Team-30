@@ -12,12 +12,14 @@ Me:
 - Use fragments
   ~~- Fix day count~~
   ~~- Sort user submissions by newest - oldest~~
-- Edit submissions button shows on user's submissions
+  ~~- Edit submissions button shows on user's submissions~~
+- Do something with challenge status
 
 Paul:
 
-- UserChallenge status set on back end, updates to COMPLETED after day 100
-- Add email/username/password validation
+~~- UserChallenge status set on back end, updates to COMPLETED after day 100~~
+~~- Add email/username/password validation~~
+
 - Add back-end test suite
 
 Abby:

@@ -35,7 +35,6 @@ class UserSubmissionsWrapper extends Component {
 
     return (
       <SubmissionsList
-        canEdit
         handleShowPrevious={this.handleShowPrevious}
         onLoadMore={this.handleShowNext}
         page={page}

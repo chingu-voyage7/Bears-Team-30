@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Query } from 'react-apollo';
 
+import { ME } from '../constants/queries';
 import LikeButton from './LikeButton';
 import FavoriteButton from './FavoriteButton';
 
 const SubmissionsList = ({
-  canEdit,
   handleShowPrevious,
   onLoadMore,
   page,
@@ -66,16 +67,22 @@ const SubmissionsList = ({
               <FavoriteButton submissionId={submission.id} />
               {faveCount}
             </div>
-            {canEdit && (
-              <Link
-                to={{
-                  pathname: `/${submission.id}/edit`,
-                  state: { userChallenge, submission },
-                }}
-              >
-                Edit
-              </Link>
-            )}
+            <Query query={ME} fetchPolicy="cache-only" partialRefetch={true}>
+              {({ loading, error, data }) => {
+                return (
+                  data.me.username === submission.user.username && (
+                    <Link
+                      to={{
+                        pathname: `/${submission.id}/edit`,
+                        state: { userChallenge, submission },
+                      }}
+                    >
+                      Edit
+                    </Link>
+                  )
+                );
+              }}
+            </Query>
           </div>
         );
       })}
