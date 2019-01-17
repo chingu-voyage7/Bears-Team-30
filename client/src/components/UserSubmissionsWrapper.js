@@ -44,6 +44,7 @@ class UserSubmissionsWrapper extends Component {
         submissions={currSubmissions}
         totalPages={Math.ceil(submissions.length / amount)}
         userChallenge={userChallenge}
+        sortByNewest
       />
     );
   }

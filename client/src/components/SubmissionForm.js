@@ -2,7 +2,10 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import FormInput from './FormInput';
-import { GET_USER_SUBMISSIONS } from '../constants/queries';
+import {
+  GET_USER_SUBMISSIONS,
+  GET_GROUP_SUBMISSIONS,
+} from '../constants/queries';
 
 class SubmissionForm extends React.Component {
   state = {
@@ -39,7 +42,14 @@ class SubmissionForm extends React.Component {
   };
 
   render() {
-    const { mutation, mutationType, submission, userChallengeId } = this.props;
+    const {
+      mutation,
+      mutationType,
+      submission,
+      userChallengeId,
+      challengeGroupId,
+    } = this.props;
+
     return (
       <Mutation
         mutation={mutationType}
@@ -47,6 +57,7 @@ class SubmissionForm extends React.Component {
           this.props.history.push(`/challenge/${userChallengeId}`)
         }
         update={(proxy, { data }) => {
+          // update UserSubmissionsList
           const userData = proxy.readQuery({
             query: GET_USER_SUBMISSIONS,
             variables: { userChallengeId },
@@ -63,12 +74,35 @@ class SubmissionForm extends React.Component {
             });
           }
 
-          console.log(userData);
-
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,
             variables: { userChallengeId },
             data: userData,
+          });
+
+          // update GroupSubmissionsList
+          const groupData = proxy.readQuery({
+            query: GET_GROUP_SUBMISSIONS,
+            variables: { challengeGroupId, amount: 5 },
+          });
+
+          if (data.createSubmission) {
+            groupData.challengeGroupSubmissions.unshift(
+              data.createSubmission.submission
+            );
+          } else if (data.updateSubmission) {
+            groupData.challengeGroupSubmissions.map(submission => {
+              if (submission.id === data.updateSubmission.submission.id) {
+                return data.updateSubmission.submission;
+              }
+              return submission;
+            });
+          }
+
+          proxy.writeQuery({
+            query: GET_GROUP_SUBMISSIONS,
+            variables: { challengeGroupId, amount: 5 },
+            data: groupData,
           });
         }}
       >

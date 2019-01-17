@@ -12,61 +12,86 @@ const SubmissionsList = ({
   showPageNumbers,
   showUsernames,
   startDate,
+  sortByNewest,
   submissions,
   totalPages,
   userChallenge,
-}) => (
-  <div>
-    {submissions.map(submission => {
-      const challengeStartDate = startDate
-        ? startDate
-        : submission.userChallenge.startDate;
-      const day = Math.ceil(
-        (new Date(submission.date).getTime() -
-          new Date(challengeStartDate).getTime()) /
-          (1000 * 60 * 60 * 24)
-      );
+}) => {
+  const sortedSubmissions = sortByNewest
+    ? submissions.sort((a, b) => (a.date < b.date ? -1 : 1))
+    : submissions;
+  return (
+    <div>
+      {sortedSubmissions.map(submission => {
+        const challengeStartDate = startDate
+          ? startDate
+          : submission.userChallenge.startDate;
+        const submissionDate = new Date(submission.date);
+        const day = Math.ceil(
+          (submissionDate.getTime() - new Date(challengeStartDate).getTime()) /
+            (1000 * 60 * 60 * 24)
+        );
 
-      const likeCount = submission.likes.length;
-      const faveCount = submission.favorites.length;
+        const likeCount = submission.likes.length;
+        const faveCount = submission.favorites.length;
 
-      return (
-        <div key={submission.id}>
-          <h5>Day {day}</h5>
-          <p>{submission.text}</p>
-          {showUsernames && <p>{submission.user.username}</p>}
-          <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
-          <div>
-            <LikeButton submissionId={submission.id} />
-            <span>{likeCount}</span>
-            <FavoriteButton submissionId={submission.id} />
-            {faveCount}
+        const months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
+
+        return (
+          <div key={submission.id}>
+            <h5>Day {day}</h5>
+            <p>
+              {months[submissionDate.getMonth()]} {submissionDate.getDate()},{' '}
+              {submissionDate.getFullYear()}
+            </p>
+            <p>{submission.text}</p>
+            {showUsernames && <p>{submission.user.username}</p>}
+            <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
+            <div>
+              <LikeButton submissionId={submission.id} />
+              <span>{likeCount}</span>
+              <FavoriteButton submissionId={submission.id} />
+              {faveCount}
+            </div>
+            {canEdit && (
+              <Link
+                to={{
+                  pathname: `/${submission.id}/edit`,
+                  state: { userChallenge, submission },
+                }}
+              >
+                Edit
+              </Link>
+            )}
           </div>
-          {canEdit && (
-            <Link
-              to={{
-                pathname: `/${submission.id}/edit`,
-                state: { userChallenge, submission },
-              }}
-            >
-              Edit
-            </Link>
+        );
+      })}
+      {onLoadMore && (
+        <div>
+          {page > 1 && <button onClick={handleShowPrevious}>Previous</button>}
+          {showPageNumbers && (
+            <span>
+              Page {page}/{totalPages}
+            </span>
           )}
+          {page < totalPages && <button onClick={onLoadMore}>Next</button>}
         </div>
-      );
-    })}
-    {onLoadMore && (
-      <div>
-        {page > 1 && <button onClick={handleShowPrevious}>Previous</button>}
-        {showPageNumbers && (
-          <span>
-            Page {page}/{totalPages}
-          </span>
-        )}
-        {page < totalPages && <button onClick={onLoadMore}>Next</button>}
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
+};
 
 export default SubmissionsList;

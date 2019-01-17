@@ -143,6 +143,9 @@ export const CREATE_SUBMISSION = gql`
         userChallenge {
           id
           startDate
+          challengeGroup {
+            id
+          }
         }
         comments {
           id
@@ -197,6 +200,9 @@ export const UPDATE_SUBMISSION = gql`
         userChallenge {
           id
           startDate
+          challengeGroup {
+            id
+          }
         }
         comments {
           id
@@ -242,6 +248,9 @@ export const DELETE_SUBMISSION = gql`
         userChallenge {
           id
           startDate
+          challengeGroup {
+            id
+          }
         }
         comments {
           id
@@ -292,6 +301,9 @@ export const CREATE_LIKE = gql`
           userChallenge {
             id
             startDate
+            challengeGroup {
+              id
+            }
           }
           comments {
             id
@@ -343,6 +355,9 @@ export const DELETE_LIKE = gql`
           userChallenge {
             id
             startDate
+            challengeGroup {
+              id
+            }
           }
           comments {
             id
@@ -394,6 +409,9 @@ export const CREATE_FAVORITE = gql`
           userChallenge {
             id
             startDate
+            challengeGroup {
+              id
+            }
           }
           comments {
             id
@@ -445,6 +463,9 @@ export const DELETE_FAVORITE = gql`
           userChallenge {
             id
             startDate
+            challengeGroup {
+              id
+            }
           }
           comments {
             id

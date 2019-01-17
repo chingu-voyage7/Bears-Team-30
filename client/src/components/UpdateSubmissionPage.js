@@ -63,6 +63,7 @@ class UpdateSubmissionPage extends React.Component {
                     mutationType={UPDATE_SUBMISSION}
                     submission={submission}
                     userChallengeId={userChallenge.id}
+                    challengeGroupId={userChallenge.challengeGroup.id}
                   />
                   <button onClick={this.toggleShowDelete}>
                     Delete Submission
