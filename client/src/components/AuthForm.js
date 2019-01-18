@@ -60,7 +60,7 @@ const AuthForm = ({
     <Button disabled={isInvalid} type="submit" bsClass="btn-auth">
       {buttonText}
     </Button>
-    {error && <p>{error.message}</p>}
+    {error && <p>{error}</p>}
   </form>
 );
 
