@@ -51,7 +51,7 @@ class SignupForm extends React.Component {
       username === '';
     return (
       <Mutation mutation={SIGN_UP}>
-        {(createUser, { client, data }) => (
+        {(createUser, { client, data: mutationData }) => (
           <AuthForm
             username={username}
             email={email}
@@ -68,12 +68,22 @@ class SignupForm extends React.Component {
               createUser({
                 variables: { username, email, password },
               })
-                .then(res => {
-                  res.data.createUser &&
-                    localStorage.setItem('token', res.data.createUser.token);
+                .then(({ data }) => {
+                  data.createUser &&
+                    localStorage.setItem('token', data.createUser.token);
+                  return data;
                 })
-                .then(() => client.clearStore())
-                .then(() => this.props.history.push(routes.DASHBOARD));
+                .then(data => {
+                  client.clearStore();
+                  return data;
+                })
+                .then(data => {
+                  if (data.createUser.success) {
+                    this.props.history.push(routes.DASHBOARD);
+                  } else {
+                    this.setState(() => ({ error: data.createUser.message }));
+                  }
+                });
             }}
             isInvalid={isInvalid}
             error={error}

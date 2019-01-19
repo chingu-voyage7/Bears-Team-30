@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
     const isInvalid = password === '' || email === '';
     return (
       <Mutation mutation={LOG_IN}>
-        {(loginUser, { client, data }) => (
+        {(loginUser, { client, data: mutationData }) => (
           <AuthForm
             email={email}
             password={password}
@@ -46,12 +46,24 @@ class LoginForm extends React.Component {
               loginUser({
                 variables: { email, password },
               })
-                .then(res => {
-                  res.data.loginUser &&
-                    localStorage.setItem('token', res.data.loginUser.token);
+                .then(({ data }) => {
+                  data.loginUser &&
+                    localStorage.setItem('token', data.loginUser.token);
+                  return data;
                 })
-                .then(() => client.clearStore())
-                .then(() => this.props.history.push(routes.DASHBOARD));
+                .then(data => {
+                  client.clearStore();
+                  return data;
+                })
+                .then(data => {
+                  if (data.loginUser.token !== null) {
+                    this.props.history.push(routes.DASHBOARD);
+                  } else {
+                    this.setState(() => ({
+                      error: 'Username or password is invalid.',
+                    }));
+                  }
+                });
             }}
             isInvalid={isInvalid}
             error={error}

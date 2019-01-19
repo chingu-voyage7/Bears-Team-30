@@ -1,0 +1,168 @@
+@import '../variables.scss';
+@import '../animations.scss';
+
+
+.user-header {
+  color: $white;
+  letter-spacing:1px;
+  text-align:center;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: 'Josefin Sans', sans-serif;
+  letter-spacing: 2px;
+  padding: 30px 0;
+}
+
+.add-new {
+  font-size: 12px !important;
+  width: 50%;
+  text-align: center;
+  border: 1px solid;
+  margin-top: 15px;
+  padding: 10px 40px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  color: $white;
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position:relative;
+  overflow:hidden;
+  display:block;
+  margin:auto;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+    letter-spacing: 4px;
+    font-size: 14px;
+  }
+}
+
+.no-submissions {
+    padding-top: 15px;
+    text-align: center;
+    color: $white;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .small-font {
+      padding-top: 8px;
+      text-align: center;
+      color: $black;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+.medium-font {
+  padding-top: 10px;
+  text-align: center;
+  color: $black;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+  margin: 0 auto;
+  width: 50%;
+}
+
+// .submissions-container {
+//   padding-bottom: 20px;
+//   // width: 70%;
+//   text-align: center !important;
+//
+//
+// }
+
+.user-item {
+  text-align: center;
+  height: 150px;
+}
+
+.submissions-box {
+  text-align: center;
+  width: 100%;
+}
+
+.submission-list {
+  display: inline-block;
+  text-align: center;
+  // width: 70%;
+}
+
+.like-favorite {
+  padding-bottom: 10px;
+  padding-top: 15px;
+
+  .num-font {
+    font-weight: 100;
+    font-size: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    margin-right: 5px;
+    margin-left: 2px;
+  }
+}
+
+.like {
+  margin-top: 10px;
+}
+
+.like-button {
+
+  display: inline;
+
+  span {
+    visibility: hidden;
+    width: 52px;
+    background-color: rgb(44,51,84);
+    color: #fff;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    font-weight: 100;
+    text-transform: uppercase;
+    opacity: .75;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  button {
+    border-radius: 5px;
+    font-size: 10px;
+    padding-top: 2px;
+  }
+
+  &:hover {
+    span {
+      visibility: visible;
+    }
+  }
+}
+
+.username {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+
+.progress-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  input {
+    width: 70px;
+  }
+}

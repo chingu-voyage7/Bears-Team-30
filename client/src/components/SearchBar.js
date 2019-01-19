@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SearchBar = ({ onUserQueryChange, value }) => (
-  <input
+  <input className="input-field"
     type="search"
     placeholder="Search"
     onChange={onUserQueryChange}

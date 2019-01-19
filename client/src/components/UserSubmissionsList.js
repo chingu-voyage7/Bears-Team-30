@@ -5,6 +5,12 @@ import { Query } from 'react-apollo';
 import { GET_USER_SUBMISSIONS } from '../constants/queries';
 import UserSubmissionsWrapper from './UserSubmissionsWrapper';
 
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
 const UserSubmissionsList = ({ userChallenge }) => (
   <Query
     query={GET_USER_SUBMISSIONS}
@@ -16,8 +22,8 @@ const UserSubmissionsList = ({ userChallenge }) => (
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div>
-          <h4>My Submissions</h4>
+        <div className="list-container col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <h4 className="title header">My Submissions</h4>
           {data.submissions.length > 0 ? (
             <div>
               <UserSubmissionsWrapper
@@ -26,7 +32,7 @@ const UserSubmissionsList = ({ userChallenge }) => (
                 submissions={data.submissions}
                 userChallenge={userChallenge}
               />
-              <Link
+              <Link className="button-transparent m-b-15 m-t-15"
                 to={{
                   pathname: `/challenge/${userChallenge.id}/submissions`,
                   state: {
@@ -40,7 +46,7 @@ const UserSubmissionsList = ({ userChallenge }) => (
               </Link>
             </div>
           ) : (
-            <p>None yet. Try adding something you worked on!</p>
+            <p className="no-submissions">None yet. Try adding something you worked on!</p>
           )}
         </div>
       );

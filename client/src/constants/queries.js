@@ -87,6 +87,9 @@ export const GET_CHALLENGE_GROUPS = gql`
       goalAction
       goalNumber
       goalType
+      users {
+        username
+      }
     }
   }
 `;
@@ -101,6 +104,9 @@ export const GET_CHALLENGE_GROUP = gql`
       goalAction
       goalNumber
       goalType
+      users {
+        username
+      }
     }
   }
 `;
@@ -137,6 +143,7 @@ export const GET_GROUP_SUBMISSIONS = gql`
       image
       text
       progress
+      createdAt
       user {
         username
       }
@@ -147,10 +154,10 @@ export const GET_GROUP_SUBMISSIONS = gql`
       comments {
         id
         text
+        createdAt
         creator {
           username
         }
-        createdAt
       }
       likes {
         id
@@ -158,15 +165,12 @@ export const GET_GROUP_SUBMISSIONS = gql`
           username
         }
       }
-      likeCount
       favorites {
         id
         creator {
           username
         }
       }
-      faveCount
-      createdAt
     }
   }
 `;
@@ -179,6 +183,7 @@ export const GET_USER_SUBMISSIONS = gql`
       image
       text
       progress
+      createdAt
       user {
         username
       }
@@ -189,10 +194,10 @@ export const GET_USER_SUBMISSIONS = gql`
       comments {
         id
         text
+        createdAt
         creator {
           username
         }
-        createdAt
       }
       likes {
         id
@@ -200,15 +205,12 @@ export const GET_USER_SUBMISSIONS = gql`
           username
         }
       }
-      likeCount
       favorites {
         id
         creator {
           username
         }
       }
-      faveCount
-      createdAt
     }
   }
 `;
@@ -221,6 +223,7 @@ export const GET_SUBMISSION = gql`
       image
       text
       progress
+      createdAt
       user {
         username
       }
@@ -231,10 +234,10 @@ export const GET_SUBMISSION = gql`
       comments {
         id
         text
+        createdAt
         creator {
           username
         }
-        createdAt
       }
       likes {
         id
@@ -242,15 +245,12 @@ export const GET_SUBMISSION = gql`
           username
         }
       }
-      likeCount
       favorites {
         id
         creator {
           username
         }
       }
-      faveCount
-      createdAt
     }
   }
 `;

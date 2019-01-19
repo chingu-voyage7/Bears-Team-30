@@ -16,6 +16,9 @@ import UpdateSubmissionPage from '../components/UpdateSubmissionPage';
 import GroupSubmissionsPage from '../components/GroupSubmissionsPage';
 import UserSubmissionsPage from '../components/UserSubmissionsPage';
 
+import '../styles/base.scss';
+
+
 const AppRouter = () => (
   <div>
     <BrowserRouter>
