@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import * as routes from '../constants/routes';
+import { GET_USER_SUBMISSIONS } from '../constants/queries';
 import { UPDATE_SUBMISSION, DELETE_SUBMISSION } from '../constants/mutations';
 import SubmissionForm from './SubmissionForm';
 
@@ -33,6 +33,25 @@ class UpdateSubmissionPage extends React.Component {
         mutation={DELETE_SUBMISSION}
         onCompleted={() => history.push(`/challenge/${userChallenge.id}`)}
         variables={{ submissionId: submission.id }}
+        update={(proxy, { data: { deleteSubmission } }) => {
+          const data = proxy.readQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId: userChallenge.id },
+          });
+
+          data.submissions = data.submissions.filter(submission => {
+            console.log(submission.id, deleteSubmission.submission.id);
+            return submission.id !== deleteSubmission.submission.id;
+          });
+
+          console.log(data);
+
+          proxy.writeQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId: userChallenge.id },
+            data,
+          });
+        }}
       >
         {(deleteSubmission, { loading, error, data }) => {
           if (loading) return 'Loading...';
@@ -50,6 +69,7 @@ class UpdateSubmissionPage extends React.Component {
                     mutationType={UPDATE_SUBMISSION}
                     submission={submission}
                     userChallengeId={userChallenge.id}
+                    challengeGroupId={userChallenge.challengeGroup.id}
                   />
                 <button className="button-transparent" onClick={this.toggleShowDelete}>
                     Delete Submission

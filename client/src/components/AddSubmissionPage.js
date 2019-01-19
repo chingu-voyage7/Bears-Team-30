@@ -33,6 +33,7 @@ const AddSubmissionPage = ({ history, match }) => (
             mutation="createSubmission"
             mutationType={CREATE_SUBMISSION}
             userChallengeId={data.userChallenge.id}
+            challengeGroupId={data.userChallenge.challengeGroup.id}
           />
         </div>
       );

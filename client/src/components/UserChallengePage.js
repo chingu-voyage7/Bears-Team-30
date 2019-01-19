@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import { GET_USER_CHALLENGE } from '../constants/queries';
 import UserSubmissionsList from './UserSubmissionsList';
 import GroupSubmissionsList from './GroupSubmissionsList';
+import ProgressMessage from './ProgressMessage';
 
 const UserChallengePage = ({ match }) => (
   <Query
@@ -24,16 +25,25 @@ const UserChallengePage = ({ match }) => (
             Progress: {userChallenge.progress} / {userChallenge.goal}{' '}
             {userChallenge.challengeGroup.goalType}
           </p>
+          <ProgressMessage
+            progressPercent={
+              Number(userChallenge.progress) / Number(userChallenge.goal)
+            }
+          />
           <Link className="button-transparent" to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+          <UserSubmissionsList userChallenge={userChallenge} />
+          <GroupSubmissionsList
+            challengeGroupId={userChallenge.challengeGroup.id}
+          />
           <Link className="button-transparent m-t-15"
-              to={{
-                pathname: `/challenge/${userChallenge.id}/settings`,
-                state: {
-                  userChallenge,
-                },
-              }}
-            >
-              Challenge Settings
+            to={{
+              pathname: `/challenge/${userChallenge.id}/settings`,
+              state: {
+                userChallenge,
+              },
+            }}
+          >
+            Challenge Settings
           </Link>
           <div>
           <div>

@@ -2,6 +2,10 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import FormInput from './FormInput';
+import {
+  GET_USER_SUBMISSIONS,
+  GET_GROUP_SUBMISSIONS,
+} from '../constants/queries';
 
 import '../styles/sidebar.scss';
 import '../styles/base.scss';
@@ -44,9 +48,70 @@ class SubmissionForm extends React.Component {
   };
 
   render() {
-    const { mutation, mutationType, submission, userChallengeId } = this.props;
+    const {
+      mutation,
+      mutationType,
+      submission,
+      userChallengeId,
+      challengeGroupId,
+    } = this.props;
+
     return (
-      <Mutation mutation={mutationType}>
+      <Mutation
+        mutation={mutationType}
+        onCompleted={() =>
+          this.props.history.push(`/challenge/${userChallengeId}`)
+        }
+        update={(proxy, { data }) => {
+          // update UserSubmissionsList
+          const userData = proxy.readQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId },
+          });
+
+          if (data.createSubmission) {
+            userData.submissions.push(data.createSubmission.submission);
+          } else if (data.updateSubmission) {
+            userData.submissions.map(submission => {
+              if (submission.id === data.updateSubmission.submission.id) {
+                return data.updateSubmission.submission;
+              }
+              return submission;
+            });
+          }
+
+          proxy.writeQuery({
+            query: GET_USER_SUBMISSIONS,
+            variables: { userChallengeId },
+            data: userData,
+          });
+
+          // update GroupSubmissionsList
+          const groupData = proxy.readQuery({
+            query: GET_GROUP_SUBMISSIONS,
+            variables: { challengeGroupId, amount: 5 },
+          });
+
+          if (data.createSubmission) {
+            groupData.challengeGroupSubmissions.unshift(
+              data.createSubmission.submission
+            );
+          } else if (data.updateSubmission) {
+            groupData.challengeGroupSubmissions.map(submission => {
+              if (submission.id === data.updateSubmission.submission.id) {
+                return data.updateSubmission.submission;
+              }
+              return submission;
+            });
+          }
+
+          proxy.writeQuery({
+            query: GET_GROUP_SUBMISSIONS,
+            variables: { challengeGroupId, amount: 5 },
+            data: groupData,
+          });
+        }}
+      >
         {(mutation, { loading, error, data }) => {
           if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
@@ -66,9 +131,6 @@ class SubmissionForm extends React.Component {
                     progress: Number(progress),
                     text,
                   },
-                }).then(data => {
-                  console.log(data);
-                  this.props.history.push(`/challenge/${userChallengeId}`);
                 });
               }}
             >
