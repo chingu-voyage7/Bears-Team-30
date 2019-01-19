@@ -35,7 +35,6 @@ class UserSubmissionsWrapper extends Component {
 
     return (
       <SubmissionsList
-        canEdit
         handleShowPrevious={this.handleShowPrevious}
         onLoadMore={this.handleShowNext}
         page={page}
@@ -44,6 +43,7 @@ class UserSubmissionsWrapper extends Component {
         submissions={currSubmissions}
         totalPages={Math.ceil(submissions.length / amount)}
         userChallenge={userChallenge}
+        sortByNewest
       />
     );
   }

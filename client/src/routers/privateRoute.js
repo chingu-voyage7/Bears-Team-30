@@ -6,6 +6,8 @@ import * as routes from '../constants/routes';
 import { GET_AUTH } from '../constants/queries';
 import Sidebar from '../components/Sidebar';
 
+
+
 const privateRoute = Component => {
   const PrivateRoute = props => (
     <Query query={GET_AUTH}>
@@ -14,7 +16,7 @@ const privateRoute = Component => {
         if (error) return `Error! ${error.message}`;
 
         return data.auth.isAuthenticated ? (
-          <div>
+          <div className="page-base">
             <Sidebar {...props} />
             <Component {...props} />
           </div>

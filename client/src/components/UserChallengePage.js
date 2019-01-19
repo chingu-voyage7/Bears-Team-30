@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import { GET_USER_CHALLENGE } from '../constants/queries';
 import UserSubmissionsList from './UserSubmissionsList';
 import GroupSubmissionsList from './GroupSubmissionsList';
+import ProgressMessage from './ProgressMessage';
 
 const UserChallengePage = ({ match }) => (
   <Query
@@ -18,27 +19,40 @@ const UserChallengePage = ({ match }) => (
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div>
-          <h3>100 Days of {userChallenge.challengeGroup.name}</h3>
-          <p>
+        <div className="page-content">
+          <h3 className="title header">100 Days of {userChallenge.challengeGroup.name}</h3>
+          <p className="user-header">
             Progress: {userChallenge.progress} / {userChallenge.goal}{' '}
             {userChallenge.challengeGroup.goalType}
           </p>
-          <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
-          <UserSubmissionsList userChallenge={userChallenge} />
-          <GroupSubmissionsList
-            challengeGroupId={userChallenge.challengeGroup.id}
+          <ProgressMessage
+            progressPercent={
+              Number(userChallenge.progress) / Number(userChallenge.goal)
+            }
           />
-          <Link
-            to={{
-              pathname: `/challenge/${userChallenge.id}/settings`,
-              state: {
-                userChallenge,
-              },
-            }}
-          >
-            Challenge Settings
-          </Link>
+          <Link className="button-transparent" to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+            <Link className="button-transparent m-t-15"
+              to={{
+                pathname: `/challenge/${userChallenge.id}/settings`,
+                state: {
+                  userChallenge,
+                },
+              }}
+            >
+              Challenge Settings
+            </Link>
+            <div>
+            <div>
+              <UserSubmissionsList userChallenge={userChallenge} />
+            </div>
+            <div>
+
+              <GroupSubmissionsList
+            challengeGroupId={userChallenge.challengeGroup.id}
+              />
+            </div>
+          </div>
+
         </div>
       );
     }}

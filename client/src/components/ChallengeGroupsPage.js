@@ -5,6 +5,13 @@ import { GET_MY_CHALLENGES } from '../constants/queries';
 import CategorySelect from './CategorySelect';
 import SearchBar from './SearchBar';
 import ChallengeGroupsList from './ChallengeGroupsList';
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
+
 
 class ChallengeGroupsPage extends React.Component {
   state = {
@@ -44,8 +51,9 @@ class ChallengeGroupsPage extends React.Component {
             data.myChallenges.map(challenge => challenge.challengeGroup.id);
 
           return (
-            <div>
-              <h2>Find a Challenge to Join</h2>
+            <div className="page-content">
+              <div>
+              <h2 className="title header">Find a Challenge to Join</h2>
               <SearchBar
                 onUserQueryChange={this.onUserQueryChange}
                 value={this.state.query}
@@ -60,6 +68,7 @@ class ChallengeGroupsPage extends React.Component {
                 userChallenges={userChallenges}
                 userQuery={this.state.userQuery}
               />
+          </div>
             </div>
           );
         }}

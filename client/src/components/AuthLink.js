@@ -6,7 +6,7 @@ import * as routes from '../constants/routes';
 const AuthLink = ({ linkText, route, text }) => (
   <p>
     {text}
-    <Link to={routes[route]}>{linkText}</Link>
+    <Link className="log-button m-t-15" to={routes[route]}>{linkText}</Link>
   </p>
 );
 
