@@ -35,10 +35,17 @@ const UserChallengePage = ({ match }) => (
             >
               Challenge Settings
           </Link>
-          <UserSubmissionsList userChallenge={userChallenge} />
-          <GroupSubmissionsList
-            challengeGroupId={userChallenge.challengeGroup.id}
-          />
+          <div>
+          <div>
+            <UserSubmissionsList userChallenge={userChallenge} />
+          </div>
+          <div>
+            <GroupSubmissionsList
+              challengeGroupId={userChallenge.challengeGroup.id}
+            />
+          </div>
+          </div>
+
 
         </div>
       );

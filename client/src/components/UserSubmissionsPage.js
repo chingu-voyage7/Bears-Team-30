@@ -16,7 +16,7 @@ const UserSubmissionsPage = ({ location, match }) => {
   return (
     <div className="page-content">
       <h2 className="title header">My Submissions</h2>
-      <div className="list-container-item width100  col-lg-4 col-md-6 col-sm-6 col-xs-12 m-b-15">
+      <div className="list-container width100  col-lg-4 col-md-6 col-sm-6 col-xs-12 m-b-15">
       {location.state ? (
         <UserSubmissionsWrapper
           amount={100}

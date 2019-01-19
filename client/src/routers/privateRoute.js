@@ -16,7 +16,7 @@ const privateRoute = Component => {
         if (error) return `Error! ${error.message}`;
 
         return data.auth.isAuthenticated ? (
-          <div>
+          <div className="page-base">
             <Sidebar {...props} />
             <Component {...props} />
           </div>

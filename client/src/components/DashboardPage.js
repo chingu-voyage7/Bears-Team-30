@@ -10,7 +10,7 @@ import '../styles/components/dashboard.scss'
 const DashboardPage = props => (
   <div className="page-content">
 
-    <Link to={routes.CHALLENGE_GROUPS} className="dashboard-btn">Join a Challenge</Link>
+    <Link to={routes.CHALLENGE_GROUPS} className="dashboard-btn fadeInUp box-shadow">Join a Challenge</Link>
   </div>
 );
 

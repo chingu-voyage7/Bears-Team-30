@@ -63,7 +63,7 @@ class GroupSubmissionsWrapper extends React.Component {
                 );
 
                 return (
-                  <div>
+                  <div className="m-b-15">
                     {data.challengeGroupSubmissions && (
                       <SubmissionsList
                         handleShowNext={this.handleShowNext}

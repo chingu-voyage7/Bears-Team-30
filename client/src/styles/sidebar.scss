@@ -5,10 +5,29 @@
 .sidebar {
   width: 25%;
   height: 100%;
-  // position: fixed;
+  position: fixed;
   background-color: $white;
   box-shadow: 5px 0 5px -5px #333;
   float: left;
+}
+
+.sidebar-navigation {
+  overflow: scroll;
+  height: 100%;
+}
+
+.sidebar-navigation::-webkit-scrollbar {
+    width: 6px;
+}
+
+// .sidebar-navigation::-webkit-scrollbar-track {
+//     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+//     border-radius: 10px;
+// }
+
+.sidebar-navigation::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
 .sidebar-container {

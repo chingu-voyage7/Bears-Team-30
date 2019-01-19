@@ -31,7 +31,9 @@ const SubmissionsList = ({
       const faveCount = submission.favorites.length;
 
       return (
-        <div className="my-submissions">
+        <div className="my-submissions box-shadow">
+
+        <div className="list-container-item">
 
         <div key={submission.id} className="content">
           <h5>Day {day}</h5>
@@ -55,6 +57,7 @@ const SubmissionsList = ({
               Edit
             </Link>
           )}
+        </div>
         </div>
       </div>
       );

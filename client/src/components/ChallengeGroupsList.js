@@ -20,7 +20,7 @@ const ChallengeGroupsList = ({category, onChallengeSelect, userChallenges, userQ
         return `Error! ${error.message}`;
 
       return (
-        <div className="list-container">
+        <div className="list-container fadeInUp">
         {
           queryData.challengeGroups.map(group => {
             const isJoined = userChallenges.includes(group.id);
@@ -37,12 +37,14 @@ const ChallengeGroupsList = ({category, onChallengeSelect, userChallenges, userQ
               {
                 (createUserChallenge, {data: mutationData}) => (
                 // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
-                <div className="list-container-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                  <div className="content">
+                <div className="list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                  <div className="content scroll box-shadow p-t-15 p-b-15">
                     <div className={isJoined
                         ? 'joined'
                         : 'group'}>
-                      <h3>{group.name}</h3>
+                        <div className="border-box box-shadow">
+                          <h3 className="border">{group.name}</h3>
+                        </div>
                       <p>{group.description}</p>
                       <p>{displayCategory}</p>
                       {

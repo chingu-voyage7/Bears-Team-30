@@ -22,7 +22,7 @@ const UserSubmissionsList = ({ userChallenge }) => (
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div className="list-container-item col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div className="list-container col-lg-6 col-md-6 col-sm-6 col-xs-6">
           <h4 className="title header">My Submissions</h4>
           {data.submissions.length > 0 ? (
             <div>
@@ -32,7 +32,7 @@ const UserSubmissionsList = ({ userChallenge }) => (
                 submissions={data.submissions}
                 userChallenge={userChallenge}
               />
-              <Link className="button-transparent"
+              <Link className="button-transparent m-b-15 m-t-15"
                 to={{
                   pathname: `/challenge/${userChallenge.id}/submissions`,
                   state: {
