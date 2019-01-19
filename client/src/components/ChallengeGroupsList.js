@@ -4,6 +4,14 @@ import {Query, Mutation} from 'react-apollo';
 import {GET_CHALLENGE_GROUPS, GET_MY_CHALLENGES} from '../constants/queries';
 import {CREATE_USER_CHALLENGE} from '../constants/mutations';
 
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
+
+
 const ChallengeGroupsList = ({
   category,
   onChallengeSelect,
@@ -58,11 +66,11 @@ const ChallengeGroupsList = ({
                           <div className="border-box box-shadow">
                             <h3 className="border">{group.name}</h3>
                           </div>
-                            <p>{group.description}</p>
-                            <p>{displayCategory}</p>
-                            <p>{membersCount} members</p>
+                            <p className="submission-text">{group.description}</p>
+                            <p className="small-font">{displayCategory}</p>
+                            <p className="submission-progress">{membersCount} members</p>
                             {isJoined ? (
-                              <div className="is-joined">Joined!</div>
+                              <div className="medium-font">Joined!</div>
                             ) : (
                               <button
                                  className="main-button"

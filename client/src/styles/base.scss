@@ -253,6 +253,10 @@
   padding: 0px 50px 50px 50px;
   margin: 0 auto;
   // overflow: auto;
+
+  @media only screen and (max-width: 900px) {
+    padding: 0px 20px 50px 20px;
+  }
 }
 
 .group-list-item {
@@ -267,11 +271,15 @@
 .list-container-item {
   background-color: transparent;
   // height: 300px;
-  height: 265px;
+  height: 285px;
   padding-top: 10px;
   padding-bottom: 10px;
   overflow: scroll;
   // width: 300px;
+
+  @media only screen and (max-width: 780px) {
+      height: 300px;
+  }
 
 
   .content {
@@ -302,7 +310,7 @@
       padding-top: 10px;
     }
 
-    p {
+    .submission-text {
       font-size: 18px;
       // text-transform: uppercase;
       letter-spacing: 1px;
@@ -343,6 +351,11 @@
 
 .p-b-30 {
   padding-bottom: 30px !important;
+}
+
+.p-x-30 {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .m-b-15 {

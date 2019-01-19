@@ -49,6 +49,28 @@
     letter-spacing: 2px;
   }
 
+  .small-font {
+      padding-top: 8px;
+      text-align: center;
+      color: $black;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+.medium-font {
+  padding-top: 10px;
+  text-align: center;
+  color: $black;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+  margin: 0 auto;
+  width: 50%;
+}
+
 // .submissions-container {
 //   padding-bottom: 20px;
 //   // width: 70%;

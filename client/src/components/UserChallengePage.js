@@ -31,31 +31,27 @@ const UserChallengePage = ({ match }) => (
             }
           />
           <Link className="button-transparent" to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
-          <UserSubmissionsList userChallenge={userChallenge} />
-          <GroupSubmissionsList
-            challengeGroupId={userChallenge.challengeGroup.id}
-          />
-          <Link className="button-transparent m-t-15"
-            to={{
-              pathname: `/challenge/${userChallenge.id}/settings`,
-              state: {
-                userChallenge,
-              },
-            }}
-          >
-            Challenge Settings
-          </Link>
-          <div>
-          <div>
-            <UserSubmissionsList userChallenge={userChallenge} />
-          </div>
-          <div>
-            <GroupSubmissionsList
-              challengeGroupId={userChallenge.challengeGroup.id}
-            />
-          </div>
-          </div>
+            <Link className="button-transparent m-t-15"
+              to={{
+                pathname: `/challenge/${userChallenge.id}/settings`,
+                state: {
+                  userChallenge,
+                },
+              }}
+            >
+              Challenge Settings
+            </Link>
+            <div>
+            <div>
+              <UserSubmissionsList userChallenge={userChallenge} />
+            </div>
+            <div>
 
+              <GroupSubmissionsList
+            challengeGroupId={userChallenge.challengeGroup.id}
+              />
+            </div>
+          </div>
 
         </div>
       );

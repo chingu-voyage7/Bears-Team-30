@@ -9,6 +9,7 @@ import '../styles/sidebar.scss';
 import '../styles/base.scss';
 import '../styles/animations.scss';
 import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
 
 
 

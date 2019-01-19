@@ -57,11 +57,11 @@ const SubmissionsList = ({
             <div className="list-container-item">
               <div key={submission.id} className="content">
                 <h5>Day {day}</h5>
-                <p>
+                <p className="small-font">
                   {months[submissionDate.getMonth()]} {submissionDate.getDate()},{' '}
                   {submissionDate.getFullYear()}
                 </p>
-                <p>{submission.text}</p>
+                <p className="submission-text">{submission.text}</p>
                 {showUsernames && <span className="username">{submission.user.username}</span>}
                 <br></br>
                 <span className="submission-progress">Progress: +{submission.progress ? submission.progress : '0'}</span>

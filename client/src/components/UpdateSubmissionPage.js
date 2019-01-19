@@ -78,9 +78,10 @@ class UpdateSubmissionPage extends React.Component {
               )}
               {this.state.showDelete && (
                 <div>
-                  <h3>Delete Submission?</h3>
-                  <button onClick={this.toggleShowDelete}>Cancel</button>
+                  <h3 className="title header">Delete Submission?</h3>
+                  <button className="button-small-transparent" onClick={this.toggleShowDelete}>Cancel</button>
                   <button
+                    className="button-small-transparent"
                     onClick={e => {
                       e.preventDefault();
 
