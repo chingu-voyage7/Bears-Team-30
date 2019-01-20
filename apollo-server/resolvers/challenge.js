@@ -35,10 +35,10 @@ async function challengeGroups(parent, { category, query }) {
     cleanProps(group);
 
     const isQueryMatch =
-      query === '' ||
+      !query ||
       group.name.toLowerCase().includes(query.toLowerCase()) ||
       group.description.toLowerCase().includes(query.toLowerCase());
-    const isCategoryMatch = category === null || group.category === category;
+    const isCategoryMatch = !category || group.category === category;
 
     isQueryMatch && isCategoryMatch && results.push(group);
   });

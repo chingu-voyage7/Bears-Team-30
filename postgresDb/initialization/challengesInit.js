@@ -2,7 +2,7 @@ require('dotenv').config();
 const db = require('../index');
 const { makeQuery } = require('../pgHelpers');
 
-console.log('intialize challenges');
+console.log('initialize challenges');
 
 const CHALLENGES_TABLE =
   'CREATE TABLE IF NOT EXISTS challenge_groups(id SERIAL PRIMARY KEY, name CITEXT UNIQUE NOT NULL, description TEXT NOT NULL, category TEXT NOT NULL, goal_action TEXT NOT NULL, goal_number TEXT NOT NULL, goal_type TEXT NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now())';
@@ -23,28 +23,29 @@ const POPULATE_CHALLENGES = makeQuery({
   returning: 'RETURNING *',
 });
 
-const DEFAULT_USER_CHALLENGES = [
-  `(1,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
-  `(2,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
-  `(3,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
-];
+// const DEFAULT_USER_CHALLENGES = [
+//   `(1,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
+//   `(2,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
+//   `(3,'7aeb5590-a92e-4720-9b12-4cca8b083c9b',0,50)`,
+// ];
 
-const POPULATE_USER_CHALLENGES = `
-INSERT INTO user_challenges(challengegroupid, userid, progress, goal) VALUES ${DEFAULT_USER_CHALLENGES.join(
-  ', '
-)}
-`;
+// const POPULATE_USER_CHALLENGES = `
+// INSERT INTO user_challenges(challengegroupid, userid, progress, goal) VALUES ${DEFAULT_USER_CHALLENGES.join(
+//   ', '
+// )}
+// `;
 
 async function buildTables() {
   try {
     const client = await db.getClient();
     await client.query(CHALLENGES_TABLE);
     await client.query(USER_CHALLENGES_TABLE);
-    // await client.query(POPULATE_CHALLENGES.text);
-    await client.query(POPULATE_USER_CHALLENGES);
-    client.release();
+    await client.query(POPULATE_CHALLENGES.text);
+    // await client.query(POPULATE_USER_CHALLENGES);
   } catch (err) {
     console.error(err);
+  } finally {
+    client.release();
   }
 }
 
