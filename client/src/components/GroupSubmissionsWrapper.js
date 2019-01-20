@@ -66,6 +66,7 @@ class GroupSubmissionsWrapper extends React.Component {
                   <div>
                     {data.challengeGroupSubmissions && (
                       <SubmissionsList
+                        challengeGroupId={challengeGroupId}
                         handleShowNext={this.handleShowNext}
                         handleShowPrevious={this.handleShowPrevious}
                         onLoadMore={() => {

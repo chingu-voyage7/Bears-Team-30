@@ -18,19 +18,24 @@ class UpdateSubmissionPage extends React.Component {
 
   render() {
     const { history, location } = this.props;
-    const { submission, userChallenge } = location.state;
-    const startDate = new Date(userChallenge.createdAt).valueOf();
+    const {
+      submission,
+      userChallengeId,
+      challengeGroupId,
+      challengeStartDate,
+    } = location.state;
+    const startDate = new Date(challengeStartDate).valueOf();
     const day = Math.ceil((Date.now() - startDate) / (1000 * 60 * 60 * 24));
 
     return (
       <Mutation
         mutation={DELETE_SUBMISSION}
-        onCompleted={() => history.push(`/challenge/${userChallenge.id}`)}
+        onCompleted={() => history.push(`/challenge/${userChallengeId}`)}
         variables={{ submissionId: submission.id }}
         update={(proxy, { data: { deleteSubmission } }) => {
           const data = proxy.readQuery({
             query: GET_USER_SUBMISSIONS,
-            variables: { userChallengeId: userChallenge.id },
+            variables: { userChallengeId },
           });
 
           data.submissions = data.submissions.filter(submission => {
@@ -42,7 +47,7 @@ class UpdateSubmissionPage extends React.Component {
 
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,
-            variables: { userChallengeId: userChallenge.id },
+            variables: { userChallengeId },
             data,
           });
         }}
@@ -62,8 +67,8 @@ class UpdateSubmissionPage extends React.Component {
                     mutation="updateSubmission"
                     mutationType={UPDATE_SUBMISSION}
                     submission={submission}
-                    userChallengeId={userChallenge.id}
-                    challengeGroupId={userChallenge.challengeGroup.id}
+                    userChallengeId={userChallengeId}
+                    challengeGroupId={challengeGroupId}
                   />
                   <button onClick={this.toggleShowDelete}>
                     Delete Submission
