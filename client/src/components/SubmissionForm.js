@@ -48,6 +48,7 @@ class SubmissionForm extends React.Component {
       submission,
       userChallengeId,
       challengeGroupId,
+      toggleUpdating,
     } = this.props;
 
     return (
@@ -116,6 +117,8 @@ class SubmissionForm extends React.Component {
                 e.preventDefault();
 
                 const { text, progress } = this.state;
+
+                toggleUpdating();
 
                 mutation({
                   variables: {

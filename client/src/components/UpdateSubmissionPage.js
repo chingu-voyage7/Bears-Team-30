@@ -8,12 +8,17 @@ import SubmissionForm from './SubmissionForm';
 class UpdateSubmissionPage extends React.Component {
   state = {
     showDelete: false,
+    updating: false,
   };
 
   toggleShowDelete = e => {
     e.preventDefault();
 
     this.setState(prevState => ({ showDelete: !prevState.showDelete }));
+  };
+
+  toggleUpdating = () => {
+    this.setState(prevState => ({ updating: !prevState.updating }));
   };
 
   render() {
@@ -43,8 +48,6 @@ class UpdateSubmissionPage extends React.Component {
             return submission.id !== deleteSubmission.submission.id;
           });
 
-          console.log(data);
-
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,
             variables: { userChallengeId },
@@ -69,10 +72,13 @@ class UpdateSubmissionPage extends React.Component {
                     submission={submission}
                     userChallengeId={userChallengeId}
                     challengeGroupId={challengeGroupId}
+                    toggleUpdating={this.toggleUpdating}
                   />
-                  <button onClick={this.toggleShowDelete}>
-                    Delete Submission
-                  </button>
+                  {!this.state.updating && (
+                    <button onClick={this.toggleShowDelete}>
+                      Delete Submission
+                    </button>
+                  )}
                 </div>
               )}
               {this.state.showDelete && (
