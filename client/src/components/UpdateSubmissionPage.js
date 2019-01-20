@@ -14,6 +14,7 @@ import '../styles/components/userChallenge.scss';
 class UpdateSubmissionPage extends React.Component {
   state = {
     showDelete: false,
+    updating: false,
   };
 
   toggleShowDelete = e => {
@@ -22,21 +23,30 @@ class UpdateSubmissionPage extends React.Component {
     this.setState(prevState => ({ showDelete: !prevState.showDelete }));
   };
 
+  toggleUpdating = () => {
+    this.setState(prevState => ({ updating: !prevState.updating }));
+  };
+
   render() {
     const { history, location } = this.props;
-    const { submission, userChallenge } = location.state;
-    const startDate = new Date(userChallenge.createdAt).valueOf();
+    const {
+      submission,
+      userChallengeId,
+      challengeGroupId,
+      challengeStartDate,
+    } = location.state;
+    const startDate = new Date(challengeStartDate).valueOf();
     const day = Math.ceil((Date.now() - startDate) / (1000 * 60 * 60 * 24));
 
     return (
       <Mutation
         mutation={DELETE_SUBMISSION}
-        onCompleted={() => history.push(`/challenge/${userChallenge.id}`)}
+        onCompleted={() => history.push(`/challenge/${userChallengeId}`)}
         variables={{ submissionId: submission.id }}
         update={(proxy, { data: { deleteSubmission } }) => {
           const data = proxy.readQuery({
             query: GET_USER_SUBMISSIONS,
-            variables: { userChallengeId: userChallenge.id },
+            variables: { userChallengeId },
           });
 
           data.submissions = data.submissions.filter(submission => {
@@ -44,11 +54,9 @@ class UpdateSubmissionPage extends React.Component {
             return submission.id !== deleteSubmission.submission.id;
           });
 
-          console.log(data);
-
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,
-            variables: { userChallengeId: userChallenge.id },
+            variables: { userChallengeId },
             data,
           });
         }}
@@ -68,12 +76,15 @@ class UpdateSubmissionPage extends React.Component {
                     mutation="updateSubmission"
                     mutationType={UPDATE_SUBMISSION}
                     submission={submission}
-                    userChallengeId={userChallenge.id}
-                    challengeGroupId={userChallenge.challengeGroup.id}
+                    userChallengeId={userChallengeId}
+                    challengeGroupId={challengeGroupId}
+                    toggleUpdating={this.toggleUpdating}
                   />
-                <button className="button-transparent" onClick={this.toggleShowDelete}>
-                    Delete Submission
-                  </button>
+                  {!this.state.updating && (
+                    <button onClick={this.toggleShowDelete}>
+                      Delete Submission
+                    </button>
+                  )}
                 </div>
               )}
               {this.state.showDelete && (

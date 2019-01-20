@@ -31,7 +31,11 @@ const ChallengeGroupsList = ({
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div className="list-container fadeInUp">
+        <div>
+          <p>
+            {challengeGroups.length} group
+            {challengeGroups.length !== 1 ? 's' : ''} found
+          </p>
           {challengeGroups.map(group => {
             const isJoined = userChallenges.includes(group.id);
             const displayCategory = group.category

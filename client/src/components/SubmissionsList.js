@@ -7,6 +7,7 @@ import LikeButton from './LikeButton';
 import FavoriteButton from './FavoriteButton';
 
 const SubmissionsList = ({
+  challengeGroupId,
   handleShowPrevious,
   onLoadMore,
   page,
@@ -89,6 +90,33 @@ const SubmissionsList = ({
                 </Query>
               </div>
             </div>
+            <Query query={ME} fetchPolicy="cache-only" partialRefetch={true}>
+              {({ loading, error, data }) => {
+                return (
+                  data.me.username === submission.user.username && (
+                    <Link
+                      to={{
+                        pathname: `/${submission.id}/edit`,
+                        state: {
+                          userChallengeId: userChallenge
+                            ? userChallenge.id
+                            : submission.userChallenge.id,
+                          challengeGroupId: userChallenge
+                            ? userChallenge.challengeGroup.id
+                            : challengeGroupId,
+                          challengeStartDate: userChallenge
+                            ? userChallenge.startDate
+                            : submission.userChallenge.startDate,
+                          submission,
+                        },
+                      }}
+                    >
+                      Edit
+                    </Link>
+                  )
+                );
+              }}
+            </Query>
           </div>
         );
       })}
