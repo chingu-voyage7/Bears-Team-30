@@ -40,7 +40,12 @@ const challengeDefs = gql`
 
   enum CategoryType {
     ART
+    CAREER_FINANCE
+    ENTERTAINMENT
+    FAMILY_SOCIAL
     HEALTH_WELLNESS
+    LITERATURE
+    PERSONAL_GROWTH
     TECHNOLOGY
   }
 
