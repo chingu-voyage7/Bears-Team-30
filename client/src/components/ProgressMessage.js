@@ -82,7 +82,7 @@ const ProgressMessage = ({ progressPercent }) => {
     return <p>{justStarted[Math.floor(Math.random() * justStarted.length)]}</p>;
   } else if (progressPercent === 0) {
     return <p>{nothingYet[Math.floor(Math.random() * nothingYet.length)]}</p>;
-  }
+  } else return <p>You've progressed outside the realms of reality...</p>;
 };
 
 export default ProgressMessage;

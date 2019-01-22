@@ -28,64 +28,66 @@ const ChallengeGroupsList = ({
             {challengeGroups.length} group
             {challengeGroups.length !== 1 ? 's' : ''} found
           </p>
-          {challengeGroups.map(group => {
-            const isJoined = userChallenges.includes(group.id);
-            const displayCategory = group.category
-              .toLowerCase()
-              .split('_')
-              .map(word => word.replace(word[0], word[0].toUpperCase()))
-              .join('/');
-            const membersCount = group.users.length;
-            return (
-              <Mutation
-                key={group.id}
-                mutation={CREATE_USER_CHALLENGE}
-                onCompleted={data => onChallengeSelect(data)}
-                update={(proxy, { data: { createUserChallenge } }) => {
-                  const data = proxy.readQuery({
-                    query: GET_MY_CHALLENGES,
-                  });
+          {challengeGroups
+            .sort((a, b) => a.name > b.name)
+            .map(group => {
+              const isJoined = userChallenges.includes(group.id);
+              const displayCategory = group.category
+                .toLowerCase()
+                .split('_')
+                .map(word => word.replace(word[0], word[0].toUpperCase()))
+                .join('/');
+              const membersCount = group.users.length;
+              return (
+                <Mutation
+                  key={group.id}
+                  mutation={CREATE_USER_CHALLENGE}
+                  onCompleted={data => onChallengeSelect(data)}
+                  update={(proxy, { data: { createUserChallenge } }) => {
+                    const data = proxy.readQuery({
+                      query: GET_MY_CHALLENGES,
+                    });
 
-                  data.myChallenges.push(createUserChallenge.challenge);
+                    data.myChallenges.push(createUserChallenge.challenge);
 
-                  proxy.writeQuery({
-                    query: GET_MY_CHALLENGES,
-                    data,
-                  });
-                }}
-              >
-                {(createUserChallenge, { data: mutationData }) => (
-                  // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
-                  <div className={isJoined ? 'joined' : 'group'}>
-                    <h3>{group.name}</h3>
-                    <p>{group.description}</p>
-                    <p>{displayCategory}</p>
-                    <p>{membersCount} members</p>
-                    {isJoined ? (
-                      <div>Joined!</div>
-                    ) : (
-                      <button
-                        onClick={e => {
-                          e.preventDefault();
+                    proxy.writeQuery({
+                      query: GET_MY_CHALLENGES,
+                      data,
+                    });
+                  }}
+                >
+                  {(createUserChallenge, { data: mutationData }) => (
+                    // feel free to change classNames, 'joined' class is for groups that the user has already joined so add some styling to show a difference
+                    <div className={isJoined ? 'joined' : 'group'}>
+                      <h3>{group.name}</h3>
+                      <p>{group.description}</p>
+                      <p>{displayCategory}</p>
+                      <p>{membersCount} members</p>
+                      {isJoined ? (
+                        <div>Joined!</div>
+                      ) : (
+                        <button
+                          onClick={e => {
+                            e.preventDefault();
 
-                          createUserChallenge({
-                            variables: {
-                              challengeGroupId: group.id,
-                              goal: group.goalNumber,
-                              startDate: new Date(),
-                              status: 'IN_PROGRESS',
-                            },
-                          });
-                        }}
-                      >
-                        Join Challenge
-                      </button>
-                    )}
-                  </div>
-                )}
-              </Mutation>
-            );
-          })}
+                            createUserChallenge({
+                              variables: {
+                                challengeGroupId: group.id,
+                                goal: group.goalNumber,
+                                startDate: new Date(),
+                                status: 'IN_PROGRESS',
+                              },
+                            });
+                          }}
+                        >
+                          Join Challenge
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </Mutation>
+              );
+            })}
         </div>
       );
     }}
