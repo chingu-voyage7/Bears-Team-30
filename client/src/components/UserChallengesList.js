@@ -21,21 +21,24 @@ const UserChallengesList = () => (
                 .sort((a, b) => a.startDate > b.startDate)
                 .map(challenge => {
                   const day = Math.ceil(
-                    (new Date().getTime() -
-                      new Date(challenge.startDate).getTime()) /
+                    (new Date().valueOf() -
+                      new Date(challenge.createdAt).valueOf()) /
                       (1000 * 60 * 60 * 24)
                   );
 
-                  const status = challenge.status
-                    .toLowerCase()
-                    .split('_')
-                    .map(word =>
-                      word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.slice(1))
-                    )
-                    .join(' ');
+                  const status =
+                    challenge.status === 'IN_PROGRESS' && day > 100
+                      ? 'Completed'
+                      : challenge.status
+                          .toLowerCase()
+                          .split('_')
+                          .map(word =>
+                            word
+                              .charAt(0)
+                              .toUpperCase()
+                              .concat(word.slice(1))
+                          )
+                          .join(' ');
                   return (
                     <div className="link-hover">
 
