@@ -19,7 +19,8 @@ const AddSubmissionPage = ({ history, match }) => (
 
       return (
         <div>
-          <h2>Today's Submission</h2>
+          <h3>100 Days of {data.userChallenge.challengeGroup.name}</h3>
+          <h4>New Submission</h4>
           <p>Day {day}</p>
           <SubmissionForm
             goalType={data.userChallenge.challengeGroup.goalType}

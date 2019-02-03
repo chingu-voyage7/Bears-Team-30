@@ -14,17 +14,13 @@ const SubmissionsList = ({
   showPageNumbers,
   showUsernames,
   startDate,
-  sortByNewest,
   submissions,
   totalPages,
   userChallenge,
 }) => {
-  const sortedSubmissions = sortByNewest
-    ? submissions.sort((a, b) => (a.date < b.date ? -1 : 1))
-    : submissions;
   return (
     <div>
-      {sortedSubmissions.map(submission => {
+      {submissions.map(submission => {
         const challengeStartDate = startDate
           ? startDate
           : submission.userChallenge.startDate;

@@ -29,9 +29,15 @@ class UserSubmissionsWrapper extends Component {
     } = this.props;
     const { page } = this.state;
 
-    const currSubmissions = submissions.filter(
-      (submission, ind) => ind >= page * amount - amount && ind < page * amount
-    );
+    const currSubmissions = submissions
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).valueOf() < new Date(b.createdAt).valueOf()
+      )
+      .filter(
+        (submission, ind) =>
+          ind >= page * amount - amount && ind < page * amount
+      );
 
     return (
       <SubmissionsList

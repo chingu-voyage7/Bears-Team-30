@@ -18,6 +18,11 @@ const UserChallengePage = ({ match }) => (
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
 
+      const day = Math.ceil(
+        (new Date().valueOf() - new Date(userChallenge.createdAt).valueOf()) /
+          (1000 * 60 * 60 * 24)
+      );
+
       return (
         <div>
           <h3>100 Days of {userChallenge.challengeGroup.name}</h3>
@@ -30,7 +35,9 @@ const UserChallengePage = ({ match }) => (
               Number(userChallenge.progress) / Number(userChallenge.goal)
             }
           />
-          <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+          {userChallenge.status === 'IN_PROGRESS' && day <= 100 && (
+            <Link to={`/challenge/${userChallenge.id}/new`}>Add New</Link>
+          )}
           <UserSubmissionsList userChallenge={userChallenge} />
           <GroupSubmissionsList
             challengeGroupId={userChallenge.challengeGroup.id}
