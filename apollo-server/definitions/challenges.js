@@ -67,7 +67,6 @@ const challengeDefs = gql`
     id: ID!
     challengeGroup: ChallengeGroup!
     startDate: DateTime!
-    days: Int!
     goal: Int!
     status: String!
     progress: Int!
