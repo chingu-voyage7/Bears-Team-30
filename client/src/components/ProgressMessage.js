@@ -62,12 +62,20 @@ const ProgressMessage = ({ progressPercent }) => {
   if (progressPercent >= 100) {
     return (
       <div>
-        <p className="no-submissions p-b-30 p-x-30">Congratulations, you did it!</p>
-        <p className="no-submissions p-b-30 p-x-30">{completed[Math.floor(Math.random() * completed.length)]}</p>
+        <p className="no-submissions p-b-30 p-x-30">
+          Congratulations, you did it!
+        </p>
+        <p className="no-submissions p-b-30 p-x-30">
+          {completed[Math.floor(Math.random() * completed.length)]}
+        </p>
       </div>
     );
   } else if (progressPercent < 100 && progressPercent >= 80) {
-    return <p className="no-submissions p-b-30 p-x-30">{almostThere[Math.floor(Math.random() * almostThere.length)]}</p>;
+    return (
+      <p className="no-submissions p-b-30 p-x-30">
+        {almostThere[Math.floor(Math.random() * almostThere.length)]}
+      </p>
+    );
   } else if (progressPercent < 80 && progressPercent >= 50) {
     return (
       <p className="no-submissions p-b-30 p-x-30">
@@ -76,13 +84,28 @@ const ProgressMessage = ({ progressPercent }) => {
     );
   } else if (progressPercent < 50 && progressPercent >= 20) {
     return (
-      <p className="no-submissions p-b-30 p-x-30">{makingProgress[Math.floor(Math.random() * makingProgress.length)]}</p>
+      <p className="no-submissions p-b-30 p-x-30">
+        {makingProgress[Math.floor(Math.random() * makingProgress.length)]}
+      </p>
     );
   } else if (progressPercent < 20 && progressPercent > 0) {
-    return <p className="no-submissions p-b-30 p-x-30">{justStarted[Math.floor(Math.random() * justStarted.length)]}</p>;
+    return (
+      <p className="no-submissions p-b-30 p-x-30">
+        {justStarted[Math.floor(Math.random() * justStarted.length)]}
+      </p>
+    );
   } else if (progressPercent === 0) {
-    return <p className="no-submissions p-b-30 p-x-30">{nothingYet[Math.floor(Math.random() * nothingYet.length)]}</p>;
-  } else return <p className="no-submissions p-b-30 p-x-30">You've progressed outside the realms of reality...</p>;
+    return (
+      <p className="no-submissions p-b-30 p-x-30">
+        {nothingYet[Math.floor(Math.random() * nothingYet.length)]}
+      </p>
+    );
+  } else
+    return (
+      <p className="no-submissions p-b-30 p-x-30">
+        You've progressed outside the realms of reality...
+      </p>
+    );
 };
 
 export default ProgressMessage;

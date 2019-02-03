@@ -14,17 +14,13 @@ const SubmissionsList = ({
   showPageNumbers,
   showUsernames,
   startDate,
-  sortByNewest,
   submissions,
   totalPages,
   userChallenge,
 }) => {
-  const sortedSubmissions = sortByNewest
-    ? submissions.sort((a, b) => (a.date < b.date ? -1 : 1))
-    : submissions;
   return (
     <div>
-      {sortedSubmissions.map(submission => {
+      {submissions.map(submission => {
         const challengeStartDate = startDate
           ? startDate
           : submission.userChallenge.startDate;
@@ -54,29 +50,37 @@ const SubmissionsList = ({
 
         return (
           <div className="my-submissions box-shadow">
-
             <div className="list-container-item">
               <div key={submission.id} className="content">
                 <h5>Day {day}</h5>
                 <p className="small-font">
-                  {months[submissionDate.getMonth()]} {submissionDate.getDate()},{' '}
-                  {submissionDate.getFullYear()}
+                  {months[submissionDate.getMonth()]} {submissionDate.getDate()}
+                  , {submissionDate.getFullYear()}
                 </p>
                 <p className="submission-text">{submission.text}</p>
-                {showUsernames && <span className="username">{submission.user.username}</span>}
-                <br></br>
-                <span className="submission-progress">Progress: +{submission.progress ? submission.progress : '0'}</span>
+                {showUsernames && (
+                  <span className="username">{submission.user.username}</span>
+                )}
+                <br />
+                <span className="submission-progress">
+                  Progress: +{submission.progress ? submission.progress : '0'}
+                </span>
                 <div className="like-favorite">
                   <LikeButton submissionId={submission.id} />
                   <span className="num-font">{likeCount}</span>
                   <FavoriteButton submissionId={submission.id} />
                   <span className="num-font">{faveCount}</span>
                 </div>
-                <Query query={ME} fetchPolicy="cache-only" partialRefetch={true}>
+                <Query
+                  query={ME}
+                  fetchPolicy="cache-only"
+                  partialRefetch={true}
+                >
                   {({ loading, error, data }) => {
                     return (
                       data.me.username === submission.user.username && (
-                        <Link className="button-small"
+                        <Link
+                          className="button-small"
                           to={{
                             pathname: `/${submission.id}/edit`,
                             state: {
@@ -101,19 +105,29 @@ const SubmissionsList = ({
                 </Query>
               </div>
             </div>
-
           </div>
         );
       })}
       {onLoadMore && (
         <div>
-          {page > 1 && <button  className="button-small-transparent" onClick={handleShowPrevious}>Previous</button>}
+          {page > 1 && (
+            <button
+              className="button-small-transparent"
+              onClick={handleShowPrevious}
+            >
+              Previous
+            </button>
+          )}
           {showPageNumbers && (
             <span>
               Page {page}/{totalPages}
             </span>
           )}
-          {page < totalPages && <button  className="button-small-transparent" onClick={onLoadMore}>Next</button>}
+          {page < totalPages && (
+            <button className="button-small-transparent" onClick={onLoadMore}>
+              Next
+            </button>
+          )}
         </div>
       )}
     </div>
