@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 const BUILD_DIR = path.resolve(__dirname, 'public');
 const APP_DIR = path.resolve(__dirname, 'src');
@@ -11,6 +13,7 @@ module.exports = {
     filename: 'bundle.js',
     path: BUILD_DIR,
     publicPath: '/',
+    chunkFilename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -47,7 +50,14 @@ module.exports = {
       },
     ],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new BundleAnalyzerPlugin(),
+  ],
   devServer: {
     contentBase: BUILD_DIR,
     historyApiFallback: true,
@@ -56,4 +66,8 @@ module.exports = {
       '/graphql': 'http://localhost:4000',
     },
   },
+  optimization: {
+    splitChunks: { chunks: 'all' },
+  },
+  stats: 'minimal',
 };

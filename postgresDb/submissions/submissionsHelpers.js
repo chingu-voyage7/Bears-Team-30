@@ -13,7 +13,6 @@ const {
 
 function insertSubmission(data, userid) {
   const QUERY = makeInsert('submissions', data);
-
   return submissionTxn(QUERY, userid);
 }
 
@@ -25,15 +24,24 @@ async function updateSubmission(submissionId, valuesObj, userid) {
     userid
   );
 
-  // check if progress is update
-  if (valuesObj.progress) {
-    return submissionTxn(updateQuery, userid, { update: submissionId });
+  const updatedDate = valuesObj.date || false;
+
+  // check if progress or date is updated
+  if (valuesObj.progress || updatedDate) {
+    return submissionTxn(updateQuery, userid, {
+      update: submissionId,
+      updatedDate,
+    });
   }
 
   return db.query(updateQuery);
 }
 
-async function submissionTxn(subQuery, userid, { update, remove } = {}) {
+async function submissionTxn(
+  subQuery,
+  userid,
+  { update, remove, updatedDate } = {}
+) {
   const client = await db.getClient();
   let res;
   try {
@@ -52,6 +60,16 @@ async function submissionTxn(subQuery, userid, { update, remove } = {}) {
         .then(res => res.rows[0].progress);
     }
 
+    // store date prior to updates
+    let previousDate;
+    if (updatedDate) {
+      const currentSubmission = await client.query(
+        `SELECT date FROM submissions WHERE userid = '${userid}' AND id = ${update}`
+      );
+      previousDate =
+        currentSubmission.rows[0] && parseDate(currentSubmission.rows[0].date);
+    }
+
     res = await client.query(subQuery);
     if (!res.rows[0]) {
       const err = new Error(
@@ -61,7 +79,63 @@ async function submissionTxn(subQuery, userid, { update, remove } = {}) {
       throw err;
     }
 
-    const { userchallengeid, progress } = res.rows[0];
+    const { userchallengeid, progress, date } = res.rows[0];
+    const parsedDate = parseDate(date);
+
+    let daysIncrement = 0;
+
+    // updates
+    if (parsedDate && previousDate && parsedDate !== previousDate) {
+      let duplicates = await client.query(
+        `SELECT COUNT(date) AS count FROM submissions WHERE date = '${parsedDate}' AND userid = '${userid}' AND userchallengeid = ${userchallengeid}`
+      );
+
+      if (duplicates) {
+        duplicates = (duplicates.rows[0] && duplicates.rows[0].count) || 0;
+      }
+
+      if (duplicates === '1') {
+        // console.log('moved to a brand new date');
+        daysIncrement += 1;
+      }
+
+      let previousDuplicates = previousDate
+        ? await client.query(
+            `SELECT COUNT(date) AS count FROM submissions WHERE date = '${previousDate}' AND userid = '${userid}' AND userchallengeid = ${userchallengeid}`
+          )
+        : 0;
+
+      if (previousDuplicates) {
+        previousDuplicates =
+          previousDuplicates.rows[0] && previousDuplicates.rows[0].count;
+      }
+
+      if (previousDuplicates === '0') {
+        // console.log('left a date empty');
+        daysIncrement -= 1;
+      }
+    }
+
+    // deletes & inserts
+    if (!update) {
+      let duplicates = await client.query(
+        `SELECT COUNT(date) AS count FROM submissions WHERE date = '${parsedDate}' AND userid = '${userid}' AND userchallengeid = ${userchallengeid}`
+      );
+
+      if (duplicates) {
+        duplicates = (duplicates.rows[0] && duplicates.rows[0].count) || 0;
+      }
+
+      // delete
+      if (duplicates === '0') {
+        daysIncrement -= 1;
+      }
+
+      // new submission for day
+      if (duplicates === '1' && !remove) {
+        daysIncrement += 1;
+      }
+    }
 
     const progQuery = `
       UPDATE user_challenges
@@ -71,9 +145,28 @@ async function submissionTxn(subQuery, userid, { update, remove } = {}) {
       RETURNING *;
     `;
 
-    await client.query(progQuery);
+    let currentUserChallenge = await client.query(progQuery);
+
+    // check if we should update user challenge status
+
+    if (daysIncrement) {
+      let status = 'IN_PROGRESS';
+      const previousDays = currentUserChallenge.rows[0].days;
+      const currentDays = previousDays + daysIncrement;
+      if (currentDays >= 100) status = 'COMPLETED';
+
+      const statusQuery = `
+      UPDATE user_challenges
+      SET days = ${currentDays}, status = '${status}'
+      WHERE id = ${userchallengeid}
+      RETURNING *;
+      `;
+      await client.query(statusQuery);
+    }
+
     await client.query('COMMIT');
   } catch (e) {
+    console.error('transaction failed');
     await client.query('ROLLBACK');
     throw e;
   } finally {
@@ -147,6 +240,10 @@ function deleteLike(likeId, userid) {
 
 function deleteFavorite(favoriteId, userid) {
   return deleteWithId('favorites', favoriteId, userid);
+}
+
+function parseDate(dateString) {
+  return new Date(dateString).toLocaleDateString();
 }
 
 module.exports = {
