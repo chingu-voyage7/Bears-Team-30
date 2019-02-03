@@ -30,7 +30,7 @@ const ChallengeGroupsList = ({
 
       return (
         <div className="list-container fadeInUp">
-          <p>
+          <p className="no-submissions">
             {challengeGroups.length} group
             {challengeGroups.length !== 1 ? 's' : ''} found
           </p>
@@ -64,7 +64,7 @@ const ChallengeGroupsList = ({
                 >
                   {(createUserChallenge, { data: mutationData }) => (
                     <div className="list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                      <div className="content scroll box-shadow p-t-15 p-b-15">
+                      <div className="content box-shadow p-t-15 p-b-15">
                         <div className={isJoined ? 'joined' : 'group'}>
                           <div className="border-box box-shadow">
                             <h3 className="border">{group.name}</h3>
@@ -78,7 +78,7 @@ const ChallengeGroupsList = ({
                             <div className="medium-font">Joined!</div>
                           ) : (
                             <button
-                              className="main-button"
+                              className="button-small"
                               onClick={e => {
                                 e.preventDefault();
 
