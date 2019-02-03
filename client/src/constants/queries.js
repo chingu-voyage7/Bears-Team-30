@@ -64,6 +64,7 @@ export const GET_USER_CHALLENGE = gql`
       progress
       createdAt
       startDate
+      status
       goal
       challengeGroup {
         id

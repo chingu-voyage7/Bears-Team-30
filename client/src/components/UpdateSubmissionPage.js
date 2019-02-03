@@ -81,7 +81,10 @@ class UpdateSubmissionPage extends React.Component {
                     toggleUpdating={this.toggleUpdating}
                   />
                   {!this.state.updating && (
-                    <button onClick={this.toggleShowDelete}>
+                    <button
+                      className="button-transparent"
+                      onClick={this.toggleShowDelete}
+                    >
                       Delete Submission
                     </button>
                   )}
@@ -90,7 +93,12 @@ class UpdateSubmissionPage extends React.Component {
               {this.state.showDelete && (
                 <div>
                   <h3 className="title header">Delete Submission?</h3>
-                  <button className="button-small-transparent" onClick={this.toggleShowDelete}>Cancel</button>
+                  <button
+                    className="button-small-transparent"
+                    onClick={this.toggleShowDelete}
+                  >
+                    Cancel
+                  </button>
                   <button
                     className="button-small-transparent"
                     onClick={e => {

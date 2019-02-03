@@ -125,7 +125,7 @@ class SubmissionForm extends React.Component {
 
                 const { text, progress } = this.state;
 
-                toggleUpdating();
+                toggleUpdating && toggleUpdating();
 
                 mutation({
                   variables: {
