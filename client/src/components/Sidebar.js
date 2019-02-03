@@ -13,23 +13,42 @@ const Sidebar = ({ history }) => (
       if (error) return `Error! ${error.message}`;
 
       return (
-        <div>
-          <Link to={routes.DASHBOARD}>
-            <h1>100 Days</h1>
-          </Link>
-          <h2>{data.me.username}</h2>
-          <button
-            onClick={e => {
-              e.preventDefault();
+        <header className="sidebar">
+          <nav className="sidebar-navigation">
+            <div></div>
+            <div className="sidebar-container">
+              <div className="sidebar-header">
+                <Link to={routes.DASHBOARD}>
+                  <span className="title">100</span>
+                  <br></br>
+                  <span className="days">Days</span>
+                </Link>
+              </div>
 
-              localStorage.setItem('token', null);
-              client.clearStore().then(() => history.push(routes.LOGIN));
-            }}
-          >
-            Log Out
-          </button>
-          <UserChallengesList />
-        </div>
+              <div>
+                <div className="sidebar-header">
+                  <h2>{data.me.username}</h2>
+                </div>
+                <div className="sidebar-items">
+
+                  <button className="button-small"
+                    onClick={e => {
+                      e.preventDefault();
+
+                      localStorage.setItem('token', null);
+                      client.clearStore().then(() => history.push(routes.LOGIN));
+                    }}>
+                    Log Out
+                  </button>
+                </div>
+                <div className="sidebar-items">
+
+                  <UserChallengesList />
+                </div>
+              </div>
+            </div>
+          </nav>
+        </header>
       );
     }}
   </Query>

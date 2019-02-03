@@ -28,7 +28,7 @@ const ActionButton = ({
 
             mutation();
           }}
-          style={{ background: !!matchedItem ? 'red' : 'white' }}
+          style={{ background: !!matchedItem ? '#927385' : 'white' }}
         >
           {text}
         </button>

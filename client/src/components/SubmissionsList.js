@@ -49,60 +49,85 @@ const SubmissionsList = ({
         ];
 
         return (
-          <div key={submission.id}>
-            <h5>Day {day}</h5>
-            <p>
-              {months[submissionDate.getMonth()]} {submissionDate.getDate()},{' '}
-              {submissionDate.getFullYear()}
-            </p>
-            <p>{submission.text}</p>
-            {showUsernames && <p>{submission.user.username}</p>}
-            <p>Progress: +{submission.progress ? submission.progress : '0'}</p>
-            <div>
-              <LikeButton submissionId={submission.id} />
-              <span>{likeCount}</span>
-              <FavoriteButton submissionId={submission.id} />
-              {faveCount}
+          <div className="my-submissions box-shadow">
+            <div className="list-container-item">
+              <div key={submission.id} className="content">
+                <h5>Day {day}</h5>
+                <p className="small-font">
+                  {months[submissionDate.getMonth()]} {submissionDate.getDate()}
+                  , {submissionDate.getFullYear()}
+                </p>
+                <p className="submission-text">{submission.text}</p>
+                {showUsernames && (
+                  <span className="username">{submission.user.username}</span>
+                )}
+                <br />
+                <span className="submission-progress">
+                  Progress: +{submission.progress ? submission.progress : '0'}
+                </span>
+                <div className="like-favorite">
+                  <LikeButton submissionId={submission.id} />
+                  <span className="num-font">{likeCount}</span>
+                  <FavoriteButton submissionId={submission.id} />
+                  <span className="num-font">{faveCount}</span>
+                </div>
+                <Query
+                  query={ME}
+                  fetchPolicy="cache-only"
+                  partialRefetch={true}
+                >
+                  {({ loading, error, data }) => {
+                    return (
+                      data.me.username === submission.user.username && (
+                        <Link
+                          className="button-small"
+                          to={{
+                            pathname: `/${submission.id}/edit`,
+                            state: {
+                              userChallengeId: userChallenge
+                                ? userChallenge.id
+                                : submission.userChallenge.id,
+                              challengeGroupId: userChallenge
+                                ? userChallenge.challengeGroup.id
+                                : challengeGroupId,
+                              challengeStartDate: userChallenge
+                                ? userChallenge.startDate
+                                : submission.userChallenge.startDate,
+                              submission,
+                            },
+                          }}
+                        >
+                          Edit
+                        </Link>
+                      )
+                    );
+                  }}
+                </Query>
+              </div>
             </div>
-            <Query query={ME} fetchPolicy="cache-only" partialRefetch={true}>
-              {({ loading, error, data }) => {
-                return (
-                  data.me.username === submission.user.username && (
-                    <Link
-                      to={{
-                        pathname: `/${submission.id}/edit`,
-                        state: {
-                          userChallengeId: userChallenge
-                            ? userChallenge.id
-                            : submission.userChallenge.id,
-                          challengeGroupId: userChallenge
-                            ? userChallenge.challengeGroup.id
-                            : challengeGroupId,
-                          challengeStartDate: userChallenge
-                            ? userChallenge.startDate
-                            : submission.userChallenge.startDate,
-                          submission,
-                        },
-                      }}
-                    >
-                      Edit
-                    </Link>
-                  )
-                );
-              }}
-            </Query>
           </div>
         );
       })}
       {onLoadMore && (
         <div>
-          {page > 1 && <button onClick={handleShowPrevious}>Previous</button>}
+          {page > 1 && (
+            <button
+              className="button-small-transparent"
+              onClick={handleShowPrevious}
+            >
+              Previous
+            </button>
+          )}
           {showPageNumbers && (
             <span>
               Page {page}/{totalPages}
             </span>
           )}
-          {page < totalPages && <button onClick={onLoadMore}>Next</button>}
+          {page < totalPages && (
+            <button className="button-small-transparent" onClick={onLoadMore}>
+              Next
+            </button>
+          )}
         </div>
       )}
     </div>

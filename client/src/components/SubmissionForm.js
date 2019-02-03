@@ -7,6 +7,12 @@ import {
   GET_GROUP_SUBMISSIONS,
 } from '../constants/queries';
 
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
 class SubmissionForm extends React.Component {
   state = {
     text: '',
@@ -112,6 +118,7 @@ class SubmissionForm extends React.Component {
           if (error) return `Error! ${error.message}`;
 
           return (
+
             <form
               onSubmit={e => {
                 e.preventDefault();
@@ -130,14 +137,17 @@ class SubmissionForm extends React.Component {
                 });
               }}
             >
+            <div className="form-edit">
+              <p className="small-text">Text</p>
               <FormInput
                 id="text"
                 label="Text"
+                nolabel
                 onChange={this.onTextChange}
                 value={this.state.text}
               />
-              <div>
-                <p>Added Progress: +</p>
+            <div className="progress-form">
+                <p className="small-text">Added Progress: +</p>
                 <FormInput
                   id="progress"
                   label="Progress"
@@ -147,12 +157,16 @@ class SubmissionForm extends React.Component {
                   type="number"
                   value={this.state.progress}
                 />
-                <p>{this.props.goalType}</p>
+              <p className="small-text">{this.props.goalType}</p>
               </div>
-              <button type="submit">
+            </div>
+              <div className="p-b-15">
+              <button type="submit" className="button-transparent">
                 {this.props.submission ? 'Update' : 'Add'} Submission
               </button>
+            </div>
             </form>
+
           );
         }}
       </Mutation>

@@ -5,6 +5,12 @@ import { GET_USER_SUBMISSIONS } from '../constants/queries';
 import { UPDATE_SUBMISSION, DELETE_SUBMISSION } from '../constants/mutations';
 import SubmissionForm from './SubmissionForm';
 
+import '../styles/sidebar.scss';
+import '../styles/base.scss';
+import '../styles/animations.scss';
+import '../styles/variables.scss';
+import '../styles/components/userChallenge.scss';
+
 class UpdateSubmissionPage extends React.Component {
   state = {
     showDelete: false,
@@ -60,11 +66,11 @@ class UpdateSubmissionPage extends React.Component {
           if (error) return `Error! ${error.message}`;
 
           return (
-            <div>
+            <div className="page-content">
               {!this.state.showDelete && (
                 <div>
-                  <h2>Edit Submission</h2>
-                  <p>Day {day}</p>
+                  <h2 className="title header">Edit Submission</h2>
+                  <p className="user-header">Day {day}</p>
                   <SubmissionForm
                     history={history}
                     mutation="updateSubmission"
@@ -75,7 +81,10 @@ class UpdateSubmissionPage extends React.Component {
                     toggleUpdating={this.toggleUpdating}
                   />
                   {!this.state.updating && (
-                    <button onClick={this.toggleShowDelete}>
+                    <button
+                      className="button-transparent"
+                      onClick={this.toggleShowDelete}
+                    >
                       Delete Submission
                     </button>
                   )}
@@ -83,9 +92,15 @@ class UpdateSubmissionPage extends React.Component {
               )}
               {this.state.showDelete && (
                 <div>
-                  <h3>Delete Submission?</h3>
-                  <button onClick={this.toggleShowDelete}>Cancel</button>
+                  <h3 className="title header">Delete Submission?</h3>
                   <button
+                    className="button-small-transparent"
+                    onClick={this.toggleShowDelete}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="button-small-transparent"
                     onClick={e => {
                       e.preventDefault();
 
