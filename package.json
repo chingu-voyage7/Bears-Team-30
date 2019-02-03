@@ -6,10 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
-    "build": "webpack --config ./client/webpack.config.js --mode production",
     "apollo": "nodemon ./apollo-server/index.js",
-    "start": "node apollo-server/index.js",
-    "heroku-postbuild": "npm run build",
+    "start": "nodemon ./apollo-server/index.js",
     "dev": "concurrently \"npm run client\" \"npm run apollo\""
   },
   "repository": {
@@ -61,13 +59,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
     "css-loader": "^1.0.1",
@@ -78,7 +76,6 @@
     "prettier": "^1.15.3",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-dev-server": "^3.1.10"
   }
 }

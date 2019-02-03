@@ -64,8 +64,8 @@ const client = new ApolloClient({
     }),
     requestLink,
     new HttpLink({
-      uri: 'https://hundred-day-journey.appspot.com/graphql',
-      // credentials: 'same-origin',
+      uri: '/graphql',
+      credentials: 'same-origin',
     }),
   ]),
   cache,
