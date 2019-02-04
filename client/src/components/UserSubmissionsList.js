@@ -12,7 +12,7 @@ const UserSubmissionsList = ({ userChallenge }) => (
     variables={{ userChallengeId: userChallenge.id }}
   >
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       return (

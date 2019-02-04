@@ -35,7 +35,7 @@ class GroupSubmissionsWrapper extends React.Component {
         partialRefetch={true}
       >
         {({ loading, error, data: countData }) => {
-          if (loading) return 'Loading...';
+          if (loading) return <p className="loading-message">Loading...</p>;
           if (error) return `Error! ${error.message}`;
 
           const submissionsCount = countData.challengeGroup.challenges.reduce(
@@ -54,7 +54,8 @@ class GroupSubmissionsWrapper extends React.Component {
               notifyOnNetworkStatusChange={true}
             >
               {({ loading, error, data, fetchMore }) => {
-                if (loading) return 'Loading...';
+                if (loading)
+                  return <p className="loading-message">Loading...</p>;
                 if (error) return `Error! ${error.message}`;
 
                 const submissions = data.challengeGroupSubmissions.filter(

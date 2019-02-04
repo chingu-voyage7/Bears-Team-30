@@ -8,7 +8,7 @@ import ActionButton from './ActionButton';
 const FavoriteButton = ({ submissionId }) => (
   <Query query={ME} partialRefetch={true}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       const matchedItem = data.me.likes.find(

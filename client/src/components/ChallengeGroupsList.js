@@ -19,7 +19,7 @@ const ChallengeGroupsList = ({
     }}
   >
     {({ loading, error, data: { challengeGroups } }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       return (

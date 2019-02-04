@@ -67,7 +67,7 @@ class UserChallengeSettingsPage extends React.Component {
             partialRefetch={true}
           >
             {({ loading, error, data }) => {
-              if (loading) return 'Loading...';
+              if (loading) return <p className="loading-message">Loading...</p>;
               if (error) return `Error! ${error.message}`;
 
               return (

@@ -7,7 +7,7 @@ import { GET_MY_CHALLENGES } from '../constants/queries';
 const UserChallengesList = () => (
   <Query query={GET_MY_CHALLENGES} partialRefetch={true}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       return (
