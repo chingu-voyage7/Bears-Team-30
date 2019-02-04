@@ -8,7 +8,7 @@ import { ApolloLink, Observable } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 
 import AppRouter from './routers/AppRouter.js';
-import './styles/normalize.scss';
+import './styles/index.scss';
 
 const cache = new InMemoryCache({
   cacheRedirects: {

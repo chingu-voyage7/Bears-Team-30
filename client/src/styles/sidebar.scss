@@ -1,7 +1,6 @@
 @import './variables.scss';
 @import './animations.scss';
 
-
 .sidebar {
   width: 25%;
   height: 100%;
@@ -17,7 +16,7 @@
 }
 
 .sidebar-navigation::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 // .sidebar-navigation::-webkit-scrollbar-track {
@@ -26,8 +25,8 @@
 // }
 
 .sidebar-navigation::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-container {
@@ -37,15 +36,14 @@
   padding-top: 50px;
 }
 
-
 .sidebar-header {
   line-height: 20px;
   color: #2b2d44;
 
   .days {
     color: $sidebar-font;
-    letter-spacing:1px;
-    text-align:center;
+    letter-spacing: 1px;
+    text-align: center;
     padding-bottom: 20px;
     padding-left: 3px;
     font-weight: 700;
@@ -68,8 +66,15 @@
   // overflow: scroll;
 }
 
-// .active {
-//   background-color: yellow;
+.active > .navlink-content {
+  background: rgb(225, 217, 231);
+  padding: 0 10px;
+}
+
+// .active h4,
+// .active span,
+// .active p {
+//   color: white !important;
 // }
 
 .challenges {
@@ -78,7 +83,7 @@
 
   h3 {
     color: $sidebar-font;
-    letter-spacing:1px;
+    letter-spacing: 1px;
     font-weight: 100;
     font-size: 14px;
     padding-top: 20px;

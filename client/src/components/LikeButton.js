@@ -5,13 +5,10 @@ import { ME } from '../constants/queries';
 import { CREATE_LIKE, DELETE_LIKE } from '../constants/mutations';
 import ActionButton from './ActionButton';
 
-import '../styles/components/userChallenge.scss';
-
-
 const FavoriteButton = ({ submissionId }) => (
   <Query query={ME} partialRefetch={true}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       const matchedItem = data.me.likes.find(
@@ -20,7 +17,8 @@ const FavoriteButton = ({ submissionId }) => (
 
       return (
         <div className="like-button">
-          <ActionButton className="like"
+          <ActionButton
+            className="like"
             matchedItem={matchedItem}
             mutations={['createLike', 'deleteLike']}
             mutationTypes={[CREATE_LIKE, DELETE_LIKE]}
@@ -30,7 +28,6 @@ const FavoriteButton = ({ submissionId }) => (
           />
           <span>Like</span>
         </div>
-
       );
     }}
   </Query>

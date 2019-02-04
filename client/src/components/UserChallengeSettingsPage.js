@@ -43,8 +43,12 @@ class UserChallengeSettingsPage extends React.Component {
         <h3 className="title header">Edit Your Challenge Settings</h3>
         {state ? (
           <div>
-            <h4 className="header p-t-50">{state.userChallenge.challengeGroup.name}</h4>
-            <p className="user-header">{state.userChallenge.challengeGroup.description}</p>
+            <h4 className="header p-t-50">
+              {state.userChallenge.challengeGroup.name}
+            </h4>
+            <p className="user-header">
+              {state.userChallenge.challengeGroup.description}
+            </p>
             <GoalSection
               challengeGroup={state.userChallenge.challengeGroup}
               value={
@@ -63,27 +67,29 @@ class UserChallengeSettingsPage extends React.Component {
             partialRefetch={true}
           >
             {({ loading, error, data }) => {
-              if (loading) return 'Loading...';
+              if (loading) return <p className="loading-message">Loading...</p>;
               if (error) return `Error! ${error.message}`;
-
-              console.log(data);
 
               return (
                 <div className="page-content">
                   <div>
-                  <h4  className="user-header">{data.userChallenge.challengeGroup.name}</h4>
-                  <p className="small-text header">{data.userChallenge.challengeGroup.description}</p>
-                  <GoalSection
-                    challengeGroup={data.userChallenge.challengeGroup}
-                    value={
-                      this.state.goalNumber === undefined
-                        ? data.userChallenge.goal
-                        : this.state.goalNumber
-                    }
-                    onBlur={this.onGoalNumberBlur}
-                    onChange={this.onGoalNumberChange}
-                  />
-              </div>
+                    <h4 className="user-header">
+                      {data.userChallenge.challengeGroup.name}
+                    </h4>
+                    <p className="small-text header">
+                      {data.userChallenge.challengeGroup.description}
+                    </p>
+                    <GoalSection
+                      challengeGroup={data.userChallenge.challengeGroup}
+                      value={
+                        this.state.goalNumber === undefined
+                          ? data.userChallenge.goal
+                          : this.state.goalNumber
+                      }
+                      onBlur={this.onGoalNumberBlur}
+                      onChange={this.onGoalNumberChange}
+                    />
+                  </div>
                 </div>
               );
             }}
@@ -91,7 +97,8 @@ class UserChallengeSettingsPage extends React.Component {
         )}
         <Mutation mutation={UPDATE_USER_CHALLENGE}>
           {(updateUserChallenge, { data: mutationData }) => (
-            <button className="button-transparent"
+            <button
+              className="button-transparent"
               type="button"
               onClick={e => {
                 e.preventDefault();

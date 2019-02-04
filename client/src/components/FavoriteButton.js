@@ -8,7 +8,7 @@ import ActionButton from './ActionButton';
 const FavoriteButton = ({ submissionId }) => (
   <Query query={ME} partialRefetch={true}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       const matchedItem = data.me.favorites.find(
@@ -17,7 +17,8 @@ const FavoriteButton = ({ submissionId }) => (
 
       return (
         <div className="like-button">
-          <ActionButton className="like"
+          <ActionButton
+            className="like"
             matchedItem={matchedItem}
             mutations={['createFavorite', 'deleteFavorite']}
             mutationTypes={[CREATE_FAVORITE, DELETE_FAVORITE]}
@@ -27,7 +28,6 @@ const FavoriteButton = ({ submissionId }) => (
           />
           <span>Favorite</span>
         </div>
-
       );
     }}
   </Query>

@@ -2,38 +2,43 @@
 @import '../animations.scss';
 
 .landing-page-container {
-  position: absolute;
-  margin-left: 25%;
-  top: 15%;
-	width:50%;
-	height:60%;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  padding: 20px;
+  height: 70%;
   text-align: center;
   background-color: $white;
   overflow: scroll;
 
   @media only screen and (max-width: 670px) {
-      height: 75%;
-      top: 10%;
-      width: 65%;
-      margin-left: 18%;
+    height: 80%;
+    width: 80%;
   }
 }
 
 .mobile-p-t-5 {
   @media only screen and (max-width: 670px) {
-      padding-top: 20px;
+    padding-top: 20px;
   }
 }
 
 .landing-header {
-
   @media only screen and (max-width: 670px) {
     margin: 30px;
   }
-
+  width: 300px;
   margin: 0 auto;
-  margin-left: 18%;
-  margin-right: 18%;
   background: #092756;
   background: -moz-radial-gradient(
       0% 100%,
@@ -91,7 +96,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding:10px;
+  padding: 10px;
 
   h1 {
     color: $white;
@@ -104,26 +109,22 @@
     border: 1px solid $white;
 
     @media only screen and (max-width: 670px) {
-        line-height: 32px;
-        padding-top: 9px;
-        padding-bottom: 5px;
+      line-height: 32px;
+      padding-top: 9px;
+      padding-bottom: 5px;
     }
-
 
     span {
       font-size: 38px;
     }
   }
-
 }
 
 .landing-content {
   font-family: 'Josefin Sans', sans-serif;
   color: $dark-purple;
   line-height: 24px;
-  padding-top: 25px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 25px 20px;
 
   p {
     font-weight: 700;
@@ -132,6 +133,14 @@
   }
 }
 
+.landing-list {
+  padding-left: 0;
+  margin-bottom: 40px;
+}
+
+.list-item {
+  margin: 10px 0;
+}
 
 .landing-button {
   font-size: 12px !important;
@@ -147,13 +156,12 @@
   -webkit-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
-  position:relative;
-  overflow:hidden;
-  display:block;
-  margin:auto;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: auto;
   line-height: 18px;
   text-decoration: none;
-
 
   &:hover {
     color: $dark-purple !important;
@@ -164,7 +172,6 @@
 }
 
 .button-outer-div {
-
   margin: 0 auto;
   // margin-left: 28%;
   // margin-right: 28%;
@@ -237,5 +244,4 @@
     width: 100%;
     border-radius: 0px;
   }
-
 }

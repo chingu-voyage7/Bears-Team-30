@@ -5,19 +5,13 @@ import { GET_USER_CHALLENGE } from '../constants/queries';
 import { CREATE_SUBMISSION } from '../constants/mutations';
 import SubmissionForm from './SubmissionForm';
 
-import '../styles/sidebar.scss';
-import '../styles/base.scss';
-import '../styles/animations.scss';
-import '../styles/variables.scss';
-import '../styles/components/userChallenge.scss';
-
 const AddSubmissionPage = ({ history, match }) => (
   <Query
     query={GET_USER_CHALLENGE}
     variables={{ userChallengeId: match.params.id }}
   >
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       const startDate = new Date(data.userChallenge.createdAt).valueOf();
@@ -25,7 +19,9 @@ const AddSubmissionPage = ({ history, match }) => (
 
       return (
         <div className="page-content">
-          <h3>100 Days of {data.userChallenge.challengeGroup.name}</h3>
+          <h3 className="title header">
+            100 Days of {data.userChallenge.challengeGroup.name}
+          </h3>
           <h4 className="title header">New Submission</h4>
           <p className="user-header">Day {day}</p>
           <SubmissionForm

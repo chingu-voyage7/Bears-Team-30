@@ -9,7 +9,7 @@ const publicRoute = Component => {
   const PublicRoute = props => (
     <Query query={GET_AUTH}>
       {({ loading, error, data }) => {
-        if (loading) return 'Loading...';
+        if (loading) return <p className="loading-message">Loading...</p>;
         if (error) return `Error! ${error.message}`;
 
         return data.auth.isAuthenticated ? (

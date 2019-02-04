@@ -15,7 +15,7 @@ const UserChallengePage = ({ match }) => (
     fetchPolicy="cache-and-network"
   >
     {({ loading, error, data: { userChallenge } }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       const day = Math.ceil(

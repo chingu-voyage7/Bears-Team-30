@@ -6,7 +6,7 @@
   // overflow: hidden;
 }
 
-.page-container{
+.page-container {
   background: #092756;
   background: -moz-radial-gradient(
       0% 100%,
@@ -133,8 +133,8 @@
 
 .title {
   color: $sidebar-font;
-  letter-spacing:1px;
-  text-align:center;
+  letter-spacing: 1px;
+  text-align: center;
   font-weight: 700;
   font-size: 40px;
   font-family: 'Josefin Sans', sans-serif;
@@ -151,10 +151,9 @@
   letter-spacing: 4px;
 }
 
-
 .input-field {
   margin-top: 40px !important;
-  background: rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.4);
   border: none;
   position: relative;
   display: block;
@@ -165,63 +164,66 @@
   margin: 0 auto;
   padding: 10px;
   color: $white;
-  -webkit-box-shadow: 0 2px 10px 1px rgba(0,0,0,0.5);
-  box-shadow: 0 2px 10px 1px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
 }
 
 .styled-select {
-  position:relative;
-  border:solid 1px #888888;
-  overflow:hidden;
-  display:block;
-  width:12em;
-  margin:auto;
-  font-size:1em;
+  position: relative;
+  border: solid 1px #888888;
+  overflow: hidden;
+  display: block;
+  width: 12em;
+  margin: auto;
+  font-size: 1em;
 }
 
 .styled-select {
-  width:200px;
+  width: 200px;
   height: 30px;
   margin-top: 10px;
   margin-bottom: 20px;
 
   select {
-	  font-size: 10px;
+    font-size: 10px;
     // text-transform: uppercase;
     letter-spacing: 2px;
     width: 100%;
-	  // height: 2em;
-	  margin-top: 8px;
+    // height: 2em;
+    margin-top: 8px;
     margin-left: 10px;
-	  background: rgb(0, 0, 27); /*IE Fallback*/
-	  background: rgba(0, 0, 27, 0);
-	  color:$white;
-	  border:none;
-	  outline:none;
-	  display: inline-block;
-	  -webkit-appearance:none;
-	  -moz-appearance:none;
-	  appearance:none;
-	  cursor:pointer;
-	}
+    background: rgb(0, 0, 27); /*IE Fallback*/
+    background: rgba(0, 0, 27, 0);
+    color: $white;
+    border: none;
+    outline: none;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
 
   select option {
     background-color: $white;
+    color: rgba(0, 0, 0, 0.85);
   }
 
   .select-button {
     background-color: transparent;
-	  right:0; top:0;
-	  position:absolute;
-	  pointer-events:none;
-	  /*text-align: center; vertical-align: middle; */
-	  width: 2em; height: 100%;
+    right: 0;
+    top: 0;
+    position: absolute;
+    pointer-events: none;
+    /*text-align: center; vertical-align: middle; */
+    width: 2em;
+    height: 100%;
 
     .select-button-text {
       color: $white;
-    	line-height: 1.8em;
-    	text-align: center;
-    	display: block;
+      line-height: 1.8em;
+      text-align: center;
+      display: block;
 
       .span {
         font-size: 1em;
@@ -231,17 +233,17 @@
 }
 
 .small-arrow-down {
-	width: 0;
-	height: 0;
-	border-left: .4em solid transparent;
-	border-right: .4em solid transparent;
-	border-top: .4em solid $white;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
+  width: 0;
+  height: 0;
+  border-left: 0.4em solid transparent;
+  border-right: 0.4em solid transparent;
+  border-top: 0.4em solid $white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .scroll {
@@ -265,7 +267,7 @@
 }
 
 .box-shadow {
-  box-shadow: 0 2px 10px 1px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
 }
 
 .list-container-item {
@@ -278,9 +280,8 @@
   // width: 300px;
 
   @media only screen and (max-width: 780px) {
-      height: 300px;
+    height: 300px;
   }
-
 
   .content {
     color: $black;
@@ -291,7 +292,6 @@
     padding-right: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
-
 
     h3 {
       font-size: 18px;
@@ -424,7 +424,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding:10px;
+  padding: 10px;
 }
 
 .border {
@@ -437,8 +437,6 @@
   color: $white;
   font-weight: 100 !important;
 }
-
-
 
 .button-transparent {
   font-size: 12px !important;
@@ -455,10 +453,10 @@
   -webkit-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  position:relative;
-  overflow:hidden;
-  display:block;
-  margin:auto;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: auto;
   line-height: 18px;
   text-decoration: none;
 
@@ -487,7 +485,7 @@
 
   &:hover {
     background-color: $white;
-    color: rgb(80,56,76);
+    color: rgb(80, 56, 76);
     letter-spacing: 2px;
     font-size: 12px;
   }
@@ -522,7 +520,7 @@
   padding: 5px 8px;
   letter-spacing: 1px;
   border-radius: 2px;
-  color: rgb(80,56,76);
+  color: rgb(80, 56, 76);
   overflow: hidden;
   -webkit-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
@@ -530,9 +528,18 @@
 
   &:hover {
     color: $white;
-    background-color: rgb(80,56,76);
+    background-color: rgb(80, 56, 76);
     letter-spacing: 2px;
     font-size: 14px;
     text-decoration: none;
   }
+}
+
+.link-button {
+  margin: 10px auto;
+}
+
+.loading-message {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 20px;
 }

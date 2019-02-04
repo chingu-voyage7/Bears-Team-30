@@ -5,12 +5,6 @@ import { GET_USER_SUBMISSIONS } from '../constants/queries';
 import { UPDATE_SUBMISSION, DELETE_SUBMISSION } from '../constants/mutations';
 import SubmissionForm from './SubmissionForm';
 
-import '../styles/sidebar.scss';
-import '../styles/base.scss';
-import '../styles/animations.scss';
-import '../styles/variables.scss';
-import '../styles/components/userChallenge.scss';
-
 class UpdateSubmissionPage extends React.Component {
   state = {
     showDelete: false,
@@ -49,10 +43,9 @@ class UpdateSubmissionPage extends React.Component {
             variables: { userChallengeId },
           });
 
-          data.submissions = data.submissions.filter(submission => {
-            console.log(submission.id, deleteSubmission.submission.id);
-            return submission.id !== deleteSubmission.submission.id;
-          });
+          data.submissions = data.submissions.filter(
+            submission => submission.id !== deleteSubmission.submission.id
+          );
 
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,
@@ -62,7 +55,7 @@ class UpdateSubmissionPage extends React.Component {
         }}
       >
         {(deleteSubmission, { loading, error, data }) => {
-          if (loading) return 'Loading...';
+          if (loading) return <p className="loading-message">Loading...</p>;
           if (error) return `Error! ${error.message}`;
 
           return (

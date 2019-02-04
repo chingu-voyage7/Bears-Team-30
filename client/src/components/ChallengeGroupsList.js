@@ -4,12 +4,6 @@ import { Query, Mutation } from 'react-apollo';
 import { GET_CHALLENGE_GROUPS, GET_MY_CHALLENGES } from '../constants/queries';
 import { CREATE_USER_CHALLENGE } from '../constants/mutations';
 
-import '../styles/sidebar.scss';
-import '../styles/base.scss';
-import '../styles/animations.scss';
-import '../styles/variables.scss';
-import '../styles/components/userChallenge.scss';
-
 const ChallengeGroupsList = ({
   category,
   onChallengeSelect,
@@ -25,7 +19,7 @@ const ChallengeGroupsList = ({
     }}
   >
     {({ loading, error, data: { challengeGroups } }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       return (
@@ -63,39 +57,40 @@ const ChallengeGroupsList = ({
                   }}
                 >
                   {(createUserChallenge, { data: mutationData }) => (
-                    <div className="list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div
+                      className={`list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12 ${isJoined &&
+                        'is-joined'}`}
+                    >
                       <div className="content box-shadow p-t-15 p-b-15">
-                        <div className={isJoined ? 'joined' : 'group'}>
-                          <div className="border-box box-shadow">
-                            <h3 className="border">{group.name}</h3>
-                          </div>
-                          <p className="submission-text">{group.description}</p>
-                          <p className="small-font">{displayCategory}</p>
-                          <p className="submission-progress">
-                            {membersCount} members
-                          </p>
-                          {isJoined ? (
-                            <div className="medium-font">Joined!</div>
-                          ) : (
-                            <button
-                              className="button-small"
-                              onClick={e => {
-                                e.preventDefault();
-
-                                createUserChallenge({
-                                  variables: {
-                                    challengeGroupId: group.id,
-                                    goal: group.goalNumber,
-                                    startDate: new Date(),
-                                    status: 'IN_PROGRESS',
-                                  },
-                                });
-                              }}
-                            >
-                              Join Challenge
-                            </button>
-                          )}
+                        <div className="border-box box-shadow">
+                          <h3 className="border">{group.name}</h3>
                         </div>
+                        <p className="submission-text">{group.description}</p>
+                        <p className="small-font">{displayCategory}</p>
+                        <p className="submission-progress">
+                          {membersCount} members
+                        </p>
+                        {isJoined ? (
+                          <div className="medium-font">Joined!</div>
+                        ) : (
+                          <button
+                            className="button-small"
+                            onClick={e => {
+                              e.preventDefault();
+
+                              createUserChallenge({
+                                variables: {
+                                  challengeGroupId: group.id,
+                                  goal: group.goalNumber,
+                                  startDate: new Date(),
+                                  status: 'IN_PROGRESS',
+                                },
+                              });
+                            }}
+                          >
+                            Join Challenge
+                          </button>
+                        )}
                       </div>
                     </div>
                   )}

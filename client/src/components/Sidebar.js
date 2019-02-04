@@ -9,18 +9,18 @@ import UserChallengesList from './UserChallengesList';
 const Sidebar = ({ history }) => (
   <Query query={ME} partialRefetch={true}>
     {({ loading, error, client, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return <p className="loading-message">Loading...</p>;
       if (error) return `Error! ${error.message}`;
 
       return (
         <header className="sidebar">
           <nav className="sidebar-navigation">
-            <div></div>
+            <div />
             <div className="sidebar-container">
               <div className="sidebar-header">
                 <Link to={routes.DASHBOARD}>
                   <span className="title">100</span>
-                  <br></br>
+                  <br />
                   <span className="days">Days</span>
                 </Link>
               </div>
@@ -30,19 +30,21 @@ const Sidebar = ({ history }) => (
                   <h2>{data.me.username}</h2>
                 </div>
                 <div className="sidebar-items">
-
-                  <button className="button-small"
+                  <button
+                    className="button-small"
                     onClick={e => {
                       e.preventDefault();
 
                       localStorage.setItem('token', null);
-                      client.clearStore().then(() => history.push(routes.LOGIN));
-                    }}>
+                      client
+                        .clearStore()
+                        .then(() => history.push(routes.LOGIN));
+                    }}
+                  >
                     Log Out
                   </button>
                 </div>
                 <div className="sidebar-items">
-
                   <UserChallengesList />
                 </div>
               </div>

@@ -11,8 +11,6 @@ import '../styles/animations.scss';
 import '../styles/variables.scss';
 import '../styles/components/userChallenge.scss';
 
-
-
 class ChallengeGroupsPage extends React.Component {
   state = {
     category: '',
@@ -43,7 +41,7 @@ class ChallengeGroupsPage extends React.Component {
     return (
       <Query query={GET_MY_CHALLENGES} partialRefetch={true}>
         {({ loading, error, data }) => {
-          if (loading) return 'Loading...';
+          if (loading) return <p className="loading-message">Loading...</p>;
           if (error) return `Error! ${error.message}`;
 
           const userChallenges =
@@ -53,22 +51,22 @@ class ChallengeGroupsPage extends React.Component {
           return (
             <div className="page-content">
               <div>
-              <h2 className="title header">Find a Challenge to Join</h2>
-              <SearchBar
-                onUserQueryChange={this.onUserQueryChange}
-                value={this.state.query}
-              />
-              <CategorySelect
-                onCategoryChange={this.onCategoryChange}
-                value={this.state.category}
-              />
-              <ChallengeGroupsList
-                category={this.state.category}
-                onChallengeSelect={this.onChallengeSelect}
-                userChallenges={userChallenges}
-                userQuery={this.state.userQuery}
-              />
-          </div>
+                <h2 className="title header">Find a Challenge to Join</h2>
+                <SearchBar
+                  onUserQueryChange={this.onUserQueryChange}
+                  value={this.state.query}
+                />
+                <CategorySelect
+                  onCategoryChange={this.onCategoryChange}
+                  value={this.state.category}
+                />
+                <ChallengeGroupsList
+                  category={this.state.category}
+                  onChallengeSelect={this.onChallengeSelect}
+                  userChallenges={userChallenges}
+                  userQuery={this.state.userQuery}
+                />
+              </div>
             </div>
           );
         }}

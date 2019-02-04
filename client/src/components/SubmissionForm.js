@@ -114,11 +114,10 @@ class SubmissionForm extends React.Component {
         }}
       >
         {(mutation, { loading, error, data }) => {
-          if (loading) return 'Loading...';
+          if (loading) return <p className="loading-message">Loading...</p>;
           if (error) return `Error! ${error.message}`;
 
           return (
-
             <form
               onSubmit={e => {
                 e.preventDefault();
@@ -137,36 +136,35 @@ class SubmissionForm extends React.Component {
                 });
               }}
             >
-            <div className="form-edit">
-              <p className="small-text">Text</p>
-              <FormInput
-                id="text"
-                label="Text"
-                nolabel
-                onChange={this.onTextChange}
-                value={this.state.text}
-              />
-            <div className="progress-form">
-                <p className="small-text">Added Progress: +</p>
+              <div className="form-edit">
+                <p className="small-text">Text</p>
                 <FormInput
-                  id="progress"
-                  label="Progress"
+                  id="text"
+                  label="Text"
                   nolabel
-                  onBlur={this.onProgressBlur}
-                  onChange={this.onProgressChange}
-                  type="number"
-                  value={this.state.progress}
+                  onChange={this.onTextChange}
+                  value={this.state.text}
                 />
-              <p className="small-text">{this.props.goalType}</p>
+                <div className="progress-form">
+                  <p className="small-text">Added Progress: +</p>
+                  <FormInput
+                    id="progress"
+                    label="Progress"
+                    nolabel
+                    onBlur={this.onProgressBlur}
+                    onChange={this.onProgressChange}
+                    type="number"
+                    value={this.state.progress}
+                  />
+                  <p className="small-text">{this.props.goalType}</p>
+                </div>
               </div>
-            </div>
               <div className="p-b-15">
-              <button type="submit" className="button-transparent">
-                {this.props.submission ? 'Update' : 'Add'} Submission
-              </button>
-            </div>
+                <button type="submit" className="button-transparent">
+                  {this.props.submission ? 'Update' : 'Add'} Submission
+                </button>
+              </div>
             </form>
-
           );
         }}
       </Mutation>
