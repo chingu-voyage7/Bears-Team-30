@@ -1,15 +1,13 @@
 @import '../variables.scss';
 @import '../animations.scss';
 
-// .is-joined {
-//   margin: 0 auto;
-//   padding-top: 20px;
-//   padding-bottom: 10px;
-//   text-align: center;
-//   letter-spacing: 2px;
-//   border-bottom: 1px solid;
-//   width: 30%;
-// }
+.is-joined {
+  opacity: 0.85;
+}
+
+.is-joined .box-shadow {
+  box-shadow: none;
+}
 
 .main-button {
   font-size: 12px !important;

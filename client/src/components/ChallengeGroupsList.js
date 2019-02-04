@@ -57,11 +57,11 @@ const ChallengeGroupsList = ({
                   }}
                 >
                   {(createUserChallenge, { data: mutationData }) => (
-                    <div className="list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                      <div
-                        className={`content box-shadow p-t-15 p-b-15 ${isJoined &&
-                          'is-joined'}`}
-                      >
+                    <div
+                      className={`list-container-item group-list-item col-lg-4 col-md-6 col-sm-6 col-xs-12 ${isJoined &&
+                        'is-joined'}`}
+                    >
+                      <div className="content box-shadow p-t-15 p-b-15">
                         <div className="border-box box-shadow">
                           <h3 className="border">{group.name}</h3>
                         </div>

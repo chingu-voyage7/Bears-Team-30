@@ -12,9 +12,9 @@ const CategorySelect = ({ onCategoryChange, value }) => (
         </option>
       ))}
     </select>
-    <div class="select-button">
-      <div class="select-button-text">
-        <div class="small-arrow-down" />
+    <div className="select-button">
+      <div className="select-button-text">
+        <div className="small-arrow-down" />
       </div>
     </div>
   </div>
