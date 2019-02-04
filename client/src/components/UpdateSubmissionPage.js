@@ -5,12 +5,6 @@ import { GET_USER_SUBMISSIONS } from '../constants/queries';
 import { UPDATE_SUBMISSION, DELETE_SUBMISSION } from '../constants/mutations';
 import SubmissionForm from './SubmissionForm';
 
-import '../styles/sidebar.scss';
-import '../styles/base.scss';
-import '../styles/animations.scss';
-import '../styles/variables.scss';
-import '../styles/components/userChallenge.scss';
-
 class UpdateSubmissionPage extends React.Component {
   state = {
     showDelete: false,

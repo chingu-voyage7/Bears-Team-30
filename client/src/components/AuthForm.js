@@ -4,8 +4,6 @@ import FormInput from './FormInput';
 
 import { Button } from 'react-bootstrap';
 
-import '../styles/login-signup.scss';
-
 const AuthForm = ({
   username,
   email,

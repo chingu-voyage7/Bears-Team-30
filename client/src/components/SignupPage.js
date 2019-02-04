@@ -3,8 +3,6 @@ import React from 'react';
 import SignupForm from './SignupForm';
 import AuthLink from './AuthLink';
 
-import '../styles/login-signup.scss';
-
 const SignUpPage = ({ history }) => (
   <div className="login-signup">
     <div className="fadeInDown">

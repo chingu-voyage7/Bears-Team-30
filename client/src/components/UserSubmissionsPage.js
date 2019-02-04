@@ -4,12 +4,6 @@ import { Query } from 'react-apollo';
 import { GET_USER_CHALLENGE } from '../constants/queries';
 import UserSubmissionsWrapper from './UserSubmissionsWrapper';
 
-import '../styles/sidebar.scss';
-import '../styles/base.scss';
-import '../styles/animations.scss';
-import '../styles/variables.scss';
-import '../styles/components/userChallenge.scss';
-
 const UserSubmissionsPage = ({ location, match }) => {
   const { id } = match.params;
 

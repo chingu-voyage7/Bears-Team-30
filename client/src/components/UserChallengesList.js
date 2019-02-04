@@ -4,9 +4,6 @@ import { Query } from 'react-apollo';
 
 import { GET_MY_CHALLENGES } from '../constants/queries';
 
-import '../styles/sidebar.scss';
-
-
 const UserChallengesList = () => (
   <Query query={GET_MY_CHALLENGES} partialRefetch={true}>
     {({ loading, error, data }) => {
@@ -41,21 +38,22 @@ const UserChallengesList = () => (
                           .join(' ');
                   return (
                     <div className="link-hover">
-
-                    <NavLink
-                      key={challenge.id}
-                      to={`/challenge/${challenge.id}`}
-                      activeClassName="active"
-                    >
-                      <h4>{challenge.challengeGroup.name}</h4>
-                      <span>Day {day}</span>
-                      <p>{status}</p>
-                      <p>
-                        {challenge.progress}/{challenge.goal}{' '}
-                        {challenge.challengeGroup.goalType}
-                      </p>
-                    </NavLink>
-                  </div>
+                      <NavLink
+                        key={challenge.id}
+                        to={`/challenge/${challenge.id}`}
+                        activeClassName="active"
+                      >
+                        <div className="navlink-content">
+                          <h4>{challenge.challengeGroup.name}</h4>
+                          <span>Day {day}</span>
+                          <p>{status}</p>
+                          <p>
+                            {challenge.progress}/{challenge.goal}{' '}
+                            {challenge.challengeGroup.goalType}
+                          </p>
+                        </div>
+                      </NavLink>
+                    </div>
                   );
                 })
             : 'No Challenges Joined'}
