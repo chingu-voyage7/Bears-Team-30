@@ -37,9 +37,8 @@ const UserChallengesList = () => (
                           )
                           .join(' ');
                   return (
-                    <div className="link-hover">
+                    <div className="link-hover" key={challenge.id}>
                       <NavLink
-                        key={challenge.id}
                         to={`/challenge/${challenge.id}`}
                         activeClassName="active"
                       >

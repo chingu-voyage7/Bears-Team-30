@@ -49,9 +49,9 @@ const SubmissionsList = ({
         ];
 
         return (
-          <div className="my-submissions box-shadow">
+          <div className="my-submissions box-shadow" key={submission.id}>
             <div className="list-container-item">
-              <div key={submission.id} className="content">
+              <div className="content">
                 <h5>Day {day}</h5>
                 <p className="small-font">
                   {months[submissionDate.getMonth()]} {submissionDate.getDate()}

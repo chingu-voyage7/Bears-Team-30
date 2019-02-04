@@ -43,10 +43,9 @@ class UpdateSubmissionPage extends React.Component {
             variables: { userChallengeId },
           });
 
-          data.submissions = data.submissions.filter(submission => {
-            console.log(submission.id, deleteSubmission.submission.id);
-            return submission.id !== deleteSubmission.submission.id;
-          });
+          data.submissions = data.submissions.filter(
+            submission => submission.id !== deleteSubmission.submission.id
+          );
 
           proxy.writeQuery({
             query: GET_USER_SUBMISSIONS,

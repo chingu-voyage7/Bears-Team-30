@@ -18,7 +18,7 @@ const AuthForm = ({
   error,
   buttonText,
 }) => (
-  <form onSubmit={onSubmit} autocomplete="off">
+  <form onSubmit={onSubmit} autoComplete="off">
     {onUsernameChange && (
       <FormInput
         id="username"
