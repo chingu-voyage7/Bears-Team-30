@@ -2,6 +2,11 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   # Placeholder types
+  type Query {
+    users: [User]
+    journeys: [Journey]
+    days: [Day]
+  }
 
   type User {
     userId: Int
@@ -20,12 +25,6 @@ const typeDefs = gql`
   type Day {
     dayNumber: String
     dayContent: String
-  }
-
-  type Query {
-    users: [User]
-    journeys: [Journey]
-    days: [Day]
   }
 `;
 

@@ -1,0 +1,31 @@
+@import '../variables.scss';
+@import '../animations.scss';
+
+.is-joined {
+  opacity: 0.85;
+}
+
+.is-joined .box-shadow {
+  box-shadow: none;
+}
+
+.main-button {
+  font-size: 12px !important;
+  width: 100%;
+  border: 1px solid;
+  margin-top: 10px;
+  padding: 10px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  color: rgb(80, 56, 76);
+  overflow: hidden;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: $black;
+    letter-spacing: 4px;
+    font-size: 14px;
+  }
+}

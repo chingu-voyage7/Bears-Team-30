@@ -1,7 +1,9 @@
 import React from 'react';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { Mutation } from 'react-apollo';
 
-import * as routes from '../../constants/routes';
+import * as routes from '../constants/routes';
+import { SIGN_UP } from '../constants/mutations';
 import AuthForm from './AuthForm';
 
 const INITIAL_STATE = {
@@ -12,19 +14,9 @@ const INITIAL_STATE = {
   error: null,
 };
 
-class SignUpForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { ...INITIAL_STATE };
-  }
-  onSubmit = event => {
-    event.preventDefault();
-    const { username, email, password } = this.state;
-    const { history } = this.props;
-    console.log(username, email, password, history);
-    axios.post('/auth/signup', { username, email, password });
-    history.push(routes.DASHBOARD);
-  };
+class SignupForm extends React.Component {
+  state = { ...INITIAL_STATE };
+
   onUsernameChange = event => {
     const username = event.target.value;
     this.setState(() => ({
@@ -57,22 +49,49 @@ class SignUpForm extends React.Component {
       email === '' ||
       username === '';
     return (
-      <AuthForm
-        username={username}
-        email={email}
-        password={password}
-        passwordConfirm={passwordConfirm}
-        onUsernameChange={this.onUsernameChange}
-        onEmailChange={this.onEmailChange}
-        onPasswordChange={this.onPasswordChange}
-        onPasswordConfirmChange={this.onPasswordConfirmChange}
-        onSubmit={this.onSubmit}
-        isInvalid={isInvalid}
-        error={error}
-        buttonText="Sign Up"
-      />
+      <Mutation mutation={SIGN_UP}>
+        {(createUser, { client, data: mutationData }) => (
+          <AuthForm
+            username={username}
+            email={email}
+            password={password}
+            passwordConfirm={passwordConfirm}
+            onUsernameChange={this.onUsernameChange}
+            onEmailChange={this.onEmailChange}
+            onPasswordChange={this.onPasswordChange}
+            onPasswordConfirmChange={this.onPasswordConfirmChange}
+            onSubmit={e => {
+              e.preventDefault();
+              const { username, email, password } = this.state;
+
+              createUser({
+                variables: { username, email, password },
+              })
+                .then(({ data }) => {
+                  data.createUser &&
+                    localStorage.setItem('token', data.createUser.token);
+                  return data;
+                })
+                .then(data => {
+                  client.clearStore();
+                  return data;
+                })
+                .then(data => {
+                  if (data.createUser.success) {
+                    this.props.history.push(routes.DASHBOARD);
+                  } else {
+                    this.setState(() => ({ error: data.createUser.message }));
+                  }
+                });
+            }}
+            isInvalid={isInvalid}
+            error={error}
+            buttonText="Sign Up"
+          />
+        )}
+      </Mutation>
     );
   }
 }
 
-export default SignUpForm;
+export default withRouter(SignupForm);

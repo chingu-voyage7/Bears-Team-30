@@ -63,7 +63,7 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     proxy: {
-      '/auth': 'http://localhost:3000',
+      '/graphql': 'http://localhost:4000',
     },
   },
 }

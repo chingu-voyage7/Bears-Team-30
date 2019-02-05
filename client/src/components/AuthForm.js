@@ -1,6 +1,8 @@
 import React from 'react';
 
-import AuthInput from './AuthInput';
+import FormInput from './FormInput';
+
+import { Button } from 'react-bootstrap';
 
 const AuthForm = ({
   username,
@@ -16,43 +18,47 @@ const AuthForm = ({
   error,
   buttonText,
 }) => (
-  <form onSubmit={onSubmit}>
+  <form onSubmit={onSubmit} autoComplete="off">
     {onUsernameChange && (
-      <AuthInput
+      <FormInput
         id="username"
-        label="First Name"
+        label="Username"
+        nolabel
         onChange={onUsernameChange}
         value={username}
       />
     )}
-    <AuthInput
+    <FormInput
       id="email"
       label="Email Address"
+      nolabel
       onChange={onEmailChange}
       value={email}
     />
     {onPasswordChange && (
-      <AuthInput
+      <FormInput
         id="password"
         label="Password"
+        nolabel
         onChange={onPasswordChange}
         type="password"
         value={password}
       />
     )}
     {onPasswordConfirmChange && (
-      <AuthInput
+      <FormInput
         id="passwordConfirm"
         label="Confirm Password"
+        nolabel
         onChange={onPasswordConfirmChange}
         type="password"
         value={passwordConfirm}
       />
     )}
-    <button disabled={isInvalid} type="submit">
+    <Button disabled={isInvalid} type="submit" bsClass="btn-auth">
       {buttonText}
-    </button>
-    {error && <p>{error.message}</p>}
+    </Button>
+    {error && <p>{error}</p>}
   </form>
 );
 
