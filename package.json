@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "webpack-dev-server --config ./client/webpack.config.js --mode development",
+    "client": "webpack-dev-server --config ./client/webpack.dev.js",
+    "build": "webpack --config ./client/webpack.prod.js",
     "apollo": "nodemon ./apollo-server/index.js",
-    "start": "nodemon ./apollo-server/index.js",
-    "dev": "concurrently \"npm run client\" \"npm run apollo\""
+    "start": "node ./apollo-server/index.js",
+    "dev": "concurrently \"npm run apollo\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -68,14 +69,17 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
+    "clean-webpack-plugin": "^1.0.0",
     "css-loader": "^1.0.1",
     "eslint": "^5.10.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "prettier": "^1.15.3",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   }
 }
