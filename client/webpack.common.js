@@ -1,14 +1,14 @@
-const webpack = require("webpack");
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.resolve(__dirname, 'public');
 const APP_DIR = path.resolve(__dirname, 'src');
 
 module.exports = {
-  context: APP_DIR, 
-  entry: './index.jsx',
+  context: APP_DIR,
+  entry: './index.js',
   output: {
     filename: 'bundle.[hash].js',
     path: BUILD_DIR,
@@ -49,14 +49,14 @@ module.exports = {
       },
     ],
   },
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   plugins: [
-    new CleanWebpackPlugin(["public"]),
+    new CleanWebpackPlugin(['public']),
     new HtmlWebpackPlugin({
-      title: "Bears-team-30",
-      template: path.resolve(APP_DIR, "template/index.html") 
+      title: 'Bears-team-30',
+      template: path.resolve(APP_DIR, 'template/index.html'),
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
     contentBase: BUILD_DIR,
@@ -66,4 +66,4 @@ module.exports = {
       '/graphql': 'http://localhost:4000',
     },
   },
-}
+};
