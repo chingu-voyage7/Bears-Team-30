@@ -9,7 +9,8 @@
     "build": "webpack --config ./client/webpack.prod.js",
     "apollo": "nodemon ./apollo-server/index.js",
     "start": "node ./apollo-server/index.js",
-    "dev": "concurrently \"npm run apollo\" \"npm run client\""
+    "dev": "concurrently \"npm run apollo\" \"npm run client\"",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
