@@ -61,10 +61,7 @@ const server = new ApolloServer({
     return { id };
   },
   introspection: true,
-  playground: {
-    endpoint: 'https://hundred-day-journey.appspot.com',
-    subscriptionEndpoint: 'ws://localhost:4000/graphql',
-  },
+  playground: process.env.NODE_ENV !== 'production',
 });
 
 server
