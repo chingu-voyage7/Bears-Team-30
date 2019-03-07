@@ -64,7 +64,7 @@ const client = new ApolloClient({
     }),
     requestLink,
     new HttpLink({
-      uri: '/graphql',
+      uri: 'https://bears-30.herokuapp.com//graphql',
       credentials: 'same-origin',
     }),
   ]),
